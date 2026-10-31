@@ -1,0 +1,15 @@
+:root {
+  /* Bass Coast Podiatry brand tokens */
+  --bcp-blue: #0B4F7C;      /* logo, headings, buttons */
+  --bcp-sand: #F4C97B;      /* accent only */
+  --bcp-sand-light: #FBEFD6;
+  --bcp-mist: #F8F9FA;
+  --bcp-ink: #1E2A33;        /* body text */
+  --bcp-grey: #5B6770;      /* secondary text */
+  --bcp-white: #FFFFFF;
+  --bcp-font: "Lexend", system-ui, sans-serif;
+  --bcp-weight-text: 400;
+  --bcp-weight-heading: 500;
+  --bcp-radius: 14px;
+  --bcp-radius-button: 999px;
+}

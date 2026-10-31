@@ -1,0 +1,501 @@
+@import './brand.css';
+
+/* Layout tokens. Colours, font and radius all come from brand.css. */
+:root {
+	--space-xs: 0.5rem;
+	--space-s: 1rem;
+	--space-m: 1.5rem;
+	--space-l: 2.5rem;
+	--space-xl: clamp(3.5rem, 8vw, 6rem);
+	--width: 72rem;
+	--width-text: 42rem;
+	--gutter: 1.25rem;
+	--shadow: 0 1px 2px color-mix(in srgb, var(--bcp-ink) 6%, transparent), 0 8px 24px color-mix(in srgb, var(--bcp-ink) 6%, transparent);
+	--border: 1px solid color-mix(in srgb, var(--bcp-blue) 14%, transparent);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	scroll-padding-top: 6rem;
+}
+
+body {
+	margin: 0;
+	background: var(--bcp-white);
+	color: var(--bcp-ink);
+	font-family: var(--bcp-font);
+	font-weight: var(--bcp-weight-text);
+	font-size: 1.125rem;
+	line-height: 1.7;
+	overflow-x: hidden;
+}
+
+img,
+svg,
+iframe {
+	display: block;
+	max-width: 100%;
+}
+
+img {
+	height: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	color: var(--bcp-blue);
+	font-weight: var(--bcp-weight-heading);
+	line-height: 1.25;
+	margin: 0 0 var(--space-s);
+	text-wrap: balance;
+}
+
+h1 {
+	font-size: clamp(2.125rem, 5vw, 3.25rem);
+	letter-spacing: -0.01em;
+}
+
+h2 {
+	font-size: clamp(1.625rem, 3.4vw, 2.25rem);
+}
+
+h3 {
+	font-size: 1.375rem;
+}
+
+h4 {
+	font-size: 1.1875rem;
+}
+
+p,
+ul,
+ol {
+	margin: 0 0 var(--space-s);
+}
+
+a {
+	color: var(--bcp-blue);
+	text-underline-offset: 0.2em;
+	text-decoration-thickness: 1px;
+}
+
+a:hover {
+	text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+	outline: 3px solid var(--bcp-blue);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+.on-blue :focus-visible,
+.on-blue:focus-visible {
+	outline-color: var(--bcp-white);
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.skip-link {
+	position: absolute;
+	left: var(--gutter);
+	top: -10rem;
+	z-index: 100;
+	padding: var(--space-xs) var(--space-s);
+	background: var(--bcp-blue);
+	color: var(--bcp-white);
+	border-radius: var(--bcp-radius);
+}
+
+.skip-link:focus {
+	top: var(--space-xs);
+}
+
+/* Layout */
+
+.container {
+	width: 100%;
+	max-width: calc(var(--width) + var(--gutter) * 2);
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+
+.section {
+	padding-block: var(--space-xl);
+}
+
+.section--sand {
+	background: var(--bcp-sand-light);
+}
+
+.section--mist {
+	background: var(--bcp-mist);
+}
+
+.section-head {
+	max-width: var(--width-text);
+	margin-bottom: var(--space-l);
+}
+
+.section-head p {
+	color: var(--bcp-grey);
+}
+
+.prose {
+	max-width: var(--width-text);
+}
+
+.prose h2 {
+	margin-top: var(--space-l);
+	font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+}
+
+.prose ul {
+	padding-left: 1.25em;
+}
+
+.prose li {
+	margin-bottom: 0.4em;
+}
+
+.prose li::marker {
+	color: var(--bcp-blue);
+}
+
+.page-hero {
+	padding-block: var(--space-xl) var(--space-l);
+	background: var(--bcp-mist);
+}
+
+.page-hero p {
+	max-width: var(--width-text);
+	color: var(--bcp-grey);
+	margin: 0;
+}
+
+.eyebrow {
+	display: inline-block;
+	margin-bottom: var(--space-xs);
+	color: var(--bcp-grey);
+	font-size: 1rem;
+}
+
+/* Buttons */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: 3.25rem;
+	padding: 0.75rem 1.5rem;
+	border: 2px solid var(--bcp-blue);
+	border-radius: var(--bcp-radius-button);
+	background: var(--bcp-blue);
+	color: var(--bcp-white);
+	font: inherit;
+	font-weight: var(--bcp-weight-heading);
+	line-height: 1.2;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.2s, color 0.2s;
+}
+
+.btn:hover {
+	background: var(--bcp-ink);
+	border-color: var(--bcp-ink);
+}
+
+.btn--outline {
+	background: transparent;
+	color: var(--bcp-blue);
+}
+
+.btn--outline:hover {
+	background: var(--bcp-blue);
+	border-color: var(--bcp-blue);
+	color: var(--bcp-white);
+}
+
+.btn--white {
+	background: var(--bcp-white);
+	border-color: var(--bcp-white);
+	color: var(--bcp-blue);
+}
+
+.btn--white:hover {
+	background: var(--bcp-sand-light);
+	border-color: var(--bcp-sand-light);
+	color: var(--bcp-blue);
+}
+
+.btn svg {
+	width: 1.25rem;
+	height: 1.25rem;
+	flex: none;
+}
+
+.btn-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-s);
+}
+
+/* Link with an arrow */
+
+.text-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-weight: var(--bcp-weight-heading);
+}
+
+/* Cards */
+
+.card {
+	position: relative;
+	padding: var(--space-m);
+	background: var(--bcp-white);
+	border: var(--border);
+	border-radius: var(--bcp-radius);
+	box-shadow: var(--shadow);
+}
+
+.card h3 {
+	margin-bottom: var(--space-xs);
+}
+
+.card p:last-child {
+	margin-bottom: 0;
+}
+
+.grid {
+	display: grid;
+	gap: var(--space-m);
+}
+
+@media (min-width: 40rem) {
+	.grid--2,
+	.grid--4 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 64rem) {
+	.grid--4 {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+/* Badges */
+
+.badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xs);
+	padding: 0;
+	margin: 0 0 var(--space-m);
+	list-style: none;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.4rem 1rem;
+	border: 2px solid var(--bcp-sand);
+	border-radius: var(--bcp-radius-button);
+	background: var(--bcp-white);
+	color: var(--bcp-blue);
+	font-weight: var(--bcp-weight-heading);
+}
+
+/* Accordion */
+
+.accordion {
+	max-width: var(--width-text);
+	display: grid;
+	gap: var(--space-s);
+	margin-bottom: var(--space-m);
+}
+
+.accordion details {
+	background: var(--bcp-white);
+	border: var(--border);
+	border-radius: var(--bcp-radius);
+}
+
+.accordion summary {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--space-s);
+	padding: var(--space-s) var(--space-m);
+	color: var(--bcp-blue);
+	font-weight: var(--bcp-weight-heading);
+	cursor: pointer;
+	list-style: none;
+}
+
+.accordion summary::-webkit-details-marker {
+	display: none;
+}
+
+.accordion summary::after {
+	content: '+';
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	background: var(--bcp-sand-light);
+	font-size: 1.25rem;
+	line-height: 1;
+}
+
+.accordion details[open] summary::after {
+	content: '\2212';
+}
+
+.accordion .answer {
+	padding: 0 var(--space-m) var(--space-s);
+}
+
+/* Map */
+
+.map {
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	border: 0;
+	border-radius: var(--bcp-radius);
+	background: var(--bcp-mist);
+}
+
+/* Contact details list */
+
+.details {
+	display: grid;
+	gap: var(--space-m);
+	margin: 0 0 var(--space-m);
+}
+
+.details dt {
+	color: var(--bcp-blue);
+	font-weight: var(--bcp-weight-heading);
+}
+
+.details dd {
+	margin: 0;
+}
+
+.hours {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.hours li {
+	margin: 0 0 0.35rem;
+}
+
+.hours li span:first-child {
+	display: block;
+	font-weight: var(--bcp-weight-heading);
+}
+
+/* Notes for the client, only shown in the preview */
+
+.check {
+	padding: var(--space-s) var(--space-m);
+	border-left: 4px solid var(--bcp-sand);
+	border-radius: 0 var(--bcp-radius) var(--bcp-radius) 0;
+	background: var(--bcp-sand-light);
+	color: var(--bcp-ink);
+	font-size: 1rem;
+}
+
+span.check {
+	display: inline-block;
+	padding: 0.15rem 0.6rem;
+	border-left-width: 3px;
+}
+
+/* Forms */
+
+.field {
+	display: grid;
+	gap: 0.35rem;
+	margin-bottom: var(--space-m);
+}
+
+.field label {
+	color: var(--bcp-blue);
+	font-weight: var(--bcp-weight-heading);
+}
+
+.field .hint {
+	color: var(--bcp-grey);
+	font-size: 1rem;
+}
+
+.input {
+	width: 100%;
+	min-height: 3.25rem;
+	padding: 0.75rem 1rem;
+	border: 1px solid var(--bcp-grey);
+	border-radius: calc(var(--bcp-radius) / 1.75);
+	background: var(--bcp-white);
+	color: var(--bcp-ink);
+	font: inherit;
+}
+
+textarea.input {
+	min-height: 9rem;
+	resize: vertical;
+}
+
+.input:focus-visible {
+	outline-offset: 1px;
+	border-color: var(--bcp-blue);
+}
+
+/* Fade in on scroll. Only applies when JavaScript runs and the visitor allows motion. */
+
+@media (prefers-reduced-motion: no-preference) {
+	.js .reveal {
+		opacity: 0;
+		transform: translateY(16px);
+		transition: opacity 0.7s ease, transform 0.7s ease;
+	}
+
+	.js .reveal.is-visible {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Mobile call bar leaves room at the bottom of the page */
+
+@media (max-width: 47.99rem) {
+	body {
+		padding-bottom: 5rem;
+	}
+}

@@ -1,0 +1,148 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import { clinic, nav, url } from '../data/site';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<footer class="site-footer on-blue">
+	<div class="container">
+		<div class="site-footer__grid">
+			<div>
+				<img class="site-footer__logo" src={url('/bcp-logo-horizontal-white.svg')} alt="Bass Coast Podiatry" width="391" height="144" loading="lazy" />
+				<p>
+					{clinic.street}<br />
+					{clinic.suburb}
+				</p>
+				<p>
+					<a href={clinic.phoneHref}>{clinic.phone}</a>
+				</p>
+				<p>
+					<a href={clinic.facebook} rel="noopener">
+						<Icon name="facebook" size={20} />
+						Bass Coast Podiatry on Facebook
+					</a>
+				</p>
+			</div>
+
+			<div>
+				<h2>Opening hours</h2>
+				<ul class="hours">
+					{
+						clinic.hours.map((h) => (
+							<li>
+								<span>{h.days}</span>
+								<span>{h.time}</span>
+							</li>
+						))
+					}
+				</ul>
+				<p class="site-footer__note">{clinic.hoursNote}</p>
+			</div>
+
+			<nav aria-label="Footer">
+				<h2>Pages</h2>
+				<ul class="site-footer__links">
+					<li><a href={url('/')}>Home</a></li>
+					{nav.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+				</ul>
+			</nav>
+
+			<nav aria-label="Services">
+				<h2>Services</h2>
+				<ul class="site-footer__links">
+					{services.map((s) => <li><a href={url(`/${s.id}/`)}>{s.data.title}</a></li>)}
+				</ul>
+			</nav>
+		</div>
+
+		<div class="site-footer__bottom">
+			<p>&copy; 2026 {clinic.name}. All rights reserved.</p>
+			<p><a href={url('/styleguide/')}>Brand style guide</a></p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		padding-block: var(--space-xl) var(--space-l);
+		background: var(--bcp-blue);
+		color: var(--bcp-white);
+		border-top: 6px solid var(--bcp-sand);
+	}
+
+	.site-footer a {
+		color: var(--bcp-white);
+	}
+
+	.site-footer a :global(svg) {
+		display: inline-block;
+		vertical-align: -0.2em;
+		margin-right: 0.35rem;
+	}
+
+	.site-footer h2 {
+		color: var(--bcp-white);
+		font-size: 1.25rem;
+	}
+
+	.site-footer__grid {
+		display: grid;
+		gap: var(--space-l);
+	}
+
+	@media (min-width: 40rem) {
+		.site-footer__grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.site-footer__grid {
+			grid-template-columns: 1.3fr 1.1fr 0.8fr 1.1fr;
+		}
+	}
+
+	.site-footer__logo {
+		width: 220px;
+		margin-bottom: var(--space-m);
+	}
+
+	.site-footer__note {
+		margin-top: var(--space-s);
+	}
+
+	.site-footer__links {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.site-footer__links li {
+		margin-bottom: 0.4rem;
+	}
+
+	.site-footer__links a {
+		text-decoration: none;
+	}
+
+	.site-footer__links a:hover {
+		text-decoration: underline;
+	}
+
+	.site-footer__bottom {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: var(--space-s);
+		margin-top: var(--space-l);
+		padding-top: var(--space-m);
+		border-top: 1px solid color-mix(in srgb, var(--bcp-white) 25%, transparent);
+		font-size: 1rem;
+	}
+
+	.site-footer__bottom p {
+		margin: 0;
+	}
+</style>

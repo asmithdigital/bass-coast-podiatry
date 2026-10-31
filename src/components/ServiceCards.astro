@@ -1,0 +1,112 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import { url } from '../data/site';
+
+interface Props {
+	/** Leave out the service with this id, for the "other services" list on a service page. */
+	exclude?: string;
+	headingLevel?: 'h2' | 'h3';
+}
+
+const { exclude, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+const services = (await getCollection('services'))
+	.filter((s) => s.id !== exclude)
+	.sort((a, b) => a.data.order - b.data.order);
+---
+
+<ul class="service-cards grid grid--4" role="list">
+	{
+		services.map((s) => (
+			<li class="card service-card reveal">
+				<span class="service-card__icon">
+					<Icon name={s.data.icon} size={28} />
+				</span>
+				<Heading class="service-card__title">
+					<a href={url(`/${s.id}/`)}>{s.data.title}</a>
+				</Heading>
+				<p>{s.data.summary}</p>
+				<span class="service-card__more" aria-hidden="true">
+					Read more <Icon name="arrow" size={18} />
+				</span>
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	.service-cards {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.service-card {
+		display: flex;
+		flex-direction: column;
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.service-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 2px 4px color-mix(in srgb, var(--bcp-ink) 6%, transparent), 0 14px 32px color-mix(in srgb, var(--bcp-ink) 10%, transparent);
+	}
+
+	.service-card__icon {
+		display: grid;
+		place-items: center;
+		width: 3.5rem;
+		height: 3.5rem;
+		margin-bottom: var(--space-s);
+		border-radius: 50%;
+		background: var(--bcp-sand-light);
+		color: var(--bcp-blue);
+	}
+
+	.service-card__title {
+		font-size: 1.25rem;
+	}
+
+	.service-card__title a {
+		text-decoration: none;
+	}
+
+	/* The whole card is clickable through the title link. */
+	.service-card__title a::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: var(--bcp-radius);
+	}
+
+	.service-card__title a:focus-visible {
+		outline: none;
+	}
+
+	.service-card__title a:focus-visible::after {
+		outline: 3px solid var(--bcp-blue);
+		outline-offset: 3px;
+	}
+
+	.service-card p {
+		flex: 1;
+	}
+
+	.service-card__more {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		margin-top: var(--space-s);
+		color: var(--bcp-blue);
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.service-card,
+		.service-card:hover {
+			transition: none;
+			transform: none;
+		}
+	}
+</style>

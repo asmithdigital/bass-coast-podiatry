@@ -1,0 +1,150 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import ClaimsBadges from '../components/ClaimsBadges.astro';
+import VisitUs from '../components/VisitUs.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import { clinic, url } from '../data/site';
+import heroImage from '../assets/images/footprints-beach.jpg';
+---
+
+<Layout description="Bass Coast Podiatry in Wonthaggi has provided podiatry care since 2007. Open Monday to Friday. Call (03) 5672 2309.">
+	<section class="hero section--sand">
+		<div class="container hero__inner">
+			<div class="hero__text">
+				<h1>Podiatry care in Wonthaggi since 2007</h1>
+				<p class="hero__lead">
+					Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care.
+				</p>
+				<div class="btn-row">
+					<a class="btn" href={clinic.phoneHref}>
+						<Icon name="phone" />
+						Call {clinic.phone}
+					</a>
+					<a class="btn btn--outline" href={url('/contact/')}>Contact us</a>
+				</div>
+			</div>
+			<div class="hero__media">
+				<Image
+					src={heroImage}
+					alt="Footprints in the sand along the water's edge at a beach."
+					widths={[480, 760, 1100]}
+					sizes="(min-width: 56rem) 34rem, 100vw"
+					loading="eager"
+					fetchpriority="high"
+				/>
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="services-title">
+		<div class="container">
+			<div class="section-head reveal">
+				<h2 id="services-title">Our services</h2>
+				<p>All aspects of the profession are covered and no referral is needed to attend the clinic.</p>
+			</div>
+			<ServiceCards />
+		</div>
+	</section>
+
+	<section class="section section--mist" aria-labelledby="team-title">
+		<div class="container team reveal">
+			<div>
+				<h2 id="team-title">Meet the team</h2>
+				<p>
+					Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Kelly, Joshua Khoury and Angie Burgess. They are supported
+					by our administration team, Kate, Brooke and Kim.
+				</p>
+				<p><span class="check">[CHECK WITH CLIENT] Is this team list still current?</span></p>
+			</div>
+			<a class="btn btn--outline" href={url('/about-us/#team')}>Meet our team</a>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="claims-title">
+		<div class="container reveal">
+			<div class="section-head">
+				<h2 id="claims-title">Claims and rebates</h2>
+				<p>
+					Private health insurance rebates can be claimed on site through our electronic HICAPS facility. We also see patients through
+					Medicare, the Department of Veterans Affairs, TAC and WorkSafe.
+				</p>
+			</div>
+			<ClaimsBadges />
+			<a class="text-link" href={url('/claims-rebates/')}>
+				How claims and rebates work <Icon name="arrow" size={18} />
+			</a>
+		</div>
+	</section>
+
+	<section class="section section--sand" aria-labelledby="visit-title">
+		<div class="container">
+			<div class="section-head reveal">
+				<h2 id="visit-title">Hours and location</h2>
+			</div>
+			<VisitUs />
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="faq-title">
+		<div class="container">
+			<div class="section-head reveal">
+				<h2 id="faq-title">Frequently asked questions</h2>
+			</div>
+			<FaqAccordion limit={3} />
+			<a class="text-link" href={url('/faqs/')}>
+				See all FAQs <Icon name="arrow" size={18} />
+			</a>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.hero {
+		padding-block: clamp(2.5rem, 6vw, 5rem);
+	}
+
+	.hero__inner {
+		display: grid;
+		gap: var(--space-l);
+		align-items: center;
+	}
+
+	@media (min-width: 56rem) {
+		.hero__inner {
+			grid-template-columns: 1.05fr 1fr;
+		}
+	}
+
+	.hero__lead {
+		max-width: 34rem;
+		margin-bottom: var(--space-m);
+		font-size: 1.25rem;
+	}
+
+	.hero__media img {
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: var(--bcp-radius);
+		box-shadow: var(--shadow);
+	}
+
+	.team {
+		display: grid;
+		gap: var(--space-m);
+		align-items: center;
+	}
+
+	.team p {
+		max-width: var(--width-text);
+	}
+
+	@media (min-width: 56rem) {
+		.team {
+			grid-template-columns: 1fr auto;
+		}
+	}
+</style>

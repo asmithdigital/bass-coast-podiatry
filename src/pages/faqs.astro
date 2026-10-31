@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import BookBox from '../components/BookBox.astro';
+---
+
+<Layout title="FAQs" description="Answers to common questions about Bass Coast Podiatry, including referrals and rebates.">
+	<section class="page-hero">
+		<div class="container">
+			<h1>FAQs</h1>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<h2 class="visually-hidden">Questions and answers</h2>
+			<p class="check faq-note">
+				[CHECK WITH CLIENT] The current website has one FAQ. The second and third questions are new, with answers taken word for word
+				from other pages. Are there other questions patients often ask?
+			</p>
+			<FaqAccordion />
+			<div class="faq-book">
+				<BookBox />
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.faq-note {
+		max-width: var(--width-text);
+		margin-bottom: var(--space-l);
+	}
+
+	.faq-book {
+		max-width: var(--width-text);
+		margin-top: var(--space-xl);
+	}
+</style>

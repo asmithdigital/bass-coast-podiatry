@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import BookBox from '../components/BookBox.astro';
+---
+
+<Layout title="Our services" description="Podiatry services at Bass Coast Podiatry in Wonthaggi, from general foot care to nail surgery and orthotics.">
+	<section class="page-hero">
+		<div class="container">
+			<h1>Our Services</h1>
+			<p>All aspects of the profession are covered and no referral is needed to attend the clinic.</p>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<h2 class="visually-hidden">All services</h2>
+			<ServiceCards />
+			<div class="services-book">
+				<BookBox />
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.services-book {
+		max-width: var(--width-text);
+		margin-top: var(--space-xl);
+	}
+</style>

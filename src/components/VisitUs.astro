@@ -1,0 +1,107 @@
+---
+import Icon from './Icon.astro';
+import { clinic } from '../data/site';
+
+interface Props {
+	headingLevel?: 'h2' | 'h3';
+}
+
+const { headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+---
+
+<div class="visit">
+	<div class="visit__details reveal">
+		<div class="visit__item">
+			<span class="visit__icon"><Icon name="clock" /></span>
+			<div>
+				<Heading>Opening hours</Heading>
+				<ul class="hours">
+					{
+						clinic.hours.map((h) => (
+							<li>
+								<span>{h.days}</span>
+								<span>{h.time}</span>
+							</li>
+						))
+					}
+				</ul>
+				<p>{clinic.hoursNote}</p>
+			</div>
+		</div>
+		<div class="visit__item">
+			<span class="visit__icon"><Icon name="pin" /></span>
+			<div>
+				<Heading>Address</Heading>
+				<p>
+					{clinic.street}<br />
+					{clinic.suburb}
+				</p>
+				<p><a href={clinic.directions} rel="noopener">Get directions on Google Maps</a></p>
+			</div>
+		</div>
+		<div class="visit__item">
+			<span class="visit__icon"><Icon name="phone" /></span>
+			<div>
+				<Heading>Phone</Heading>
+				<p><a href={clinic.phoneHref}>{clinic.phone}</a></p>
+			</div>
+		</div>
+	</div>
+	<iframe
+		class="map reveal"
+		src={clinic.mapEmbed}
+		title="Map showing Bass Coast Podiatry at 182 Graham Street, Wonthaggi"
+		loading="lazy"
+		referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+
+<style>
+	.visit {
+		display: grid;
+		gap: var(--space-l);
+		align-items: start;
+	}
+
+	@media (min-width: 56rem) {
+		.visit {
+			grid-template-columns: 1fr 1.25fr;
+		}
+	}
+
+	.visit__details {
+		display: grid;
+		gap: var(--space-m);
+	}
+
+	.visit__item {
+		display: flex;
+		gap: var(--space-s);
+	}
+
+	.visit__item :global(h2),
+	.visit__item :global(h3) {
+		font-size: 1.25rem;
+		margin-bottom: var(--space-xs);
+	}
+
+	.visit__item p:last-child {
+		margin-bottom: 0;
+	}
+
+	.visit__item .hours {
+		margin-bottom: var(--space-xs);
+	}
+
+	.visit__icon {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 3rem;
+		height: 3rem;
+		border-radius: 50%;
+		background: var(--bcp-white);
+		color: var(--bcp-blue);
+		border: 2px solid var(--bcp-sand);
+	}
+</style>

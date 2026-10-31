@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import BookBox from '../components/BookBox.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import { url } from '../data/site';
+
+export async function getStaticPaths() {
+	const services = await getCollection('services');
+	return services.map((service) => ({ params: { service: service.id }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const { Content } = await render(service);
+---
+
+<Layout title={service.data.title} description={service.data.summary}>
+	<section class="page-hero">
+		<div class="container">
+			<a class="eyebrow" href={url('/our-services/')}>Our services</a>
+			<h1>{service.data.title}</h1>
+			<p>{service.data.summary}</p>
+		</div>
+	</section>
+
+	<section class="section service">
+		<div class="container service__grid">
+			<article class="prose">
+				{
+					service.data.image && (
+						<Image
+							class="service__image"
+							src={service.data.image}
+							alt={service.data.imageAlt ?? ''}
+							widths={[480, 760, 1100]}
+							sizes="(min-width: 64rem) 42rem, 100vw"
+						/>
+					)
+				}
+				<Content />
+			</article>
+			<div class="service__aside">
+				<BookBox />
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--mist" aria-labelledby="other-title">
+		<div class="container">
+			<h2 id="other-title">Other services</h2>
+			<ServiceCards exclude={service.id} />
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.service {
+		padding-top: var(--space-l);
+	}
+
+	.service__grid {
+		display: grid;
+		gap: var(--space-l);
+		align-items: start;
+	}
+
+	@media (min-width: 64rem) {
+		.service__grid {
+			grid-template-columns: minmax(0, 1fr) 22rem;
+		}
+
+		.service__aside {
+			position: sticky;
+			top: 7rem;
+		}
+	}
+
+	.service__image {
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
+		border-radius: var(--bcp-radius);
+		margin-bottom: var(--space-l);
+	}
+</style>

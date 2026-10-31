@@ -1,0 +1,7 @@
+---
+import { claims } from '../data/site';
+---
+
+<ul class="badges" aria-label="Claims and rebates we process">
+	{claims.map((name) => <li class="badge">{name}</li>)}
+</ul>

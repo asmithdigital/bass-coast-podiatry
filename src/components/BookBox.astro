@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro';
+import { clinic, url } from '../data/site';
+---
+
+<aside class="book on-blue" aria-labelledby="book-title">
+	<h2 id="book-title">Book an appointment</h2>
+	<p>Call us to make an appointment, or send us a message.</p>
+	<div class="btn-row">
+		<a class="btn btn--white" href={clinic.phoneHref}>
+			<Icon name="phone" />
+			Call {clinic.phone}
+		</a>
+		<a class="book__link" href={url('/contact/')}>Contact form</a>
+	</div>
+	<p class="book__hours">{clinic.hours[0].days}, {clinic.hours[0].time}. {clinic.hoursNote}</p>
+</aside>
+
+<style>
+	.book {
+		padding: var(--space-m);
+		border-radius: var(--bcp-radius);
+		background: var(--bcp-blue);
+		color: var(--bcp-white);
+	}
+
+	.book h2 {
+		color: var(--bcp-white);
+		font-size: 1.5rem;
+	}
+
+	.book .btn-row {
+		align-items: center;
+		margin-bottom: var(--space-s);
+	}
+
+	.book__link {
+		color: var(--bcp-white);
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	.book__hours {
+		margin: 0;
+		padding-top: var(--space-s);
+		border-top: 1px solid color-mix(in srgb, var(--bcp-white) 25%, transparent);
+	}
+</style>

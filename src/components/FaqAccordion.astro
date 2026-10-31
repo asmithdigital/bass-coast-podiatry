@@ -1,0 +1,28 @@
+---
+import { faqs } from '../data/site';
+
+interface Props {
+	limit?: number;
+}
+
+const { limit } = Astro.props;
+const items = limit ? faqs.slice(0, limit) : faqs;
+---
+
+<div class="accordion">
+	{
+		items.map((faq, i) => (
+			<details open={i === 0}>
+				<summary>{faq.question}</summary>
+				<div class="answer">
+					{faq.isNew && (
+						<p class="check">[CHECK WITH CLIENT] New question. The answer uses wording from the current website.</p>
+					)}
+					{faq.answer.map((para) => (
+						<p>{para}</p>
+					))}
+				</div>
+			</details>
+		))
+	}
+</div>

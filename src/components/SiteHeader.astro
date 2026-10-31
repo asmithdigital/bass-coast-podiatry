@@ -1,0 +1,206 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import { clinic, nav, url } from '../data/site';
+
+const servicePaths = (await getCollection('services')).map((s) => url(`/${s.id}/`));
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => {
+	const full = url(href);
+	if (href === '/our-services/' && servicePaths.includes(path)) return true;
+	return path === full;
+};
+---
+
+<header class="site-header">
+	<div class="container site-header__inner">
+		<a class="site-header__logo" href={url('/')}>
+			<img src={url('/bcp-logo-horizontal-blue.svg')} alt="Bass Coast Podiatry home" width="391" height="144" />
+		</a>
+
+		<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+			<span class="menu-toggle__bars" aria-hidden="true"></span>
+			Menu
+		</button>
+
+		<nav class="site-nav" id="site-nav" aria-label="Main">
+			<ul>
+				{
+					nav.map((item) => (
+						<li>
+							<a href={url(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+								{item.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<a class="btn site-header__call" href={clinic.phoneHref}>
+				<Icon name="phone" />
+				Call {clinic.phone}
+			</a>
+		</nav>
+	</div>
+</header>
+
+<script>
+	const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+	const navEl = document.getElementById('site-nav');
+
+	const setOpen = (open: boolean) => {
+		toggle?.setAttribute('aria-expanded', String(open));
+		navEl?.classList.toggle('is-open', open);
+	};
+
+	toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+			setOpen(false);
+			toggle.focus();
+		}
+	});
+</script>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 30;
+		background: var(--bcp-white);
+		border-bottom: var(--border);
+	}
+
+	.site-header__inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-s);
+		min-height: 4.75rem;
+		padding-block: 0.5rem;
+	}
+
+	.site-header__logo img {
+		width: 168px;
+		height: auto;
+	}
+
+	.menu-toggle {
+		display: none;
+	}
+
+	.site-nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.site-nav ul a {
+		display: inline-block;
+		padding-block: 0.5rem;
+		color: var(--bcp-ink);
+		text-decoration: none;
+		border-bottom: 3px solid transparent;
+	}
+
+	.site-nav ul a:hover {
+		color: var(--bcp-blue);
+	}
+
+	.site-nav ul a[aria-current='page'] {
+		color: var(--bcp-blue);
+		border-bottom-color: var(--bcp-sand);
+	}
+
+	.site-nav {
+		display: flex;
+		align-items: center;
+		gap: var(--space-m);
+	}
+
+	/* Phones and small tablets: menu button opens the list. Without JS the list just shows. */
+	@media (max-width: 63.99rem) {
+		:global(.js) .menu-toggle {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.6rem;
+			min-height: 3rem;
+			padding: 0.5rem 1rem;
+			border: 2px solid var(--bcp-blue);
+			border-radius: var(--bcp-radius-button);
+			background: var(--bcp-white);
+			color: var(--bcp-blue);
+			font: inherit;
+			font-weight: var(--bcp-weight-heading);
+			cursor: pointer;
+		}
+
+		.menu-toggle__bars,
+		.menu-toggle__bars::before,
+		.menu-toggle__bars::after {
+			display: block;
+			width: 1.1rem;
+			height: 2px;
+			background: currentColor;
+			border-radius: 2px;
+		}
+
+		.menu-toggle__bars {
+			position: relative;
+		}
+
+		.menu-toggle__bars::before,
+		.menu-toggle__bars::after {
+			content: '';
+			position: absolute;
+			left: 0;
+		}
+
+		.menu-toggle__bars::before {
+			top: -6px;
+		}
+
+		.menu-toggle__bars::after {
+			top: 6px;
+		}
+
+		.site-nav {
+			flex-basis: 100%;
+			flex-direction: column;
+			align-items: stretch;
+			gap: var(--space-s);
+			padding-bottom: var(--space-s);
+		}
+
+		:global(.js) .site-nav:not(.is-open) {
+			display: none;
+		}
+
+		.site-nav ul {
+			flex-direction: column;
+		}
+
+		.site-nav ul a {
+			display: block;
+			padding: 0.75rem 0;
+			border-bottom: 1px solid var(--bcp-mist);
+		}
+
+		.site-nav ul a[aria-current='page'] {
+			border-bottom: 1px solid var(--bcp-mist);
+			box-shadow: inset 4px 0 0 var(--bcp-sand);
+			padding-left: 0.85rem;
+		}
+	}
+
+	/* The fixed call bar covers phones, so the header button is only needed from tablet width. */
+	@media (max-width: 47.99rem) {
+		.site-header__call {
+			display: none;
+		}
+	}
+</style>

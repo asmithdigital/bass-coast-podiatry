@@ -1,0 +1,336 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import ClaimsBadges from '../components/ClaimsBadges.astro';
+import brandCss from '../styles/brand.css?raw';
+import { url } from '../data/site';
+
+// Read the tokens straight from brand.css so this page always matches it.
+const tokens = Object.fromEntries(
+	[...brandCss.matchAll(/--(bcp-[\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name, value.trim()]),
+);
+
+const colours = [
+	{ token: 'bcp-blue', name: 'Ocean blue', use: 'Logo, headings, buttons, links and the footer background.' },
+	{ token: 'bcp-sand', name: 'Sand', use: 'Accent only: the logo arch, badge borders, underlines and small details. Never for text.' },
+	{ token: 'bcp-sand-light', name: 'Light sand', use: 'Section backgrounds and icon circles.' },
+	{ token: 'bcp-mist', name: 'Mist', use: 'Section backgrounds and page headers.' },
+	{ token: 'bcp-ink', name: 'Ink', use: 'Body text.' },
+	{ token: 'bcp-grey', name: 'Grey', use: 'Secondary text, such as intros and labels.' },
+	{ token: 'bcp-white', name: 'White', use: 'Page background, cards and text on Ocean blue.' },
+];
+
+const logos = [
+	{ file: 'bcp-logo-horizontal-blue', label: 'Horizontal logo, blue', dark: false },
+	{ file: 'bcp-logo-horizontal-white', label: 'Horizontal logo, white', dark: true },
+	{ file: 'bcp-logo-stacked-blue', label: 'Stacked logo, blue', dark: false },
+	{ file: 'bcp-logo-stacked-white', label: 'Stacked logo, white', dark: true },
+	{ file: 'bcp-icon-blue', label: 'Icon, blue', dark: false },
+	{ file: 'bcp-icon-white', label: 'Icon, white', dark: true },
+];
+
+const typeScale = [
+	{ tag: 'h1', label: 'Heading 1', spec: 'Lexend Medium, 34 to 52px' },
+	{ tag: 'h2', label: 'Heading 2', spec: 'Lexend Medium, 26 to 36px' },
+	{ tag: 'h3', label: 'Heading 3', spec: 'Lexend Medium, 22px' },
+	{ tag: 'h4', label: 'Heading 4', spec: 'Lexend Medium, 19px' },
+] as const;
+---
+
+<Layout title="Style guide" description="Brand style guide for the Bass Coast Podiatry website: logos, colours, type and components.">
+	<section class="page-hero">
+		<div class="container">
+			<h1>Brand style guide</h1>
+			<p>Everything on this page uses the same brand.css variables as the website.</p>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="logos-title">
+		<div class="container">
+			<h2 id="logos-title">Logos</h2>
+			<p class="sg-intro">Use the blue logo on white or light backgrounds and the white logo on Ocean blue.</p>
+			<ul class="grid grid--2 sg-logos" role="list">
+				{
+					logos.map((logo) => (
+						<li class="card">
+							<div class:list={['sg-logo', { 'sg-logo--dark': logo.dark }]}>
+								<img src={url(`/${logo.file}.svg`)} alt={logo.label} loading="lazy" />
+							</div>
+							<h3>{logo.label}</h3>
+							<p class="sg-downloads">
+								<a href={url(`/${logo.file}.svg`)} download>
+									Download SVG<span class="visually-hidden">: {logo.label}</span>
+								</a>
+								<a href={url(`/downloads/${logo.file}.png`)} download>
+									Download PNG<span class="visually-hidden">: {logo.label}</span>
+								</a>
+							</p>
+						</li>
+					))
+				}
+				<li class="card">
+					<div class="sg-logo">
+						<img src={url('/bcp-favicon.svg')} alt="Favicon" width="96" height="96" loading="lazy" />
+					</div>
+					<h3>Favicon</h3>
+					<p class="sg-downloads">
+						<a href={url('/bcp-favicon.svg')} download>Download SVG<span class="visually-hidden">: favicon</span></a>
+						<a href={url('/bcp-favicon-512.png')} download>Download PNG<span class="visually-hidden">: favicon</span></a>
+					</p>
+				</li>
+				<li class="card">
+					<div class="sg-logo">
+						<Icon name="general" size={72} />
+					</div>
+					<h3>Brand sheet</h3>
+					<p class="sg-downloads">
+						<a href={url('/downloads/BCP-brand-sheet.pdf')} download>Download the brand sheet (PDF)</a>
+					</p>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<section class="section section--mist" aria-labelledby="colours-title">
+		<div class="container">
+			<h2 id="colours-title">Colours</h2>
+			<ul class="grid grid--4 sg-colours" role="list">
+				{
+					colours.map((c) => (
+						<li class="card">
+							<span class="sg-swatch" style={`background: var(--${c.token})`} />
+							<h3>{c.name}</h3>
+							<p class="sg-code">
+								{tokens[c.token]}
+								<br />
+								<code>var(--{c.token})</code>
+							</p>
+							<p>{c.use}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="type-title">
+		<div class="container">
+			<h2 id="type-title">Type</h2>
+			<p class="sg-intro">
+				Font: Lexend from Google Fonts. Medium ({tokens['bcp-weight-heading']}) for headings, Regular ({tokens['bcp-weight-text']}) for
+				text.
+			</p>
+			<div class="sg-type">
+				{
+					typeScale.map((t) => (
+						<div class="sg-type__row">
+							<p class="sg-type__label">{t.label}: {t.spec}</p>
+							<p class={`sg-${t.tag}`}>Podiatry care in Wonthaggi</p>
+						</div>
+					))
+				}
+				<div class="sg-type__row">
+					<p class="sg-type__label">Body text: Lexend Regular, 18px, line height 1.7</p>
+					<p>Bass Coast Podiatry opened in July 2007 and has been providing full time Podiatry care since.</p>
+				</div>
+				<div class="sg-type__row">
+					<p class="sg-type__label">Small text: Lexend Regular, 16px. Only for notes and labels.</p>
+					<p class="sg-small">Before and after hours appointments are available.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--sand" aria-labelledby="buttons-title">
+		<div class="container">
+			<h2 id="buttons-title">Buttons and links</h2>
+			<p class="sg-intro">Button corners: <code>var(--bcp-radius-button)</code> ({tokens['bcp-radius-button']}).</p>
+			<div class="btn-row sg-block">
+				<a class="btn" href="#buttons-title"><Icon name="phone" /> Primary button</a>
+				<a class="btn btn--outline" href="#buttons-title">Outline button</a>
+			</div>
+			<div class="sg-on-blue on-blue btn-row sg-block">
+				<a class="btn btn--white" href="#buttons-title">White button on Ocean blue</a>
+			</div>
+			<p><a href="#buttons-title">Text link</a></p>
+			<p><a class="text-link" href="#buttons-title">Link with arrow <Icon name="arrow" size={18} /></a></p>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="cards-title">
+		<div class="container">
+			<h2 id="cards-title">Cards, badges and notes</h2>
+			<p class="sg-intro">Card corners: <code>var(--bcp-radius)</code> ({tokens['bcp-radius']}).</p>
+			<div class="grid grid--2 sg-block">
+				<div class="card">
+					<span class="sg-card-icon"><Icon name="general" size={28} /></span>
+					<h3>Card title</h3>
+					<p>Cards hold one idea each: a service, a staff member or a logo.</p>
+				</div>
+				<div>
+					<h3>Text badges</h3>
+					<ClaimsBadges />
+					<h3>Client note</h3>
+					<p class="check">[CHECK WITH CLIENT] Used in the preview for anything the client needs to confirm.</p>
+				</div>
+			</div>
+			<h3>Accordion</h3>
+			<div class="accordion">
+				<details open>
+					<summary>Question goes here</summary>
+					<div class="answer"><p>The answer sits below the question and opens and closes on click or with the keyboard.</p></div>
+				</details>
+				<details>
+					<summary>A closed question</summary>
+					<div class="answer"><p>Hidden until opened.</p></div>
+				</details>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--mist" aria-labelledby="forms-title">
+		<div class="container">
+			<h2 id="forms-title">Form fields</h2>
+			<form class="card sg-form" action="#" onsubmit="return false">
+				<div class="field">
+					<label for="sg-name">Text field</label>
+					<input class="input" id="sg-name" type="text" placeholder="Your name" />
+				</div>
+				<div class="field">
+					<label for="sg-email">Field with a hint</label>
+					<span class="hint" id="sg-email-hint">Hints sit between the label and the field.</span>
+					<input class="input" id="sg-email" type="email" aria-describedby="sg-email-hint" />
+				</div>
+				<div class="field">
+					<label for="sg-message">Text area</label>
+					<textarea class="input" id="sg-message"></textarea>
+				</div>
+				<button class="btn" type="submit">Submit button</button>
+			</form>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.sg-intro {
+		max-width: var(--width-text);
+		margin-bottom: var(--space-l);
+	}
+
+	.sg-block {
+		margin-bottom: var(--space-l);
+	}
+
+	.sg-logos,
+	.sg-colours {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.sg-logo {
+		display: grid;
+		place-items: center;
+		height: 10rem;
+		margin-bottom: var(--space-s);
+		padding: var(--space-m);
+		border-radius: calc(var(--bcp-radius) / 1.5);
+		background: var(--bcp-mist);
+		color: var(--bcp-blue);
+	}
+
+	.sg-logo--dark {
+		background: var(--bcp-blue);
+	}
+
+	.sg-logo img {
+		max-height: 100%;
+		width: auto;
+	}
+
+	.sg-downloads {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-s);
+	}
+
+	.sg-swatch {
+		display: block;
+		height: 6rem;
+		margin-bottom: var(--space-s);
+		border-radius: calc(var(--bcp-radius) / 1.5);
+		border: var(--border);
+	}
+
+	.sg-code {
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	.sg-code code {
+		font-weight: var(--bcp-weight-text);
+		color: var(--bcp-grey);
+		font-size: 1rem;
+	}
+
+	.sg-type__row {
+		padding-block: var(--space-m);
+		border-bottom: var(--border);
+	}
+
+	.sg-type__label {
+		margin-bottom: var(--space-xs);
+		color: var(--bcp-grey);
+		font-size: 1rem;
+	}
+
+	.sg-h1,
+	.sg-h2,
+	.sg-h3,
+	.sg-h4 {
+		margin: 0;
+		color: var(--bcp-blue);
+		font-weight: var(--bcp-weight-heading);
+		line-height: 1.25;
+	}
+
+	.sg-h1 {
+		font-size: clamp(2.125rem, 5vw, 3.25rem);
+	}
+
+	.sg-h2 {
+		font-size: clamp(1.625rem, 3.4vw, 2.25rem);
+	}
+
+	.sg-h3 {
+		font-size: 1.375rem;
+	}
+
+	.sg-h4 {
+		font-size: 1.1875rem;
+	}
+
+	.sg-small {
+		font-size: 1rem;
+	}
+
+	.sg-on-blue {
+		padding: var(--space-m);
+		border-radius: var(--bcp-radius);
+		background: var(--bcp-blue);
+	}
+
+	.sg-card-icon {
+		display: grid;
+		place-items: center;
+		width: 3.5rem;
+		height: 3.5rem;
+		margin-bottom: var(--space-s);
+		border-radius: 50%;
+		background: var(--bcp-sand-light);
+		color: var(--bcp-blue);
+	}
+
+	.sg-form {
+		max-width: var(--width-text);
+	}
+</style>

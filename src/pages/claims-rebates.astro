@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ClaimsBadges from '../components/ClaimsBadges.astro';
+import BookBox from '../components/BookBox.astro';
+---
+
+<Layout title="Claims and rebates" description="Claim private health insurance through HICAPS on site. We also see patients through Medicare, DVA, TAC and WorkSafe.">
+	<section class="page-hero">
+		<div class="container">
+			<h1>Claims &amp; Rebates</h1>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container prose">
+			<ClaimsBadges />
+
+			<h2>Health Insurance Rebates</h2>
+			<p>
+				All patients covered by private health insurance at Bass Coast Podiatry can claim their treatment rebates through our electronic
+				HICAPS facility on site. You will need to bring your private health insurance card with you in order to use this facility.
+			</p>
+			<p>See <a href="https://www.hicaps.com.au/" rel="noopener">www.hicaps.com.au</a></p>
+
+			<h2>Medicare claims</h2>
+			<p class="check">
+				[CHECK WITH CLIENT] Medicare rules for allied health care plans changed on 1 July 2025 and the item numbers below may be out of
+				date. The fee difference was last updated in November 2017. Please confirm the wording for this section.
+			</p>
+			<p>
+				Patients may be eligible for Medicare rebated Podiatry care under the Enhanced Primary Care (EPC) program if their GP has provided
+				the following MBS Chronic Disease Management services and forms:
+			</p>
+			<ul>
+				<li>A GP Management Plan (GPMP), item 721 (or review item 732); AND</li>
+				<li>Team Care Arrangements (TCAs), item 723 (or review item 732)</li>
+			</ul>
+			<p>
+				A Medicare rebate is available for a maximum of five (5) allied health services per patient each calendar year (January to
+				December). The stated number of visits is a total number of visits between all allied health practitioners.
+			</p>
+			<p>
+				If you have been referred by your General Practitioner through the Medicare Enhanced Primary Care (EPC) program, Bass Coast
+				Podiatry will charge its normal consult fees and then electronically claim your rebate through Medicare to be credited to your
+				account the same day. As of November 2017 the difference between our actual standard consult fee and the Medicare rebate is $9.05.
+			</p>
+			<p>See <a href="https://www.servicesaustralia.gov.au/medicare" rel="noopener">www.servicesaustralia.gov.au/medicare</a></p>
+
+			<h2>Department of Veterans Affairs</h2>
+			<p>
+				Any patient referred to Bass Coast Podiatry through the Department of Veterans Affairs will need the appropriate referral (usually
+				a D904 or written referral) from their General Practitioner.
+			</p>
+			<p>See <a href="https://www.dva.gov.au/" rel="noopener">www.dva.gov.au</a></p>
+
+			<h2>TAC and WorkSafe</h2>
+			<p>
+				Bass Coast Podiatry will see patients referred by their general practitioner or specialist through TAC and WorkSafe. Please
+				contact our administration team for referral eligibility or any questions regarding TAC or WorkSafe.
+			</p>
+			<p>See <a href="https://www.tac.vic.gov.au/" rel="noopener">www.tac.vic.gov.au</a></p>
+			<p>See <a href="https://www.worksafe.vic.gov.au/" rel="noopener">www.worksafe.vic.gov.au</a></p>
+
+			<div class="claims-book">
+				<BookBox />
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.claims-book {
+		margin-top: var(--space-xl);
+	}
+</style>

@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BookBox from '../components/BookBox.astro';
+
+const staff = [
+	{
+		name: 'Luke Zoanetti',
+		role: 'Principal Podiatrist',
+		bio: 'Luke was born and raised in the Bass Coast area. He enjoys all aspects of Podiatry and especially enjoys treating lower leg and foot problems in children, managing biomechanical complaints of the foot. Luke has worked as a casual lecturer for the Podiatry course at Charles Sturt University. Luke enjoys golf and cycling and is an avid downhill snow skier in the winter months.',
+	},
+	{
+		name: 'Jennifer Lewis',
+		role: 'Principal Podiatrist',
+		bio: 'Jennifer has worked and lived in the Bass Coast region for the last 15 years. She is passionately committed to the Podiatry profession and enjoys all facets of Podiatry. Jennifer has developed a special interest in high risk and diabetes foot care and assessment. Jennifer enjoys dancing, walking her dog and is also an avid snow skier during the winter months.',
+		check: '"The last 15 years" was written some years ago. Please confirm the number.',
+	},
+	{
+		name: 'Alison Kelly',
+		role: 'Podiatrist',
+		bio: 'Alison graduated with a Bachelor of Podiatry from La Trobe University in 2009. She has since worked in both public and private Podiatry settings. Alison is highly skilled in diabetes foot care and assessment and biomechanical examination and treatment of the foot. Alison keeps very active outside of work and a highlight of this is completing the Oxfam Trailwalker in 2012, 2013 and 2014.',
+	},
+	{
+		name: 'Joshua Khoury',
+		role: 'Podiatrist',
+		bio: 'Joshua joined Bass Coast Podiatry in 2020 with special interests in biomechanics and lower limb and foot injury treatment and prevention. Joshua enjoys the coastal lifestyle that Bass Coast offers.',
+	},
+	{
+		name: 'Angie Burgess',
+		role: 'Podiatrist',
+		bio: 'Angie graduated with a Bachelor of Podiatry from Charles Sturt University in 2016. She enjoys all aspects of the Podiatry profession and has a keen interest in diabetic foot care and sports Podiatry. Angie loves all outdoor activities and regularly spends time freediving, camping and kayaking.',
+	},
+];
+---
+
+<Layout title="About us" description="Bass Coast Podiatry opened in Wonthaggi in July 2007. Meet our podiatrists and administration team.">
+	<section class="page-hero">
+		<div class="container">
+			<h1>About Us</h1>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container prose">
+			<p>
+				Bass Coast Podiatry opened in July 2007 and has been providing full time Podiatry care since. Bass Coast Podiatry is open 5 days
+				per week and is able to meet any special requirements of those needing urgent foot care. All aspects of the profession are covered
+				and no referral is needed to attend the clinic.
+			</p>
+			<p>
+				Bass Coast Podiatry services the Department of Veterans Affairs, TAC, and WorkCover and provides on the spot rebates for patients
+				referred from their GP under the EPC program.
+			</p>
+		</div>
+	</section>
+
+	<section class="section section--mist" id="team" aria-labelledby="team-title">
+		<div class="container">
+			<div class="section-head">
+				<h2 id="team-title">Meet our Staff</h2>
+				<p><span class="check">[CHECK WITH CLIENT] Is this staff list still current? Staff photos could be added here.</span></p>
+			</div>
+			<ul class="grid grid--2 staff" role="list">
+				{
+					staff.map((person) => (
+						<li class="card reveal">
+							<h3>{person.name}</h3>
+							<p class="staff__role">{person.role}</p>
+							<p>{person.bio}</p>
+							{person.check && <p class="check">[CHECK WITH CLIENT] {person.check}</p>}
+						</li>
+					))
+				}
+			</ul>
+
+			<div class="admin reveal">
+				<h2>Our Administration team</h2>
+				<p>Kate, Brooke and Kim.</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container prose">
+			<h2>Professional memberships</h2>
+			<p>The current website shows logos for Sports Medicine Australia, APC, AAPSM and AHPRA.</p>
+			<p class="check">
+				[CHECK WITH CLIENT] Are these memberships still current, and what are the full names you would like shown? Logos have been
+				replaced with plain text.
+			</p>
+			<BookBox />
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.staff {
+		margin: 0 0 var(--space-xl);
+		padding: 0;
+		list-style: none;
+	}
+
+	.staff h3 {
+		margin-bottom: 0.15rem;
+	}
+
+	.staff__role {
+		color: var(--bcp-grey);
+		padding-bottom: var(--space-s);
+		border-bottom: 2px solid var(--bcp-sand);
+		display: inline-block;
+	}
+
+	.admin {
+		max-width: var(--width-text);
+	}
+
+	.prose :global(.book) {
+		margin-top: var(--space-l);
+	}
+</style>

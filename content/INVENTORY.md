@@ -1,0 +1,152 @@
+# Content inventory
+
+Pulled on 1 November 2026 from the WordPress feed of https://basscoastpodiatry.com.au.
+
+- Pages: `/wp-json/wp/v2/pages?per_page=100` (8 pages)
+- Services: `/wp-json/wp/v2/portfolio?per_page=100` (8 service pages, stored as a "portfolio" post type)
+- Blog posts: `/wp-json/wp/v2/posts` returned none.
+
+The text of each page is saved in `content/raw/<slug>.md`. The old site was built with Visual Composer, so the
+markdown was converted from its shortcodes. Partner logo blocks are kept as `[PARTNER LOGO: name]` lines and buttons as `[BUTTON: ...]`.
+Text in `content/raw/` is the old wording, kept exactly as it was, typos and dashes included, for reference.
+
+## Pages
+
+| Page | Slug | Images used | New site |
+| --- | --- | --- | --- |
+| Home | `home` (`/`) | Slider: placeholder images and `sliders-jogger.jpg`. Service cards: all service photos. Partner logos. | Rebuilt as the new home page |
+| About us | `about-us` | Partner logos only | `/about-us/` |
+| Claims & Rebates | `claims-rebates` | Partner logos only | `/claims-rebates/` |
+| FAQs | `faqs` | Partner logos only | `/faqs/` |
+| Our Services | `our-services` | Service photos (from the services list), partner logos | `/our-services/` |
+| Contact | `contact` | Partner logos, Google map | `/contact/` |
+| Appointments | `appointments` | One image (ID 1406) that no longer exists | Not rebuilt. Redirects to `/contact/` |
+| News | `news` | None (empty page) | Not rebuilt. Redirects to `/` |
+
+## Service pages
+
+| Service | Slug | Image | Saved as |
+| --- | --- | --- | --- |
+| General Podiatry | `general-podiatry` | `iStock-908794068.jpg` | `podiatrist-treatment.jpg` |
+| Laser Treatment For Fungal Nail Infections | `laser-treatment-for-fungal-nail-infections` | `iStock-182688366.jpg` | `fungal-toenail.jpg` |
+| Biomechanical Assessment | `biomechanical-assessment` | `iStock_000019373439_Medium.jpg` | `running-shoes.jpg` |
+| Paediatric Assessment | `paediatric-assessment` | `iStock_000009030369_Medium.jpg` | `baby-feet.jpg` |
+| Nail Surgery | `nail-surgery` | `iStock-450152867.jpg` | `ingrown-toenail.jpg` |
+| Prescription Orthotic Therapy | `prescription-orthotic-therapy` | `iStock_000009030369_Medium.jpg` (same baby feet photo as Paediatric) | Not used on the new page |
+| Diabetes foot assessment | `diabetes-foot-assessment` | `iStock-1129812327-1.jpg` | `diabetes-sensation-test.jpg` |
+| Visiting Pedorthist | `visiting-pedorthist` | `iStock-1075950936.jpg` | `shoe-last.jpg` |
+
+Also used: `iStock_000004340591_Medium.jpg` (footprints on a beach, from the home page) is the new hero photo, saved as `footprints-beach.jpg`.
+
+## Images
+
+Downloaded to `content/images/` with their original file names. Renamed copies are in `src/assets/images/`.
+
+Skipped on purpose:
+
+- Slider placeholders (`revslider/.../dummy.png`) and `sliders-jogger.jpg` (a slider copy of the running shoes photo)
+- `pulse-1.gif` (a blank decorative animation)
+- The old logo (`bass-coast-podiatry-logo.jpg`)
+- Partner logos: `worksafe.jpg`, `tac.jpg`, `sportsmed.jpg`, `medicare.jpg`, `hicaps.jpg`, `gov.jpg`, `apc.jpg`, `ahpra.jpg`, `aapsm.jpg`. Names are written as text instead.
+
+## Problems found on the current site
+
+### Broken or poor links
+
+1. Home page links point to the old development site: `https://basscoastpodiatry.com.au/dev/our-services/` and `/dev/contact/`. They only work because of a redirect.
+2. Visiting Pedorthist: the link text says `www.perfectfitpedorthics.com.au` but it points to `www.happyfeetpedorthics.com.au`, which no longer loads. The new page links to perfectfitpedorthics.com.au, which does load. **[CHECK WITH CLIENT]**
+3. Claims page links to `www.medicareaustralia.gov.au`, which now redirects to Services Australia. The new page links to `www.servicesaustralia.gov.au/medicare`.
+4. Google Maps links use a `goo.gl` short link. Google has been retiring these. The new site uses a full Google Maps link.
+5. Partner logo links: "APC" links to the AHPRA website, not to a podiatry council.
+6. Appointments page: shows an image that no longer exists and a Ninja Forms contact form that does not load in the feed.
+
+### Inconsistent details
+
+7. Phone number written two ways: `(03) 5672 2309` and `(03) 56722 309` (home page heading and contact page). The new site uses `(03) 5672 2309` everywhere.
+8. Scheme names written several ways: "Work Safe", "WorkCover", "Work Cover". The new site uses "WorkSafe" in headings, badges and the claims page. The About page and the FAQ keep "WorkCover" as the client wrote it. **[CHECK WITH CLIENT]** Should these say WorkSafe too?
+9. Staff list: Joshua Khoury joined in 2020, so the list was last updated around 2020 to 2023 (the About page was last edited October 2023).
+
+### Out of date or questionable content
+
+10. Claims page: "As of November 2017 the difference between our actual standard consult fee and the Medicare rebate is $9.05." Nine years old. **[CHECK WITH CLIENT]**
+11. Claims page: Medicare item numbers 721, 723 and 732 (GPMP and TCA). Medicare changed chronic condition care plans on 1 July 2025, so this section is likely out of date. **[CHECK WITH CLIENT]**
+12. About: "Jennifer has worked and lived in the Bass Coast region for the last 15 years." The number will be out of date. **[CHECK WITH CLIENT]**
+13. Appointments page text is template demo content: "supported by complete radiology and imaging services provided at Kalium". Kalium is the name of the WordPress theme. Not used on the new site.
+14. Laser page: "Research shows that the nail laser is 70 to 83% effective" and "This will be a permanent cure". These claims should be checked against the AHPRA advertising guidelines. **[CHECK WITH CLIENT]**
+15. Laser page refers to "post procedure information" twice, but it is not on the site. **[CHECK WITH CLIENT]**
+16. Laser page: "Up until now, treatments for fungal nail infections are usually hit and miss." Kept, but dated.
+17. Visiting Pedorthist page has one line of text and no name, visit days or booking details. **[CHECK WITH CLIENT]**
+18. FAQ page has only one question. **[CHECK WITH CLIENT]**
+19. Old site showed logos for Sports Medicine Australia, APC, AAPSM and AHPRA. Membership status unknown. **[CHECK WITH CLIENT]**
+20. Images are iStock stock photos. **[CHECK WITH CLIENT]** Confirm the licence covers the new site. Real clinic and staff photos would be better.
+
+### Typos and wording
+
+Listed below with the fix made.
+
+## Every change made to the wording
+
+Headings that were bold paragraphs on the old site are now real headings, with the same words.
+Dashes used as punctuation were replaced to follow the writing rules ("8:40 am to 5:30 pm", "70 to 83%", colons in lists).
+
+### Home (new page, built from old content)
+
+- Supporting line taken from the old home and About text: "Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care."
+- Hours: "Monday-Friday 8:40 am – 5:30 pm" became "Monday to Friday, 8:40 am to 5:30 pm". "Saturday & Sunday" became "Saturday and Sunday".
+- "contct" (old home page) is fixed. The sentence itself is not used.
+- Short section intros were written for the home page from existing facts: the team names (About page), and the claims summary (Claims page).
+- One sentence per service card was written from each page's own text. These are new sentences. Listed in each file's `summary` field in `src/content/services/`.
+
+### Services
+
+- General Podiatry: "Callous" became "Calluses" (callous is an adjective).
+- Laser: "often causes" became "often cause" (the subject is "Fungi"). "self- image" became "self-image". "seperate" became "separate". "anti fungal" became "antifungal". "minimize" became "minimise". "epynichium" became "eponychium". "70 – 83%", "3 – 4 passes" and "1 – 3 minutes" now use "to". "Reinfection – Please read" became "Reinfection: please read". "Benefits:" and "Risks:" headings lost their colons.
+- Biomechanical: "Foot mobilization" became "Foot mobilisation". "(see ‘prescription orthotic therapy’)" is now a link to that page.
+- Paediatric: "Our Podiatrist’s are" became "Our Podiatrists are". "Apophysitis pathology– Sever’s" became "Apophysitis pathology: Sever’s". "Juvenile hallux valgus – Bunions" became "Juvenile hallux valgus (bunions)".
+- Prescription Orthotic Therapy: "lower limeb" became "lower limb". "Shin Splints" became "Shin splints". Added a colon before the Footwork link.
+- Diabetes: "Type 1 – Commonly" and "Type 2 – The most" now use colons. "(peripheral vascular disease) – any" and "(peripheral neuropathy) – If" now use colons. "hand held" became "handheld". "QUIT smoking" became "Quit smoking". The Claims and Rebates link now goes to the new page.
+- Nail Surgery: no changes.
+- Visiting Pedorthist: link fixed as described above.
+
+### Claims & Rebates
+
+- "medicare rebated" became "Medicare rebated".
+- "item 721 (or review item 732); AND" and "item 723": the dash before "item" became a comma.
+- "calender" became "calendar".
+- "Department of veterens affairs" became "Department of Veterans Affairs". "(Usually" became "(usually".
+- "Work Safe" became "WorkSafe" (heading and text).
+- Links now use https.
+
+### About Us
+
+- "Work Cover" became "WorkCover".
+- "Meet our Staff" section now has an anchor (`#team`) so the home page can link to it.
+- New section "Professional memberships" lists the names from the old partner logos as text, with a check note.
+
+### FAQs
+
+- Heading changed from H2 to H1 (one H1 per page).
+- Two new questions added, each with answers copied from other pages: private health rebates (Claims page) and before and after hours appointments (Home page). Both are marked **[CHECK WITH CLIENT]**.
+
+### Contact
+
+- "For all appointments" and "Call us today." were joined: "For all appointments, call us today on (03) 5672 2309."
+- New short text for the form: "Fill in the form and our administration team will get back to you. For urgent foot care, please call us." and the field hint "Let us know if you would like an appointment and what times suit you."
+- Formspree form ID is a placeholder. **[CHECK WITH CLIENT]** Which email address should get the messages?
+
+### Booking box (all service pages, Services, About, Claims, FAQs)
+
+- New short text: "Call us to make an appointment, or send us a message."
+
+## All [CHECK WITH CLIENT] notes on the preview
+
+1. Home: is the team list still current?
+2. About: is the staff list still current? Staff photos?
+3. About: Jennifer's "last 15 years".
+4. About: professional memberships and their full names.
+5. Claims: Medicare rules and item numbers, and the 2017 fee gap of $9.05.
+6. Laser: success rates and "permanent cure" against AHPRA rules; where the post procedure information lives.
+7. Visiting Pedorthist: which pedorthist, how often, more detail.
+8. FAQs: two new questions, and any others patients ask.
+9. Contact: Formspree form ID and destination email.
+10. Not shown on the site: WorkCover or WorkSafe wording, and the stock photo licence.

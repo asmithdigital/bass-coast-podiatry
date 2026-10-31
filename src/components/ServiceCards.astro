@@ -1,27 +1,59 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
-import { url } from '../data/site';
+import { clinic, url } from '../data/site';
 
 interface Props {
 	/** Leave out the service with this id, for the "other services" list on a service page. */
 	exclude?: string;
+	/** Show the first service as a large photo card, with a call card to finish the grid. */
+	feature?: boolean;
 	headingLevel?: 'h2' | 'h3';
 }
 
-const { exclude, headingLevel = 'h3' } = Astro.props;
+const { exclude, feature = false, headingLevel = 'h3' } = Astro.props;
 const Heading = headingLevel;
 const services = (await getCollection('services'))
 	.filter((s) => s.id !== exclude)
 	.sort((a, b) => a.data.order - b.data.order);
+const [first, ...rest] = services;
+const featured = feature && first.data.image ? first : undefined;
+const cards = featured ? rest : services;
 ---
 
-<ul class="service-cards grid grid--4" role="list">
+<ul class:list={['service-cards', { 'service-cards--feature': featured }]} role="list">
 	{
-		services.map((s) => (
-			<li class="card service-card reveal">
-				<span class="service-card__icon">
-					<Icon name={s.data.icon} size={28} />
+		featured && (
+			<li class="service-card service-card--feature glass reveal">
+				<div class="zoom-frame service-card__photo">
+					<Image
+						src={featured.data.image!}
+						alt={featured.data.imageAlt ?? ''}
+						widths={[480, 760, 1100]}
+						sizes="(min-width: 64rem) 40rem, 100vw"
+					/>
+				</div>
+				<div class="service-card__body">
+					<span class="icon-circle">
+						<Icon name={featured.data.icon} size={34} />
+					</span>
+					<Heading class="service-card__title">
+						<a href={url(`/${featured.id}/`)}>{featured.data.title}</a>
+					</Heading>
+					<p>{featured.data.summary}</p>
+					<span class="service-card__more" aria-hidden="true">
+						Read more <Icon name="arrow" size={18} />
+					</span>
+				</div>
+			</li>
+		)
+	}
+	{
+		cards.map((s) => (
+			<li class="service-card glass reveal">
+				<span class="icon-circle">
+					<Icon name={s.data.icon} size={34} />
 				</span>
 				<Heading class="service-card__title">
 					<a href={url(`/${s.id}/`)}>{s.data.title}</a>
@@ -33,39 +65,78 @@ const services = (await getCollection('services'))
 			</li>
 		))
 	}
+	{
+		featured && (
+			<li class="service-card service-card--call on-blue reveal">
+				<p class="service-card__call-text">Call us to make an appointment, or send us a message.</p>
+				<a class="service-card__call-link" href={clinic.phoneHref}>
+					<Icon name="phone" size={22} />
+					<span><span class="visually-hidden">Call </span>{clinic.phone}</span>
+				</a>
+			</li>
+		)
+	}
 </ul>
 
 <style>
 	.service-cards {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		gap: clamp(1rem, 2vw, 1.5rem);
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
 
+	@media (min-width: 40rem) {
+		.service-cards {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.service-card--feature {
+			grid-column: 1 / -1;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.service-cards {
+			grid-template-columns: repeat(4, 1fr);
+		}
+
+		.service-card--feature {
+			grid-column: span 2;
+			grid-row: span 2;
+		}
+	}
+
 	.service-card {
+		--lift: 0;
+		position: relative;
 		display: flex;
 		flex-direction: column;
-		transition: transform 0.2s, box-shadow 0.2s;
+		align-items: flex-start;
+		padding: clamp(1.75rem, 3vw, 2.25rem);
+		border-radius: var(--bcp-radius-large);
+		translate: 0 var(--lift);
+		transition: translate 0.5s var(--ease), box-shadow 0.5s var(--ease);
 	}
 
 	.service-card:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 2px 4px color-mix(in srgb, var(--bcp-ink) 6%, transparent), 0 14px 32px color-mix(in srgb, var(--bcp-ink) 10%, transparent);
+		--lift: -6px;
+		box-shadow: var(--shadow-lift);
 	}
 
-	.service-card__icon {
-		display: grid;
-		place-items: center;
-		width: 3.5rem;
-		height: 3.5rem;
-		margin-bottom: var(--space-s);
-		border-radius: 50%;
-		background: var(--bcp-sand-light);
-		color: var(--bcp-blue);
+	.service-card:hover .icon-circle {
+		transform: scale(1.08);
+	}
+
+	.service-card .icon-circle {
+		margin-bottom: var(--space-m);
 	}
 
 	.service-card__title {
-		font-size: 1.25rem;
+		font-size: 1.375rem;
 	}
 
 	.service-card__title a {
@@ -77,7 +148,8 @@ const services = (await getCollection('services'))
 		content: '';
 		position: absolute;
 		inset: 0;
-		border-radius: var(--bcp-radius);
+		z-index: 2;
+		border-radius: var(--bcp-radius-large);
 	}
 
 	.service-card__title a:focus-visible {
@@ -94,6 +166,7 @@ const services = (await getCollection('services'))
 	}
 
 	.service-card__more {
+		--arrow-shift: 0;
 		display: inline-flex;
 		align-items: center;
 		gap: 0.35rem;
@@ -102,10 +175,90 @@ const services = (await getCollection('services'))
 		font-weight: var(--bcp-weight-heading);
 	}
 
+	.service-card__more :global(svg) {
+		transform: translateX(var(--arrow-shift));
+		transition: transform 0.3s var(--ease);
+	}
+
+	.service-card:hover .service-card__more {
+		--arrow-shift: 4px;
+	}
+
+	/* Large feature card with a photo */
+	.service-card--feature {
+		padding: 0;
+		overflow: hidden;
+	}
+
+	.service-card__photo {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		border-radius: 0;
+	}
+
+	.service-card__body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		align-items: flex-start;
+		padding: clamp(1.75rem, 3vw, 2.5rem);
+	}
+
+	.service-card--feature .service-card__title {
+		font-size: clamp(1.625rem, 1.3rem + 1vw, 2.125rem);
+	}
+
+	.service-card--feature .icon-circle {
+		margin-top: calc(-1 * clamp(3.5rem, 6vw, 4.25rem));
+		box-shadow: 0 0 0 6px var(--bcp-white);
+		background: var(--tint);
+	}
+
+	@media (min-width: 64rem) {
+		.service-card__photo {
+			aspect-ratio: auto;
+			flex: 1;
+			min-height: 16rem;
+		}
+
+		.service-card__body {
+			flex: none;
+		}
+	}
+
+	/* Solid blue call card that finishes the grid */
+	.service-card--call {
+		justify-content: space-between;
+		gap: var(--space-m);
+		background: var(--bcp-blue);
+		color: var(--bcp-white);
+		box-shadow: var(--shadow);
+	}
+
+	.service-card__call-text {
+		font-size: 1.25rem;
+		line-height: 1.45;
+	}
+
+	.service-card__call-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--bcp-white);
+		font-size: clamp(1.25rem, 1.1rem + 0.4vw, 1.5rem);
+		font-weight: var(--bcp-weight-heading);
+		white-space: nowrap;
+		text-underline-offset: 0.25em;
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.service-card,
 		.service-card:hover {
-			transition: none;
+			--lift: 0;
+		}
+
+		.service-card .icon-circle,
+		.service-card:hover .icon-circle {
 			transform: none;
 		}
 	}

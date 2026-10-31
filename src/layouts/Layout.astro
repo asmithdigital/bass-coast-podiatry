@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -16,7 +17,7 @@ const pageTitle = title ? `${title} | ${clinic.name}` : `${clinic.name} | Podiat
 ---
 
 <!doctype html>
-<html lang="en-AU">
+<html lang="en-AU" transition:animate="none">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,25 +32,33 @@ const pageTitle = title ? `${title} | ${clinic.name}` : `${clinic.name} | Podiat
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500&display=swap" rel="stylesheet" />
-		<!-- Runs before the page paints: marks JS as available and hides the page behind the preview password. -->
+		<!-- Runs before the page paints, and again after each page swap: marks JS as available
+		     and hides the page behind the preview password. -->
 		<script is:inline>
 			(function () {
-				var root = document.documentElement;
-				root.classList.add('js');
-				var host = location.hostname;
-				var isLocal = host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host === '::1';
-				var unlocked = false;
-				try {
-					unlocked = sessionStorage.getItem('bcp-preview') === 'ok';
-				} catch (e) {}
-				if (!isLocal && !unlocked) root.classList.add('locked');
+				function prepareRoot() {
+					var root = document.documentElement;
+					root.classList.add('js');
+					var host = location.hostname;
+					var isLocal = host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host === '::1';
+					var unlocked = false;
+					try {
+						unlocked = sessionStorage.getItem('bcp-preview') === 'ok';
+					} catch (e) {}
+					if (!isLocal && !unlocked) root.classList.add('locked');
+				}
+				prepareRoot();
+				if (!window.__bcpRootReady) {
+					window.__bcpRootReady = true;
+					document.addEventListener('astro:after-swap', prepareRoot);
+				}
 			})();
 		</script>
+		<ClientRouter />
 	</head>
 	<body>
 		<PasswordGate />
 		<a class="skip-link" href="#main">Skip to main content</a>
-		<p class="preview-banner">Preview only. Not the live website.</p>
 		<SiteHeader />
 		<main id="main" tabindex="-1">
 			<slot />
@@ -59,44 +68,129 @@ const pageTitle = title ? `${title} | ${clinic.name}` : `${clinic.name} | Podiat
 			<Icon name="phone" />
 			Call {clinic.phone}
 		</a>
+		<div class="page-wash" id="page-wash" aria-hidden="true" transition:persist></div>
 
 		<script>
-			// Fade sections in once as they scroll into view. Skipped when the visitor prefers reduced motion.
-			const items = document.querySelectorAll('.reveal');
-			const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (reduce || !('IntersectionObserver' in window)) {
-				items.forEach((el) => el.classList.add('is-visible'));
-			} else {
-				const observer = new IntersectionObserver(
+			const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+			// Split a heading into lines so each line can slide up in turn.
+			// The original text is put back once the reveal has played.
+			function splitLines(el: HTMLElement) {
+				const text = el.textContent?.trim() ?? '';
+				if (!text) return;
+				el.innerHTML = text
+					.split(/\s+/)
+					.map((word) => `<span class="w">${word.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</span>`)
+					.join(' ');
+				const lines: string[][] = [];
+				let lastTop: number | null = null;
+				el.querySelectorAll<HTMLElement>('.w').forEach((word) => {
+					if (lastTop === null || Math.abs(word.offsetTop - lastTop) > 4) {
+						lines.push([]);
+						lastTop = word.offsetTop;
+					}
+					lines[lines.length - 1].push(word.innerHTML);
+				});
+				el.innerHTML = lines
+					.map((line, i) => `<span class="line"><span class="line__inner" style="--i:${i}">${line.join(' ')}</span></span>`)
+					.join('');
+				el.dataset.text = text;
+				el.dataset.lines = String(lines.length);
+				el.classList.add('is-split');
+			}
+
+			function restore(el: HTMLElement) {
+				const lines = Number(el.dataset.lines ?? 1);
+				setTimeout(() => {
+					if (el.dataset.text) el.textContent = el.dataset.text;
+				}, 900 + lines * 110 + 100);
+			}
+
+			let observer: IntersectionObserver | undefined;
+
+			async function initMotion() {
+				observer?.disconnect();
+				const items = [...document.querySelectorAll<HTMLElement>('.reveal, .reveal-lines')];
+				if (reduceMotion() || !('IntersectionObserver' in window)) {
+					items.forEach((el) => el.classList.add('is-visible'));
+					return;
+				}
+				// Wait for Lexend so the line breaks are measured with the real font, but never for long.
+				await Promise.race([document.fonts.ready, wait(800)]);
+				document.querySelectorAll<HTMLElement>('.reveal-lines').forEach(splitLines);
+
+				observer = new IntersectionObserver(
 					(entries) => {
 						entries.forEach((entry) => {
-							if (entry.isIntersecting) {
-								entry.target.classList.add('is-visible');
-								observer.unobserve(entry.target);
-							}
+							if (!entry.isIntersecting) return;
+							const el = entry.target as HTMLElement;
+							el.classList.add('is-visible');
+							if (el.classList.contains('reveal-lines')) restore(el);
+							observer?.unobserve(el);
 						});
 					},
 					{ rootMargin: '0px 0px -8% 0px' },
 				);
-				items.forEach((el) => observer.observe(el));
+				items.forEach((el) => observer?.observe(el));
 			}
+
+			document.addEventListener('astro:page-load', initMotion);
+
+			// Page transition: a soft Ocean blue to sea cyan wash fills the screen, then the new page fades in.
+			document.addEventListener('astro:before-preparation', (event) => {
+				const wash = document.getElementById('page-wash');
+				if (!wash || reduceMotion()) return;
+				const load = event.loader;
+				event.loader = async () => {
+					wash.classList.add('is-on');
+					await Promise.all([load(), wait(260)]);
+				};
+			});
+
+			document.addEventListener('astro:after-swap', () => {
+				const wash = document.getElementById('page-wash');
+				requestAnimationFrame(() => wash?.classList.remove('is-on'));
+			});
 		</script>
 	</body>
 </html>
 
 <style>
-	.preview-banner {
-		margin: 0;
-		padding: 0.4rem var(--gutter);
-		background: var(--bcp-sand);
-		color: var(--bcp-ink);
-		font-size: 1rem;
-		font-weight: var(--bcp-weight-heading);
-		text-align: center;
-	}
-
 	main:focus {
 		outline: none;
+	}
+
+	.page-wash {
+		position: fixed;
+		inset: 0;
+		z-index: 200;
+		pointer-events: none;
+		opacity: 0;
+		background:
+			radial-gradient(circle at 80% 20%, var(--bcp-sea), transparent 60%),
+			linear-gradient(125deg, var(--bcp-blue), color-mix(in srgb, var(--bcp-sea) 70%, var(--bcp-blue)));
+		transition: opacity 0.32s var(--ease);
+	}
+
+	.page-wash:global(.is-on) {
+		opacity: 1;
+		transition-duration: 0.26s;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		:global(.js) main {
+			animation: page-in 0.4s var(--ease) both;
+		}
+	}
+
+	@keyframes page-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
 	}
 
 	.mobile-call {
@@ -115,7 +209,7 @@ const pageTitle = title ? `${title} | ${clinic.name}` : `${clinic.name} | Podiat
 		color: var(--bcp-white);
 		font-weight: var(--bcp-weight-heading);
 		text-decoration: none;
-		box-shadow: 0 6px 20px color-mix(in srgb, var(--bcp-ink) 25%, transparent);
+		box-shadow: 0 10px 28px color-mix(in srgb, var(--bcp-deep) 30%, transparent);
 	}
 
 	@media (min-width: 48rem) {

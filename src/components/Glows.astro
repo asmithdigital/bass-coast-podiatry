@@ -1,0 +1,59 @@
+---
+// Soft colour glows behind a section. CSS only: blurred radial gradients that drift slowly.
+// Place inside a positioned parent and keep text on white, cards or the deep blue section.
+interface Glow {
+	colour: 'sea' | 'blue';
+	top?: string;
+	left?: string;
+	right?: string;
+	bottom?: string;
+	size?: string;
+	opacity?: number;
+}
+
+interface Props {
+	set?: 'hero' | 'right' | 'left' | 'centre' | 'page';
+}
+
+const sets: Record<NonNullable<Props['set']>, Glow[]> = {
+	hero: [
+		{ colour: 'sea', top: '-10%', right: '0%', size: 'clamp(24rem, 55vw, 50rem)', opacity: 0.75 },
+		{ colour: 'blue', bottom: '-10%', left: '30%', size: 'clamp(22rem, 48vw, 44rem)' },
+		{ colour: 'sea', bottom: '0%', left: '0%', size: 'clamp(16rem, 34vw, 30rem)', opacity: 0.45 },
+	],
+	right: [
+		{ colour: 'sea', top: '10%', right: '-10%', size: 'clamp(24rem, 50vw, 46rem)', opacity: 0.6 },
+		{ colour: 'blue', bottom: '-15%', right: '20%', size: 'clamp(20rem, 40vw, 38rem)' },
+	],
+	left: [
+		{ colour: 'sea', top: '20%', left: '-12%', size: 'clamp(24rem, 50vw, 46rem)', opacity: 0.55 },
+		{ colour: 'blue', bottom: '-10%', left: '25%', size: 'clamp(20rem, 40vw, 36rem)' },
+	],
+	centre: [
+		{ colour: 'sea', top: '15%', left: '15%', size: 'clamp(26rem, 55vw, 50rem)', opacity: 0.55 },
+		{ colour: 'blue', top: '35%', right: '5%', size: 'clamp(22rem, 45vw, 42rem)' },
+		{ colour: 'sea', bottom: '-10%', left: '-5%', size: 'clamp(18rem, 35vw, 30rem)', opacity: 0.4 },
+	],
+	page: [
+		{ colour: 'sea', top: '-35%', right: '-14%', size: 'clamp(20rem, 40vw, 36rem)', opacity: 0.6 },
+		{ colour: 'blue', top: '-5%', right: '8%', size: 'clamp(14rem, 24vw, 22rem)', opacity: 0.2 },
+	],
+};
+
+const { set = 'centre' } = Astro.props;
+const style = (g: Glow) =>
+	[
+		g.top && `top:${g.top}`,
+		g.left && `left:${g.left}`,
+		g.right && `right:${g.right}`,
+		g.bottom && `bottom:${g.bottom}`,
+		g.size && `--size:${g.size}`,
+		g.opacity !== undefined && `--glow-opacity:${g.opacity}`,
+	]
+		.filter(Boolean)
+		.join(';');
+---
+
+<div class="glows" aria-hidden="true">
+	{sets[set].map((g) => <span class={`glow glow--${g.colour}`} style={style(g)} />)}
+</div>

@@ -7,7 +7,21 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 ---
 
 <footer class="site-footer on-blue">
-	<div class="container">
+	<div class="container container--wide">
+		<div class="site-footer__cta">
+			<p class="site-footer__big reveal-lines">Book an appointment</p>
+			<div class="site-footer__cta-actions">
+				<p>Call us to make an appointment, or send us a message.</p>
+				<div class="btn-row">
+					<a class="btn btn--white btn--icon" href={clinic.phoneHref}>
+						<Icon name="phone" />
+						Call {clinic.phone}
+					</a>
+					<a class="btn btn--ghost-white" href={url('/contact/')}>Contact form</a>
+				</div>
+			</div>
+		</div>
+
 		<div class="site-footer__grid">
 			<div>
 				<img class="site-footer__logo" src={url('/bcp-logo-horizontal-white.svg')} alt="Bass Coast Podiatry" width="391" height="144" loading="lazy" />
@@ -66,13 +80,31 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 
 <style>
 	.site-footer {
-		padding-block: var(--space-xl) var(--space-l);
-		background: var(--bcp-blue);
+		position: relative;
+		padding-block: clamp(4.5rem, 10vw, 8rem) var(--space-l);
+		background: var(--bcp-deep);
 		color: var(--bcp-white);
-		border-top: 6px solid var(--bcp-sand);
+		overflow: clip;
 	}
 
-	.site-footer a {
+	/* One soft sea glow in the corner. Footer text sits on the solid deep blue. */
+	.site-footer::before {
+		content: '';
+		position: absolute;
+		top: -30%;
+		right: -15%;
+		width: clamp(24rem, 50vw, 48rem);
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background: radial-gradient(circle, color-mix(in srgb, var(--bcp-sea) 30%, transparent), transparent 65%);
+		pointer-events: none;
+	}
+
+	.site-footer > .container {
+		position: relative;
+	}
+
+	.site-footer a:not(.btn) {
 		color: var(--bcp-white);
 	}
 
@@ -84,7 +116,38 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 
 	.site-footer h2 {
 		color: var(--bcp-white);
+		font-size: 1.125rem;
+		font-weight: var(--bcp-weight-heading);
+		letter-spacing: 0.02em;
+		opacity: 0.75;
+	}
+
+	.site-footer__cta {
+		display: grid;
+		gap: var(--space-l);
+		align-items: end;
+		padding-bottom: clamp(3rem, 7vw, 5.5rem);
+		margin-bottom: clamp(3rem, 7vw, 5rem);
+		border-bottom: 1px solid color-mix(in srgb, var(--bcp-white) 20%, transparent);
+	}
+
+	@media (min-width: 64rem) {
+		.site-footer__cta {
+			grid-template-columns: 1.4fr 1fr;
+		}
+	}
+
+	.site-footer__big {
+		margin: 0;
+		font-size: clamp(3rem, 1.5rem + 7vw, 7.5rem);
+		line-height: 1;
+		letter-spacing: -0.035em;
+		text-wrap: balance;
+	}
+
+	.site-footer__cta-actions p {
 		font-size: 1.25rem;
+		color: color-mix(in srgb, var(--bcp-white) 85%, transparent);
 	}
 
 	.site-footer__grid {
@@ -136,10 +199,9 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 		flex-wrap: wrap;
 		justify-content: space-between;
 		gap: var(--space-s);
-		margin-top: var(--space-l);
+		margin-top: clamp(3rem, 6vw, 4.5rem);
 		padding-top: var(--space-m);
-		border-top: 1px solid color-mix(in srgb, var(--bcp-white) 25%, transparent);
-		font-size: 1rem;
+		border-top: 1px solid color-mix(in srgb, var(--bcp-white) 20%, transparent);
 	}
 
 	.site-footer__bottom p {

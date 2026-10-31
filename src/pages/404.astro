@@ -1,19 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Glows from '../components/Glows.astro';
+import Icon from '../components/Icon.astro';
 import { clinic, url } from '../data/site';
 ---
 
 <Layout title="Page not found" description="This page could not be found.">
 	<section class="page-hero">
-		<div class="container">
-			<h1>Page not found</h1>
+		<Glows set="page" />
+		<div class="container container--wide">
+			<h1 class="reveal-lines">Page not found</h1>
 			<p>Sorry, we could not find that page. It may have moved when the website was updated.</p>
 		</div>
 	</section>
 	<section class="section">
 		<div class="container btn-row">
 			<a class="btn" href={url('/')}>Go to the home page</a>
-			<a class="btn btn--outline" href={clinic.phoneHref}>Call {clinic.phone}</a>
+			<a class="btn btn--outline btn--icon" href={clinic.phoneHref}><Icon name="phone" /> Call {clinic.phone}</a>
 		</div>
 	</section>
 </Layout>

@@ -1,23 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Glows from '../components/Glows.astro';
 import Icon from '../components/Icon.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
 import brandCss from '../styles/brand.css?raw';
+import tokensCss from '../styles/tokens.css?raw';
 import { url } from '../data/site';
 
-// Read the tokens straight from brand.css so this page always matches it.
+// Read the tokens straight from brand.css and tokens.css so this page always matches them.
 const tokens = Object.fromEntries(
-	[...brandCss.matchAll(/--(bcp-[\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name, value.trim()]),
+	[...(brandCss + tokensCss).matchAll(/--(bcp-[\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name, value.trim()]),
 );
 
 const colours = [
-	{ token: 'bcp-blue', name: 'Ocean blue', use: 'Logo, headings, buttons, links and the footer background.' },
-	{ token: 'bcp-sand', name: 'Sand', use: 'Accent only: the logo arch, badge borders, underlines and small details. Never for text.' },
-	{ token: 'bcp-sand-light', name: 'Light sand', use: 'Section backgrounds and icon circles.' },
-	{ token: 'bcp-mist', name: 'Mist', use: 'Section backgrounds and page headers.' },
+	{ token: 'bcp-white', name: 'White', use: 'Base colour: page background, cards and text on blue.' },
+	{ token: 'bcp-mist', name: 'Mist', use: 'Base colour: quiet section backgrounds.' },
+	{ token: 'bcp-blue', name: 'Ocean blue', use: 'Logo, headings, buttons, links and glows.' },
+	{ token: 'bcp-deep', name: 'Deep Ocean blue', use: 'Contrast sections, the footer and the mobile menu, with white text.' },
+	{ token: 'bcp-sea', name: 'Sea cyan', use: 'Glows, soft tints behind icons and focus rings. Never for text.' },
 	{ token: 'bcp-ink', name: 'Ink', use: 'Body text.' },
 	{ token: 'bcp-grey', name: 'Grey', use: 'Secondary text, such as intros and labels.' },
-	{ token: 'bcp-white', name: 'White', use: 'Page background, cards and text on Ocean blue.' },
+	{ token: 'bcp-sand', name: 'Sand', use: 'The logo arch and one small accent: the current page marker in the menu.' },
+	{ token: 'bcp-sand-light', name: 'Light sand', use: 'In the brand pack, but no longer used for backgrounds on the website.' },
 ];
 
 const logos = [
@@ -30,8 +34,9 @@ const logos = [
 ];
 
 const typeScale = [
-	{ tag: 'h1', label: 'Heading 1', spec: 'Lexend Medium, 34 to 52px' },
-	{ tag: 'h2', label: 'Heading 2', spec: 'Lexend Medium, 26 to 36px' },
+	{ tag: 'h1', label: 'Heading 1', spec: 'Lexend Medium, 38px on phones to 76px on desktop' },
+	{ tag: 'display', label: 'Section heading', spec: 'Lexend Regular, 36 to 68px, reveals line by line' },
+	{ tag: 'h2', label: 'Heading 2', spec: 'Lexend Medium, 28 to 40px' },
 	{ tag: 'h3', label: 'Heading 3', spec: 'Lexend Medium, 22px' },
 	{ tag: 'h4', label: 'Heading 4', spec: 'Lexend Medium, 19px' },
 ] as const;
@@ -39,9 +44,10 @@ const typeScale = [
 
 <Layout title="Style guide" description="Brand style guide for the Bass Coast Podiatry website: logos, colours, type and components.">
 	<section class="page-hero">
-		<div class="container">
-			<h1>Brand style guide</h1>
-			<p>Everything on this page uses the same brand.css variables as the website.</p>
+		<Glows set="page" />
+		<div class="container container--wide">
+			<h1 class="reveal-lines">Brand style guide</h1>
+			<p>Everything on this page uses the same brand.css and tokens.css variables as the website.</p>
 		</div>
 	</section>
 
@@ -141,35 +147,75 @@ const typeScale = [
 		</div>
 	</section>
 
-	<section class="section section--sand" aria-labelledby="buttons-title">
+	<section class="section" aria-labelledby="buttons-title">
 		<div class="container">
 			<h2 id="buttons-title">Buttons and links</h2>
-			<p class="sg-intro">Button corners: <code>var(--bcp-radius-button)</code> ({tokens['bcp-radius-button']}).</p>
+			<p class="sg-intro">
+				Button corners: <code>var(--bcp-radius-button)</code> ({tokens['bcp-radius-button']}). Buttons carry a small arrow that moves on
+				hover. Buttons with their own icon, such as Call, leave the arrow off (class <code>btn--icon</code>).
+			</p>
 			<div class="btn-row sg-block">
-				<a class="btn" href="#buttons-title"><Icon name="phone" /> Primary button</a>
+				<a class="btn btn--icon" href="#buttons-title"><Icon name="phone" /> Button with an icon</a>
+				<a class="btn" href="#buttons-title">Primary button</a>
 				<a class="btn btn--outline" href="#buttons-title">Outline button</a>
 			</div>
 			<div class="sg-on-blue on-blue btn-row sg-block">
-				<a class="btn btn--white" href="#buttons-title">White button on Ocean blue</a>
+				<a class="btn btn--white" href="#buttons-title">White button</a>
+				<a class="btn btn--ghost-white" href="#buttons-title">Outline on blue</a>
 			</div>
 			<p><a href="#buttons-title">Text link</a></p>
 			<p><a class="text-link" href="#buttons-title">Link with arrow <Icon name="arrow" size={18} /></a></p>
 		</div>
 	</section>
 
+	<section class="section" aria-labelledby="glow-title">
+		<Glows set="centre" />
+		<div class="container container--wide above-glow">
+			<h2 id="glow-title">Glows and glass cards</h2>
+			<p class="sg-intro sg-solid">
+				Two or three large, soft glows in Ocean blue and Sea cyan sit behind the hero and some sections and drift very slowly. They are
+				CSS only (<code>Glows.astro</code>) and stand still when reduce motion is on. Text never sits directly on a glow: it sits on
+				white, a card or the deep blue section. Large corners: <code>var(--bcp-radius-large)</code> ({tokens['bcp-radius-large']}).
+			</p>
+			<div class="grid grid--4 sg-block">
+				<div class="card glass sg-card">
+					<span class="icon-circle"><Icon name="general" size={34} /></span>
+					<h3>Glass card</h3>
+					<p>Frosted white over a glow. Class <code>glass</code>.</p>
+				</div>
+				<div class="card sg-card">
+					<span class="icon-circle"><Icon name="clock" size={34} /></span>
+					<h3>Solid card</h3>
+					<p>White with a soft shadow. Class <code>card</code>.</p>
+				</div>
+				<div class="card sg-card sg-card--blue on-blue">
+					<h3>Blue card</h3>
+					<p>For calls to action, with white text.</p>
+				</div>
+				<div class="zoom-frame sg-zoom">
+					<img src={url('/downloads/bcp-logo-stacked-blue.png')} alt="Stacked logo in a frame that zooms gently on hover" loading="lazy" />
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--deep on-blue" aria-labelledby="deep-title">
+		<div class="container container--wide">
+			<h2 id="deep-title">Deep Ocean blue section</h2>
+			<p class="sg-intro">One full width section per page at most, for contrast. White text and outline badges.</p>
+			<ClaimsBadges />
+		</div>
+	</section>
+
 	<section class="section" aria-labelledby="cards-title">
 		<div class="container">
-			<h2 id="cards-title">Cards, badges and notes</h2>
-			<p class="sg-intro">Card corners: <code>var(--bcp-radius)</code> ({tokens['bcp-radius']}).</p>
+			<h2 id="cards-title">Badges, notes and accordion</h2>
 			<div class="grid grid--2 sg-block">
-				<div class="card">
-					<span class="sg-card-icon"><Icon name="general" size={28} /></span>
-					<h3>Card title</h3>
-					<p>Cards hold one idea each: a service, a staff member or a logo.</p>
-				</div>
 				<div>
 					<h3>Text badges</h3>
 					<ClaimsBadges />
+				</div>
+				<div>
 					<h3>Client note</h3>
 					<p class="check">[CHECK WITH CLIENT] Used in the preview for anything the client needs to confirm.</p>
 				</div>
@@ -283,6 +329,48 @@ const typeScale = [
 		font-size: 1rem;
 	}
 
+	.sg-display {
+		margin: 0;
+		color: var(--bcp-blue);
+		font-size: clamp(2.25rem, 1.4rem + 3.8vw, 4.25rem);
+		line-height: 1.08;
+		letter-spacing: -0.025em;
+	}
+
+	.sg-solid {
+		padding: var(--space-m);
+		border-radius: var(--bcp-radius);
+		background: var(--bcp-white);
+	}
+
+	.sg-card .icon-circle {
+		margin-bottom: var(--space-m);
+	}
+
+	.sg-card--blue {
+		border: 0;
+		background: var(--bcp-blue);
+		color: var(--bcp-white);
+	}
+
+	.sg-card--blue h3 {
+		color: var(--bcp-white);
+	}
+
+	.sg-zoom {
+		display: grid;
+		place-items: center;
+		min-height: 14rem;
+		background: var(--bcp-white);
+		box-shadow: var(--shadow);
+	}
+
+	.sg-zoom img {
+		width: 60%;
+		height: auto;
+		object-fit: contain;
+	}
+
 	.sg-h1,
 	.sg-h2,
 	.sg-h3,
@@ -294,11 +382,13 @@ const typeScale = [
 	}
 
 	.sg-h1 {
-		font-size: clamp(2.125rem, 5vw, 3.25rem);
+		font-size: clamp(2.375rem, 1.5rem + 4.6vw, 4.75rem);
+		line-height: 1.06;
+		letter-spacing: -0.025em;
 	}
 
 	.sg-h2 {
-		font-size: clamp(1.625rem, 3.4vw, 2.25rem);
+		font-size: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);
 	}
 
 	.sg-h3 {
@@ -319,16 +409,6 @@ const typeScale = [
 		background: var(--bcp-blue);
 	}
 
-	.sg-card-icon {
-		display: grid;
-		place-items: center;
-		width: 3.5rem;
-		height: 3.5rem;
-		margin-bottom: var(--space-s);
-		border-radius: 50%;
-		background: var(--bcp-sand-light);
-		color: var(--bcp-blue);
-	}
 
 	.sg-form {
 		max-width: var(--width-text);

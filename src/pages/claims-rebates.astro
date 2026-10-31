@@ -1,13 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Glows from '../components/Glows.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
 import BookBox from '../components/BookBox.astro';
 ---
 
 <Layout title="Claims and rebates" description="Claim private health insurance through HICAPS on site. We also see patients through Medicare, DVA, TAC and WorkSafe.">
 	<section class="page-hero">
-		<div class="container">
-			<h1>Claims &amp; Rebates</h1>
+		<Glows set="page" />
+		<div class="container container--wide">
+			<h1 class="reveal-lines">Claims &amp; Rebates</h1>
 		</div>
 	</section>
 

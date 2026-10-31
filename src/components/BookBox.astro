@@ -7,7 +7,7 @@ import { clinic, url } from '../data/site';
 	<h2 id="book-title">Book an appointment</h2>
 	<p>Call us to make an appointment, or send us a message.</p>
 	<div class="btn-row">
-		<a class="btn btn--white" href={clinic.phoneHref}>
+		<a class="btn btn--white btn--icon" href={clinic.phoneHref}>
 			<Icon name="phone" />
 			Call {clinic.phone}
 		</a>
@@ -18,9 +18,10 @@ import { clinic, url } from '../data/site';
 
 <style>
 	.book {
-		padding: var(--space-m);
-		border-radius: var(--bcp-radius);
+		padding: clamp(1.75rem, 3vw, 2.25rem);
+		border-radius: var(--bcp-radius-large);
 		background: var(--bcp-blue);
+		box-shadow: var(--shadow-lift);
 		color: var(--bcp-white);
 	}
 

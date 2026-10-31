@@ -1,13 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Glows from '../components/Glows.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import BookBox from '../components/BookBox.astro';
 ---
 
 <Layout title="Our services" description="Podiatry services at Bass Coast Podiatry in Wonthaggi, from general foot care to nail surgery and orthotics.">
 	<section class="page-hero">
-		<div class="container">
-			<h1>Our Services</h1>
+		<Glows set="page" />
+		<div class="container container--wide">
+			<h1 class="reveal-lines">Our Services</h1>
 			<p>All aspects of the profession are covered and no referral is needed to attend the clinic.</p>
 		</div>
 	</section>
@@ -15,7 +17,7 @@ import BookBox from '../components/BookBox.astro';
 	<section class="section">
 		<div class="container">
 			<h2 class="visually-hidden">All services</h2>
-			<ServiceCards />
+			<ServiceCards feature />
 			<div class="services-book">
 				<BookBox />
 			</div>

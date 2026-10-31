@@ -11,9 +11,9 @@ const Heading = headingLevel;
 ---
 
 <div class="visit">
-	<div class="visit__details reveal">
+	<div class="visit__details glass reveal">
 		<div class="visit__item">
-			<span class="visit__icon"><Icon name="clock" /></span>
+			<span class="icon-circle visit__icon"><Icon name="clock" size={26} /></span>
 			<div>
 				<Heading>Opening hours</Heading>
 				<ul class="hours">
@@ -30,7 +30,7 @@ const Heading = headingLevel;
 			</div>
 		</div>
 		<div class="visit__item">
-			<span class="visit__icon"><Icon name="pin" /></span>
+			<span class="icon-circle visit__icon"><Icon name="pin" size={26} /></span>
 			<div>
 				<Heading>Address</Heading>
 				<p>
@@ -41,7 +41,7 @@ const Heading = headingLevel;
 			</div>
 		</div>
 		<div class="visit__item">
-			<span class="visit__icon"><Icon name="phone" /></span>
+			<span class="icon-circle visit__icon"><Icon name="phone" size={26} /></span>
 			<div>
 				<Heading>Phone</Heading>
 				<p><a href={clinic.phoneHref}>{clinic.phone}</a></p>
@@ -58,20 +58,38 @@ const Heading = headingLevel;
 
 <style>
 	.visit {
+		position: relative;
+		z-index: 1;
 		display: grid;
-		gap: var(--space-l);
-		align-items: start;
+		gap: var(--space-m);
 	}
 
-	@media (min-width: 56rem) {
+	/* Desktop: a wide map panel with the details card overlapping its right edge, clear of the map's own labels */
+	@media (min-width: 64rem) {
 		.visit {
-			grid-template-columns: 1fr 1.25fr;
+			grid-template-columns: repeat(12, 1fr);
+			align-items: center;
+		}
+
+		.visit__details {
+			grid-column: 8 / -1;
+			grid-row: 1;
+			z-index: 1;
+		}
+
+		.map {
+			grid-column: 1 / span 9;
+			grid-row: 1;
+			aspect-ratio: 16 / 10;
 		}
 	}
 
 	.visit__details {
 		display: grid;
 		gap: var(--space-m);
+		padding: clamp(1.75rem, 3vw, 2.5rem);
+		border-radius: var(--bcp-radius-large);
+		background: color-mix(in srgb, var(--bcp-white) 92%, transparent);
 	}
 
 	.visit__item {
@@ -94,14 +112,11 @@ const Heading = headingLevel;
 	}
 
 	.visit__icon {
-		flex: none;
-		display: grid;
-		place-items: center;
-		width: 3rem;
-		height: 3rem;
-		border-radius: 50%;
-		background: var(--bcp-white);
-		color: var(--bcp-blue);
-		border: 2px solid var(--bcp-sand);
+		width: 3.25rem;
+		height: 3.25rem;
+	}
+
+	.map {
+		box-shadow: var(--shadow);
 	}
 </style>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Glows from '../components/Glows.astro';
 import BookBox from '../components/BookBox.astro';
 
 const staff = [
@@ -34,8 +35,9 @@ const staff = [
 
 <Layout title="About us" description="Bass Coast Podiatry opened in Wonthaggi in July 2007. Meet our podiatrists and administration team.">
 	<section class="page-hero">
-		<div class="container">
-			<h1>About Us</h1>
+		<Glows set="page" />
+		<div class="container container--wide">
+			<h1 class="reveal-lines">About Us</h1>
 		</div>
 	</section>
 
@@ -106,7 +108,7 @@ const staff = [
 	.staff__role {
 		color: var(--bcp-grey);
 		padding-bottom: var(--space-s);
-		border-bottom: 2px solid var(--bcp-sand);
+		border-bottom: 2px solid var(--bcp-sea);
 		display: inline-block;
 	}
 

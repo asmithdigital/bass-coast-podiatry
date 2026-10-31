@@ -1,13 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Glows from '../components/Glows.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import BookBox from '../components/BookBox.astro';
 ---
 
 <Layout title="FAQs" description="Answers to common questions about Bass Coast Podiatry, including referrals and rebates.">
 	<section class="page-hero">
-		<div class="container">
-			<h1>FAQs</h1>
+		<Glows set="page" />
+		<div class="container container--wide">
+			<h1 class="reveal-lines">FAQs</h1>
 		</div>
 	</section>
 

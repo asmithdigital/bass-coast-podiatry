@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
+import Glows from '../components/Glows.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
 import VisitUs from '../components/VisitUs.astro';
@@ -11,140 +12,346 @@ import heroImage from '../assets/images/footprints-beach.jpg';
 ---
 
 <Layout description="Bass Coast Podiatry in Wonthaggi has provided podiatry care since 2007. Open Monday to Friday. Call (03) 5672 2309.">
-	<section class="hero section--sand">
-		<div class="container hero__inner">
-			<div class="hero__text">
-				<h1>Podiatry care in Wonthaggi since 2007</h1>
-				<p class="hero__lead">
-					Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care.
-				</p>
-				<div class="btn-row">
-					<a class="btn" href={clinic.phoneHref}>
-						<Icon name="phone" />
-						Call {clinic.phone}
-					</a>
-					<a class="btn btn--outline" href={url('/contact/')}>Contact us</a>
+	<section class="hero">
+		<div class="container container--wide">
+			<div class="hero__intro">
+				<h1 class="reveal-lines">Podiatry care in Wonthaggi since 2007</h1>
+				<div class="hero__aside reveal">
+					<p class="hero__lead">
+						Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot
+						care.
+					</p>
+					<div class="btn-row">
+						<a class="btn btn--icon" href={clinic.phoneHref}>
+							<Icon name="phone" />
+							Call {clinic.phone}
+						</a>
+						<a class="btn btn--outline" href={url('/contact/')}>Contact us</a>
+					</div>
 				</div>
 			</div>
-			<div class="hero__media">
-				<Image
-					src={heroImage}
-					alt="Footprints in the sand along the water's edge at a beach."
-					widths={[480, 760, 1100]}
-					sizes="(min-width: 56rem) 34rem, 100vw"
-					loading="eager"
-					fetchpriority="high"
-				/>
+
+			<div class="hero__stage">
+				<Glows set="hero" />
+				<div class="hero__photo zoom-frame reveal">
+					<Image
+						src={heroImage}
+						alt="Footprints in the sand along the water's edge at a beach."
+						widths={[640, 1000, 1400, 1700]}
+						sizes="(min-width: 90rem) 64rem, (min-width: 64rem) 72vw, 100vw"
+						loading="eager"
+						fetchpriority="high"
+					/>
+				</div>
+				<div class="hero__cards">
+					<div class="hero-card glass reveal">
+						<span class="icon-circle"><Icon name="clock" size={28} /></span>
+						<p class="hero-card__label">Opening hours</p>
+						<p class="hero-card__value">Open Monday to Friday, 8:40 am to 5:30 pm</p>
+					</div>
+					<a class="hero-card hero-card--call glass reveal" href={clinic.phoneHref}>
+						<span class="icon-circle"><Icon name="phone" size={28} /></span>
+						<span class="hero-card__label">For all appointments</span>
+						<span class="hero-card__value">Call {clinic.phone}</span>
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="section" aria-labelledby="services-title">
-		<div class="container">
-			<div class="section-head reveal">
-				<h2 id="services-title">Our services</h2>
-				<p>All aspects of the profession are covered and no referral is needed to attend the clinic.</p>
+	<section class="section services" aria-labelledby="services-title">
+		<Glows set="centre" />
+		<div class="container container--wide above-glow">
+			<div class="section-head">
+				<h2 id="services-title" class="display reveal-lines">Our services</h2>
+				<p class="reveal">All aspects of the profession are covered and no referral is needed to attend the clinic.</p>
 			</div>
-			<ServiceCards />
+			<ServiceCards feature />
 		</div>
 	</section>
 
-	<section class="section section--mist" aria-labelledby="team-title">
-		<div class="container team reveal">
-			<div>
-				<h2 id="team-title">Meet the team</h2>
-				<p>
-					Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Kelly, Joshua Khoury and Angie Burgess. They are supported
-					by our administration team, Kate, Brooke and Kim.
+	<section class="section team" aria-labelledby="team-title">
+		<div class="container team__inner">
+			<h2 id="team-title" class="display reveal-lines">Meet the team</h2>
+			<div class="team__text reveal">
+				<p class="team__lead">
+					Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Kelly, Joshua Khoury and Angie Burgess. They are supported by our
+					administration team, Kate, Brooke and Kim.
 				</p>
 				<p><span class="check">[CHECK WITH CLIENT] Is this team list still current?</span></p>
+				<a class="btn btn--outline" href={url('/about-us/#team')}>Meet our team</a>
 			</div>
-			<a class="btn btn--outline" href={url('/about-us/#team')}>Meet our team</a>
 		</div>
 	</section>
 
-	<section class="section" aria-labelledby="claims-title">
-		<div class="container reveal">
-			<div class="section-head">
-				<h2 id="claims-title">Claims and rebates</h2>
-				<p>
+	<section class="section section--deep on-blue claims" aria-labelledby="claims-title">
+		<div class="container container--wide claims__inner">
+			<div>
+				<h2 id="claims-title" class="display reveal-lines">Claims and rebates</h2>
+				<p class="claims__text reveal">
 					Private health insurance rebates can be claimed on site through our electronic HICAPS facility. We also see patients through
 					Medicare, the Department of Veterans Affairs, TAC and WorkSafe.
 				</p>
 			</div>
-			<ClaimsBadges />
-			<a class="text-link" href={url('/claims-rebates/')}>
-				How claims and rebates work <Icon name="arrow" size={18} />
-			</a>
+			<div class="reveal">
+				<ClaimsBadges />
+				<a class="text-link" href={url('/claims-rebates/')}>
+					How claims and rebates work <Icon name="arrow" size={18} />
+				</a>
+			</div>
 		</div>
 	</section>
 
-	<section class="section section--sand" aria-labelledby="visit-title">
-		<div class="container">
-			<div class="section-head reveal">
-				<h2 id="visit-title">Hours and location</h2>
+	<section class="section visit-section" aria-labelledby="visit-title">
+		<Glows set="left" />
+		<div class="container container--wide above-glow">
+			<div class="section-head">
+				<h2 id="visit-title" class="display reveal-lines">Hours and location</h2>
 			</div>
 			<VisitUs />
 		</div>
 	</section>
 
-	<section class="section" aria-labelledby="faq-title">
-		<div class="container">
-			<div class="section-head reveal">
-				<h2 id="faq-title">Frequently asked questions</h2>
+	<section class="section faq" aria-labelledby="faq-title">
+		<div class="container faq__inner">
+			<div class="faq__head">
+				<h2 id="faq-title" class="display reveal-lines">Frequently asked questions</h2>
+				<a class="text-link reveal" href={url('/faqs/')}>
+					See all FAQs <Icon name="arrow" size={18} />
+				</a>
 			</div>
-			<FaqAccordion limit={3} />
-			<a class="text-link" href={url('/faqs/')}>
-				See all FAQs <Icon name="arrow" size={18} />
-			</a>
+			<div class="reveal">
+				<FaqAccordion limit={3} />
+			</div>
 		</div>
 	</section>
 </Layout>
 
 <style>
+	/* Hero */
+
 	.hero {
-		padding-block: clamp(2.5rem, 6vw, 5rem);
+		position: relative;
+		/* Clip the glows sideways only, so they still fade softly into the next section */
+		overflow-x: clip;
+		padding-block: clamp(2rem, 5vw, 4.5rem) clamp(4rem, 9vw, 7rem);
 	}
 
-	.hero__inner {
+	.hero__intro {
 		display: grid;
-		gap: var(--space-l);
-		align-items: center;
+		gap: var(--space-m) var(--space-l);
+		align-items: end;
+		margin-bottom: clamp(2rem, 5vw, 3.5rem);
 	}
 
-	@media (min-width: 56rem) {
-		.hero__inner {
-			grid-template-columns: 1.05fr 1fr;
+	@media (min-width: 64rem) {
+		.hero__intro {
+			grid-template-columns: 1.6fr 1fr;
 		}
+	}
+
+	.hero h1 {
+		max-width: 13ch;
+		margin: 0;
 	}
 
 	.hero__lead {
-		max-width: 34rem;
+		max-width: 30rem;
 		margin-bottom: var(--space-m);
 		font-size: 1.25rem;
+		color: var(--bcp-ink);
 	}
 
-	.hero__media img {
-		width: 100%;
-		aspect-ratio: 4 / 3;
-		object-fit: cover;
-		border-radius: var(--bcp-radius);
-		box-shadow: var(--shadow);
-	}
-
-	.team {
+	.hero__stage {
+		position: relative;
 		display: grid;
-		gap: var(--space-m);
-		align-items: center;
+		gap: var(--space-s);
 	}
 
-	.team p {
-		max-width: var(--width-text);
+	/* Glows sit behind the photo and cards, below the intro text */
+	.hero__stage :global(.glows) {
+		inset: 10% 0 -30%;
+	}
+
+	.hero__photo,
+	.hero__cards {
+		position: relative;
+		z-index: 1;
+	}
+
+	@media (min-width: 64rem) {
+		.hero__stage {
+			grid-template-columns: minmax(0, 1fr) 21rem;
+			gap: var(--space-m);
+		}
+	}
+
+	.hero__photo {
+		aspect-ratio: 4 / 3;
+		box-shadow: var(--shadow-lift);
+	}
+
+	@media (min-width: 40rem) {
+		.hero__photo {
+			aspect-ratio: 16 / 9;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.hero__photo {
+			aspect-ratio: auto;
+			height: clamp(28rem, 42vw, 38rem);
+		}
+	}
+
+	.hero__cards {
+		display: grid;
+		gap: var(--space-s);
+	}
+
+	/* Phones: the cards overlap the bottom of the photo */
+	@media (max-width: 63.99rem) {
+		.hero__cards {
+			position: relative;
+			margin: -3.5rem var(--space-s) 0;
+		}
+	}
+
+	@media (min-width: 40rem) and (max-width: 63.99rem) {
+		.hero__cards {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.hero__cards {
+			grid-template-rows: 1fr 1fr;
+			gap: var(--space-m);
+		}
+	}
+
+	.hero-card {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 0.25rem;
+		padding: clamp(1.5rem, 2.5vw, 2rem);
+		border-radius: var(--bcp-radius-large);
+		color: var(--bcp-ink);
+		text-decoration: none;
+		background: color-mix(in srgb, var(--bcp-white) 88%, transparent);
+	}
+
+	.hero-card .icon-circle {
+		width: 3.5rem;
+		height: 3.5rem;
+		margin-bottom: var(--space-s);
+	}
+
+	.hero-card p {
+		margin: 0;
+	}
+
+	.hero-card__label {
+		margin-top: auto;
+	}
+
+	.hero-card__label {
+		color: var(--bcp-grey);
+		font-size: 1rem;
+	}
+
+	.hero-card__value {
+		color: var(--bcp-blue);
+		font-size: clamp(1.25rem, 1rem + 0.8vw, 1.5rem);
+		font-weight: var(--bcp-weight-heading);
+		line-height: 1.3;
+	}
+
+	.hero-card--call {
+		translate: 0 0;
+		transition: translate 0.5s var(--ease), box-shadow 0.5s var(--ease);
+	}
+
+	.hero-card--call:hover {
+		translate: 0 -4px;
+		box-shadow: var(--shadow-lift);
+	}
+
+	.hero-card--call:hover .hero-card__value {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	/* Team: a large heading beside the text, no boxes */
+
+	.team__inner {
+		display: grid;
+		gap: var(--space-m) var(--space-xl);
 	}
 
 	@media (min-width: 56rem) {
-		.team {
-			grid-template-columns: 1fr auto;
+		.team__inner {
+			grid-template-columns: 1fr 1.2fr;
+			align-items: start;
 		}
+	}
+
+	.team__lead {
+		font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.625rem);
+		line-height: 1.55;
+		color: var(--bcp-ink);
+	}
+
+	.team__text .btn {
+		margin-top: var(--space-s);
+	}
+
+	/* Claims: full width deep blue */
+
+	.claims__inner {
+		display: grid;
+		gap: var(--space-l) var(--space-xl);
+		align-items: end;
+	}
+
+	@media (min-width: 56rem) {
+		.claims__inner {
+			grid-template-columns: 1.2fr 1fr;
+		}
+	}
+
+	.claims__text {
+		max-width: 36rem;
+		margin: 0;
+		font-size: 1.25rem;
+		color: color-mix(in srgb, var(--bcp-white) 88%, transparent);
+	}
+
+	/* FAQ: heading on the left, questions on the right */
+
+	.faq__inner {
+		display: grid;
+		gap: var(--space-l) var(--space-xl);
+	}
+
+	@media (min-width: 56rem) {
+		.faq__inner {
+			grid-template-columns: 1fr 1.4fr;
+			align-items: start;
+		}
+
+		.faq__head {
+			position: sticky;
+			top: 7rem;
+		}
+	}
+
+	.faq__head h2 {
+		margin-bottom: var(--space-m);
+	}
+
+	.faq :global(.accordion) {
+		max-width: none;
 	}
 </style>

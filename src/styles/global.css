@@ -1,17 +1,26 @@
 @import './brand.css';
+@import './tokens.css';
 
-/* Layout tokens. Colours, font and radius all come from brand.css. */
+/* Layout tokens. Colours, font and radius come from brand.css and tokens.css. */
 :root {
 	--space-xs: 0.5rem;
 	--space-s: 1rem;
 	--space-m: 1.5rem;
 	--space-l: 2.5rem;
-	--space-xl: clamp(3.5rem, 8vw, 6rem);
-	--width: 72rem;
-	--width-text: 42rem;
-	--gutter: 1.25rem;
-	--shadow: 0 1px 2px color-mix(in srgb, var(--bcp-ink) 6%, transparent), 0 8px 24px color-mix(in srgb, var(--bcp-ink) 6%, transparent);
-	--border: 1px solid color-mix(in srgb, var(--bcp-blue) 14%, transparent);
+	--space-xl: clamp(4.5rem, 10vw, 8.5rem);
+	--width: 80rem;
+	--width-wide: 90rem;
+	--width-text: 44rem;
+	--gutter: clamp(1rem, 4vw, 2.5rem);
+	--shadow: 0 1px 2px color-mix(in srgb, var(--bcp-deep) 5%, transparent),
+		0 12px 40px color-mix(in srgb, var(--bcp-deep) 9%, transparent);
+	--shadow-lift: 0 2px 4px color-mix(in srgb, var(--bcp-deep) 6%, transparent),
+		0 24px 56px color-mix(in srgb, var(--bcp-deep) 14%, transparent);
+	--border: 1px solid color-mix(in srgb, var(--bcp-blue) 12%, transparent);
+	--glass: color-mix(in srgb, var(--bcp-white) 76%, transparent);
+	--glass-border: 1px solid color-mix(in srgb, var(--bcp-white) 80%, transparent);
+	--tint: color-mix(in srgb, var(--bcp-sea) 22%, var(--bcp-white));
+	--ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *,
@@ -22,7 +31,7 @@
 
 html {
 	-webkit-text-size-adjust: 100%;
-	scroll-padding-top: 6rem;
+	scroll-padding-top: 7rem;
 }
 
 body {
@@ -33,7 +42,7 @@ body {
 	font-weight: var(--bcp-weight-text);
 	font-size: 1.125rem;
 	line-height: 1.7;
-	overflow-x: hidden;
+	overflow-x: clip;
 }
 
 img,
@@ -53,18 +62,21 @@ h3,
 h4 {
 	color: var(--bcp-blue);
 	font-weight: var(--bcp-weight-heading);
-	line-height: 1.25;
+	line-height: 1.2;
 	margin: 0 0 var(--space-s);
 	text-wrap: balance;
 }
 
+/* 38 to 42px on phones, 64 to 80px on desktop */
 h1 {
-	font-size: clamp(2.125rem, 5vw, 3.25rem);
-	letter-spacing: -0.01em;
+	font-size: clamp(2.375rem, 1.5rem + 4.6vw, 4.75rem);
+	line-height: 1.06;
+	letter-spacing: -0.025em;
 }
 
 h2 {
-	font-size: clamp(1.625rem, 3.4vw, 2.25rem);
+	font-size: clamp(1.75rem, 1.3rem + 2vw, 2.5rem);
+	letter-spacing: -0.015em;
 }
 
 h3 {
@@ -73,6 +85,15 @@ h3 {
 
 h4 {
 	font-size: 1.1875rem;
+}
+
+/* Large, light section headings */
+.display {
+	font-size: clamp(2.25rem, 1.4rem + 3.8vw, 4.25rem);
+	font-weight: var(--bcp-weight-text);
+	line-height: 1.08;
+	letter-spacing: -0.025em;
+	margin-bottom: var(--space-m);
 }
 
 p,
@@ -94,7 +115,7 @@ a:hover {
 :focus-visible {
 	outline: 3px solid var(--bcp-blue);
 	outline-offset: 3px;
-	border-radius: 4px;
+	border-radius: 6px;
 }
 
 .on-blue :focus-visible,
@@ -138,25 +159,44 @@ a:hover {
 	padding-inline: var(--gutter);
 }
 
-.section {
-	padding-block: var(--space-xl);
+.container--wide {
+	max-width: calc(var(--width-wide) + var(--gutter) * 2);
 }
 
-.section--sand {
-	background: var(--bcp-sand-light);
+.section {
+	position: relative;
+	padding-block: var(--space-xl);
 }
 
 .section--mist {
 	background: var(--bcp-mist);
 }
 
+/* Full width deep blue section for contrast */
+.section--deep {
+	background: var(--bcp-deep);
+	color: var(--bcp-white);
+}
+
+.section--deep h2,
+.section--deep h3,
+.section--deep a:not(.btn) {
+	color: var(--bcp-white);
+}
+
 .section-head {
-	max-width: var(--width-text);
-	margin-bottom: var(--space-l);
+	max-width: 56rem;
+	margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .section-head p {
+	max-width: var(--width-text);
 	color: var(--bcp-grey);
+	font-size: 1.25rem;
+}
+
+.section--deep .section-head p {
+	color: color-mix(in srgb, var(--bcp-white) 85%, transparent);
 }
 
 .prose {
@@ -165,7 +205,7 @@ a:hover {
 
 .prose h2 {
 	margin-top: var(--space-l);
-	font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+	font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
 }
 
 .prose ul {
@@ -180,33 +220,114 @@ a:hover {
 	color: var(--bcp-blue);
 }
 
+/* Inner page header: large heading on white with a glow off to the side */
 .page-hero {
-	padding-block: var(--space-xl) var(--space-l);
-	background: var(--bcp-mist);
+	position: relative;
+	padding-block: clamp(3rem, 8vw, 6.5rem) clamp(2.5rem, 5vw, 4rem);
+	overflow: clip;
+}
+
+.page-hero .container {
+	position: relative;
+}
+
+.page-hero h1 {
+	max-width: 20ch;
 }
 
 .page-hero p {
 	max-width: var(--width-text);
 	color: var(--bcp-grey);
+	font-size: 1.25rem;
 	margin: 0;
 }
 
 .eyebrow {
 	display: inline-block;
-	margin-bottom: var(--space-xs);
+	margin-bottom: var(--space-s);
 	color: var(--bcp-grey);
 	font-size: 1rem;
+	letter-spacing: 0.02em;
+}
+
+/* Colour glows: soft, blurred shapes that drift very slowly behind content.
+   Text never sits directly on them; it sits on white, a card or the deep blue section. */
+
+.glows {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: clip;
+	pointer-events: none;
+	/* Fade out at the top and bottom so a glow never ends in a hard line */
+	-webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+	mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+}
+
+.glow {
+	position: absolute;
+	width: var(--size, 40rem);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: radial-gradient(circle at center, var(--glow-colour) 0%, transparent 68%);
+	opacity: var(--glow-opacity, 0.55);
+	filter: blur(30px);
+	will-change: transform;
+}
+
+.glow--sea {
+	--glow-colour: var(--bcp-sea);
+}
+
+.glow--blue {
+	--glow-colour: color-mix(in srgb, var(--bcp-blue) 70%, var(--bcp-sea));
+	--glow-opacity: 0.32;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.glow {
+		animation: drift var(--drift, 38s) ease-in-out infinite alternate;
+	}
+
+	.glow:nth-child(2) {
+		animation-duration: 46s;
+		animation-delay: -12s;
+	}
+
+	.glow:nth-child(3) {
+		animation-duration: 54s;
+		animation-delay: -24s;
+	}
+}
+
+@keyframes drift {
+	0% {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	50% {
+		transform: translate3d(6%, -5%, 0) scale(1.08);
+	}
+	100% {
+		transform: translate3d(-5%, 4%, 0) scale(0.96);
+	}
+}
+
+/* Content sits above the glows */
+.above-glow {
+	position: relative;
+	z-index: 1;
 }
 
 /* Buttons */
 
 .btn {
+	--arrow-shift: 0;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 0.5rem;
-	min-height: 3.25rem;
-	padding: 0.75rem 1.5rem;
+	gap: 0.6rem;
+	min-height: 3.5rem;
+	padding: 0.85rem 1.6rem;
 	border: 2px solid var(--bcp-blue);
 	border-radius: var(--bcp-radius-button);
 	background: var(--bcp-blue);
@@ -216,16 +337,31 @@ a:hover {
 	line-height: 1.2;
 	text-decoration: none;
 	cursor: pointer;
-	transition: background-color 0.2s, color 0.2s;
+	transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+/* Small arrow that moves on hover. Buttons with their own icon (such as Call) skip it. */
+.btn:not(.btn--icon)::after {
+	content: '';
+	width: 1.1rem;
+	height: 1.1rem;
+	flex: none;
+	background: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+	transform: translateX(var(--arrow-shift));
+	transition: transform 0.3s var(--ease);
 }
 
 .btn:hover {
-	background: var(--bcp-ink);
-	border-color: var(--bcp-ink);
+	--arrow-shift: 4px;
+	background: var(--bcp-deep);
+	border-color: var(--bcp-deep);
+	box-shadow: 0 10px 24px color-mix(in srgb, var(--bcp-blue) 25%, transparent);
 }
 
 .btn--outline {
-	background: transparent;
+	background: color-mix(in srgb, var(--bcp-white) 70%, transparent);
 	color: var(--bcp-blue);
 }
 
@@ -242,8 +378,20 @@ a:hover {
 }
 
 .btn--white:hover {
-	background: var(--bcp-sand-light);
-	border-color: var(--bcp-sand-light);
+	background: var(--tint);
+	border-color: var(--tint);
+	color: var(--bcp-deep);
+}
+
+.btn--ghost-white {
+	background: transparent;
+	border-color: color-mix(in srgb, var(--bcp-white) 60%, transparent);
+	color: var(--bcp-white);
+}
+
+.btn--ghost-white:hover {
+	background: var(--bcp-white);
+	border-color: var(--bcp-white);
 	color: var(--bcp-blue);
 }
 
@@ -262,21 +410,46 @@ a:hover {
 /* Link with an arrow */
 
 .text-link {
+	--arrow-shift: 0;
 	display: inline-flex;
 	align-items: center;
 	gap: 0.4rem;
 	font-weight: var(--bcp-weight-heading);
 }
 
+.text-link svg {
+	transform: translateX(var(--arrow-shift));
+	transition: transform 0.3s var(--ease);
+}
+
+.text-link:hover {
+	--arrow-shift: 4px;
+}
+
 /* Cards */
 
 .card {
 	position: relative;
-	padding: var(--space-m);
+	padding: clamp(1.5rem, 3vw, 2.25rem);
 	background: var(--bcp-white);
 	border: var(--border);
 	border-radius: var(--bcp-radius);
 	box-shadow: var(--shadow);
+}
+
+/* Frosted glass card for use over the glows. The fill is strong enough that text keeps full contrast. */
+.glass {
+	background: var(--glass);
+	border: var(--glass-border);
+	-webkit-backdrop-filter: blur(18px) saturate(140%);
+	backdrop-filter: blur(18px) saturate(140%);
+	box-shadow: var(--shadow);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.glass {
+		background: color-mix(in srgb, var(--bcp-white) 94%, transparent);
+	}
 }
 
 .card h3 {
@@ -287,9 +460,21 @@ a:hover {
 	margin-bottom: 0;
 }
 
+.icon-circle {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 4.25rem;
+	height: 4.25rem;
+	border-radius: 50%;
+	background: var(--tint);
+	color: var(--bcp-blue);
+	transition: transform 0.5s var(--ease);
+}
+
 .grid {
 	display: grid;
-	gap: var(--space-m);
+	gap: clamp(1rem, 2vw, 1.5rem);
 }
 
 @media (min-width: 40rem) {
@@ -310,7 +495,7 @@ a:hover {
 .badges {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--space-xs);
+	gap: 0.75rem;
 	padding: 0;
 	margin: 0 0 var(--space-m);
 	list-style: none;
@@ -319,12 +504,20 @@ a:hover {
 .badge {
 	display: inline-flex;
 	align-items: center;
-	padding: 0.4rem 1rem;
-	border: 2px solid var(--bcp-sand);
+	padding: 0.55rem 1.25rem;
+	border: 1px solid color-mix(in srgb, var(--bcp-blue) 25%, transparent);
 	border-radius: var(--bcp-radius-button);
 	background: var(--bcp-white);
 	color: var(--bcp-blue);
 	font-weight: var(--bcp-weight-heading);
+}
+
+.section--deep .badge {
+	border-color: color-mix(in srgb, var(--bcp-white) 45%, transparent);
+	background: transparent;
+	color: var(--bcp-white);
+	font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+	padding: 0.7rem 1.6rem;
 }
 
 /* Accordion */
@@ -340,6 +533,7 @@ a:hover {
 	background: var(--bcp-white);
 	border: var(--border);
 	border-radius: var(--bcp-radius);
+	box-shadow: var(--shadow);
 }
 
 .accordion summary {
@@ -347,9 +541,10 @@ a:hover {
 	justify-content: space-between;
 	align-items: center;
 	gap: var(--space-s);
-	padding: var(--space-s) var(--space-m);
+	padding: 1.25rem var(--space-m);
 	color: var(--bcp-blue);
 	font-weight: var(--bcp-weight-heading);
+	font-size: 1.1875rem;
 	cursor: pointer;
 	list-style: none;
 }
@@ -363,16 +558,18 @@ a:hover {
 	flex: none;
 	display: grid;
 	place-items: center;
-	width: 2rem;
-	height: 2rem;
+	width: 2.25rem;
+	height: 2.25rem;
 	border-radius: 50%;
-	background: var(--bcp-sand-light);
+	background: var(--tint);
 	font-size: 1.25rem;
 	line-height: 1;
+	transition: transform 0.3s var(--ease);
 }
 
 .accordion details[open] summary::after {
 	content: '\2212';
+	transform: rotate(180deg);
 }
 
 .accordion .answer {
@@ -385,26 +582,11 @@ a:hover {
 	width: 100%;
 	aspect-ratio: 4 / 3;
 	border: 0;
-	border-radius: var(--bcp-radius);
+	border-radius: var(--bcp-radius-large);
 	background: var(--bcp-mist);
 }
 
 /* Contact details list */
-
-.details {
-	display: grid;
-	gap: var(--space-m);
-	margin: 0 0 var(--space-m);
-}
-
-.details dt {
-	color: var(--bcp-blue);
-	font-weight: var(--bcp-weight-heading);
-}
-
-.details dd {
-	margin: 0;
-}
 
 .hours {
 	margin: 0;
@@ -425,9 +607,9 @@ a:hover {
 
 .check {
 	padding: var(--space-s) var(--space-m);
-	border-left: 4px solid var(--bcp-sand);
+	border-left: 4px solid var(--bcp-blue);
 	border-radius: 0 var(--bcp-radius) var(--bcp-radius) 0;
-	background: var(--bcp-sand-light);
+	background: var(--bcp-mist);
 	color: var(--bcp-ink);
 	font-size: 1rem;
 }
@@ -458,13 +640,14 @@ span.check {
 
 .input {
 	width: 100%;
-	min-height: 3.25rem;
-	padding: 0.75rem 1rem;
-	border: 1px solid var(--bcp-grey);
-	border-radius: calc(var(--bcp-radius) / 1.75);
+	min-height: 3.5rem;
+	padding: 0.75rem 1.1rem;
+	border: 1px solid color-mix(in srgb, var(--bcp-grey) 70%, transparent);
+	border-radius: calc(var(--bcp-radius) / 1.4);
 	background: var(--bcp-white);
 	color: var(--bcp-ink);
 	font: inherit;
+	transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 textarea.input {
@@ -475,20 +658,65 @@ textarea.input {
 .input:focus-visible {
 	outline-offset: 1px;
 	border-color: var(--bcp-blue);
+	box-shadow: 0 0 0 5px color-mix(in srgb, var(--bcp-sea) 35%, transparent);
 }
 
-/* Fade in on scroll. Only applies when JavaScript runs and the visitor allows motion. */
+/* Image that zooms gently on hover inside a rounded frame */
+.zoom-frame {
+	overflow: hidden;
+	border-radius: var(--bcp-radius-large);
+}
+
+.zoom-frame img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 1.2s var(--ease);
+}
+
+/* Motion. Only applies when JavaScript runs and the visitor allows motion. */
 
 @media (prefers-reduced-motion: no-preference) {
 	.js .reveal {
 		opacity: 0;
-		transform: translateY(16px);
-		transition: opacity 0.7s ease, transform 0.7s ease;
+		transform: translateY(24px);
+		transition: opacity 0.9s var(--ease), transform 0.9s var(--ease), translate 0.5s var(--ease), box-shadow 0.5s var(--ease);
 	}
 
 	.js .reveal.is-visible {
 		opacity: 1;
 		transform: none;
+	}
+
+	/* Headings split into lines by the script in Layout.astro */
+	.line {
+		display: block;
+		overflow: hidden;
+		padding-bottom: 0.08em;
+		margin-bottom: -0.08em;
+	}
+
+	.line__inner {
+		display: block;
+		transform: translateY(105%);
+		transition: transform 0.9s var(--ease);
+		transition-delay: calc(var(--i, 0) * 110ms);
+	}
+
+	.reveal-lines.is-visible .line__inner {
+		transform: none;
+	}
+
+	/* Hide line reveal headings for the moment before they are split, so they do not flash */
+	.js .reveal-lines:not(.is-split):not(.is-visible) {
+		opacity: 0;
+	}
+
+	.zoom-frame:hover img,
+	a:hover .zoom-frame img,
+	.card:hover .zoom-frame img,
+	.service-card:hover .zoom-frame img {
+		transform: scale(1.04);
 	}
 }
 
@@ -496,6 +724,6 @@ textarea.input {
 
 @media (max-width: 47.99rem) {
 	body {
-		padding-bottom: 5rem;
+		padding-bottom: 5.5rem;
 	}
 }

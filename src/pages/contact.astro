@@ -1,13 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Glows from '../components/Glows.astro';
 import VisitUs from '../components/VisitUs.astro';
 import { clinic } from '../data/site';
 ---
 
 <Layout title="Contact" description="Call Bass Coast Podiatry on (03) 5672 2309 or send us a message. 182 Graham Street, Wonthaggi.">
 	<section class="page-hero">
-		<div class="container">
-			<h1>Contact</h1>
+		<Glows set="page" />
+		<div class="container container--wide">
+			<h1 class="reveal-lines">Contact</h1>
 			<p>For all appointments, call us today on <a href={clinic.phoneHref}>{clinic.phone}</a>.</p>
 		</div>
 	</section>
@@ -26,7 +28,7 @@ import { clinic } from '../data/site';
 				[CHECK WITH CLIENT] This form uses Formspree with a placeholder form ID ({clinic.formspreeId}), so it will not send yet. Which email
 				address should messages go to?
 			</p>
-			<form class="card" action={`https://formspree.io/f/${clinic.formspreeId}`} method="POST">
+			<form class="card" data-astro-reload action={`https://formspree.io/f/${clinic.formspreeId}`} method="POST">
 				<div class="field">
 					<label for="name">Your name</label>
 					<input class="input" id="name" name="name" type="text" autocomplete="name" required />

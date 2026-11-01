@@ -95,7 +95,7 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
 2. Hero, a bento layout based on commit `c659857` (the demophorius.com reference): no full width background photo.
    - Desktop: the hero fills exactly the screen below the header (100svh minus 6rem), so only the bento group shows on load and Our
-     services is always below the fold. The group is centred, about 72% of the hero's height (25rem to 50rem) and at most 1400px wide.
+     services is always below the fold. The group is centred and at most 1400px wide. Its height is set by the two right cards' content (the white card fits its content with 32px padding all round), with a 24rem minimum; the photo card matches it.
      The right column is about a quarter of the width (17.5rem to 22rem); the white card's text and spacing follow the screen height.
    - Scroll cue: a small mouse centred near the bottom of the hero that gently bobs (still with reduce motion), scrolls smoothly to
      Our services on click and fades out once the visitor scrolls. Hidden on phones and tablets, where the hero can be taller.

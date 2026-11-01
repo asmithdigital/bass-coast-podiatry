@@ -192,7 +192,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 <style>
 	/* Hero: on desktop it fills exactly the screen below the header, so only the three bento cards show on load.
 	   The bento group (photo card on the left, white Visit us card above the blue Claims card on the right) sits
-	   in the middle, about 72% of the hero's height and at most 1400px wide. Hover is the shared frame effect. */
+	   in the middle, as tall as the two right cards' content and at most 1400px wide. Hover is the shared frame effect. */
 
 	.hero {
 		--header-h: 4.75rem;
@@ -218,7 +218,8 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		.hero__grid {
 			grid-template-columns: minmax(0, 1fr) clamp(17.5rem, 24%, 22rem);
 			max-width: calc(87.5rem + var(--gutter) * 2);
-			height: clamp(25rem, calc((100svh - var(--header-h)) * 0.72), 50rem);
+			/* The two right cards set the group's height; the minimum stops it looking squashed on small laptops */
+			min-height: 24rem;
 		}
 	}
 
@@ -319,7 +320,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 	@media (min-width: 64rem) {
 		.hero__side {
-			grid-template-rows: minmax(0, 1fr) auto;
+			grid-template-rows: 1fr auto;
 		}
 	}
 
@@ -340,7 +341,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	@media (min-width: 64rem) {
 		.hcard {
 			gap: clamp(0.6rem, 1.8vh, 1.4rem);
-			padding: clamp(1rem, 2.6vh, 2rem) clamp(1.1rem, 1.6vw, 1.75rem);
+			padding: 2rem;
 			font-size: clamp(0.9375rem, 0.7rem + 0.55vh, 1.125rem);
 		}
 	}

@@ -49,6 +49,30 @@ Skipped on purpose:
 - The old logo (`bass-coast-podiatry-logo.jpg`)
 - Partner logos: `worksafe.jpg`, `tac.jpg`, `sportsmed.jpg`, `medicare.jpg`, `hicaps.jpg`, `gov.jpg`, `apc.jpg`, `ahpra.jpg`, `aapsm.jpg`. Names are written as text instead.
 
+## Partner and membership logos (added in design round 3)
+
+Downloaded from the old site to `content/logos/` (all small JPEGs, 75px tall) and copied to `src/assets/logos/`.
+Shown in one muted greyscale row on the home page, About and Claims and rebates. Set in `partners` in `src/data/site.ts`.
+
+| Organisation | Old file | Shown as | Notes |
+| --- | --- | --- | --- |
+| Medicare | `medicare.jpg` | Text tile | Medicare's name and logo are protected under Commonwealth law. Reported guidance is to use the word Medicare in a sentence, not the logo. |
+| DVA | `gov.jpg` | Text tile | DVA says it will not approve its logo on commercial websites. The file also carries the Commonwealth Coat of Arms, which needs permission from PM&C. |
+| HICAPS | `hicaps.jpg` | Logo | No public logo download for providers found. |
+| TAC | `tac.jpg` | Logo | No public logo download for providers found. |
+| WorkSafe | `worksafe.jpg` | Text tile | WorkSafe Victoria's brand guidelines say other organisations may not use the logo without a contract. |
+| Sports Medicine Australia | `sportsmed.jpg` | Logo | Membership logo. |
+| APC | `apc.jpg` | Logo | This is the old Australasian Podiatry Council logo. The body has since changed its name, so this logo is out of date. |
+| AAPSM | `aapsm.jpg` | Logo | Membership logo. |
+| AHPRA | `ahpra.jpg` | Not used | AHPRA asks practitioners not to use its logo. Registration is mentioned in text instead. |
+
+**[CHECK WITH CLIENT]** Please confirm the practice is entitled to use each logo shown, and whether it has permission for Medicare, DVA or
+WorkSafe. Each of those can be switched to its logo with `showLogo: true` once permission is in writing. Higher quality official files
+should be requested from each organisation; none of them offers a public download for providers that I could find.
+
+**[CHECK WITH CLIENT]** New sentence on the site: "Our podiatrists are registered with the Podiatry Board of Australia through AHPRA."
+Please confirm it is accurate for every podiatrist.
+
 ## Problems found on the current site
 
 ### Broken or poor links
@@ -121,7 +145,7 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 
 - "Work Cover" became "WorkCover".
 - "Meet our Staff" section now has an anchor (`#team`) so the home page can link to it.
-- New section "Professional memberships" lists the names from the old partner logos as text, with a check note.
+- The old partner logos now appear in a logo row (see "Partner and membership logos" above), replacing the round 1 "Professional memberships" text.
 
 ### FAQs
 
@@ -133,6 +157,14 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 - "For all appointments" and "Call us today." were joined: "For all appointments, call us today on (03) 5672 2309."
 - New short text for the form: "Fill in the form and our administration team will get back to you. For urgent foot care, please call us." and the field hint "Let us know if you would like an appointment and what times suit you."
 - Formspree form ID is a placeholder. **[CHECK WITH CLIENT]** Which email address should get the messages?
+
+### Design round 3 additions
+
+- Home hero card: "Visit us", with today's hours worked out in Wonthaggi time ("Open today, 8:40 am to 5:30 pm" or "Closed today").
+- Quick actions: "Call us", "Get directions", "Send a message" ("We will get back to you"), "Claims and rebates" ("Medicare, DVA, HICAPS and more").
+- About: new heading "Our clinic" over the existing clinic text. "Meet our Staff" and "Our Administration team" are now cards.
+- Contact panel and Contact page share one form. Field hint and button text unchanged.
+- "Photo to come" labels on placeholders.
 
 ### Booking box (all service pages, Services, About, Claims, FAQs)
 
@@ -148,5 +180,7 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 6. Laser: success rates and "permanent cure" against AHPRA rules; where the post procedure information lives.
 7. Visiting Pedorthist: which pedorthist, how often, more detail.
 8. FAQs: two new questions, and any others patients ask.
-9. Contact: Formspree form ID and destination email.
-10. Not shown on the site: WorkCover or WorkSafe wording, and the stock photo licence.
+9. Contact: Formspree form ID and destination email (Contact page and the contact panel).
+10. Logos: entitlement to use each one, and the AHPRA registration sentence.
+11. About: staff photos for the placeholders. Prescription Orthotic Therapy: a photo for the placeholder.
+12. Not shown on the site: WorkCover or WorkSafe wording, and the stock photo licence.

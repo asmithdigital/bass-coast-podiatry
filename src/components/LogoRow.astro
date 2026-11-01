@@ -68,8 +68,8 @@ const logoFor = (file: string) => files[`../assets/logos/${file}`]?.default;
 		max-width: 100%;
 		max-height: 3.25rem;
 		/* Muted: greyscale, and the white JPEG background blends into the white tile */
-		filter: grayscale(1) contrast(1.05);
-		opacity: 0.75;
+		filter: grayscale(1) contrast(1.25) brightness(0.9);
+		opacity: 0.9;
 		mix-blend-mode: multiply;
 		transition: filter 0.4s var(--ease), opacity 0.4s var(--ease);
 	}

@@ -3,9 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
 import Icon from '../components/Icon.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
+import QuickActions from '../components/QuickActions.astro';
+import LogoRow from '../components/LogoRow.astro';
+import { Image } from 'astro:assets';
+import heroImage from '../assets/images/footprints-beach.jpg';
 import brandCss from '../styles/brand.css?raw';
 import tokensCss from '../styles/tokens.css?raw';
-import { url } from '../data/site';
+import { clinic, url } from '../data/site';
 
 // Read the tokens straight from brand.css and tokens.css so this page always matches them.
 const tokens = Object.fromEntries(
@@ -20,7 +24,7 @@ const colours = [
 	{ token: 'bcp-sea', name: 'Sea cyan', use: 'Glows, soft tints behind icons and focus rings. Never for text.' },
 	{ token: 'bcp-ink', name: 'Ink', use: 'Body text.' },
 	{ token: 'bcp-grey', name: 'Grey', use: 'Secondary text, such as intros and labels.' },
-	{ token: 'bcp-sand', name: 'Sand', use: 'The logo arch and one small accent: the current page marker in the menu.' },
+	{ token: 'bcp-sand', name: 'Sand', use: 'The logo arch, the current page marker in the menu, and warm light near the bottom of the home hero.' },
 	{ token: 'bcp-sand-light', name: 'Light sand', use: 'In the brand pack, but no longer used for backgrounds on the website.' },
 ];
 
@@ -33,8 +37,27 @@ const logos = [
 	{ file: 'bcp-icon-white', label: 'Icon, white', dark: true },
 ];
 
+const iconNames = [
+	'general',
+	'laser',
+	'biomechanics',
+	'children',
+	'surgery',
+	'orthotics',
+	'diabetes',
+	'footwear',
+	'phone',
+	'pin',
+	'clock',
+	'directions',
+	'message',
+	'claims',
+	'person',
+	'photo',
+] as const;
+
 const typeScale = [
-	{ tag: 'h1', label: 'Heading 1', spec: 'Lexend Medium, 38px on phones to 76px on desktop' },
+	{ tag: 'h1', label: 'Heading 1 (home hero: up to 100px, white)', spec: 'Lexend Medium, 38px on phones to 76px on desktop' },
 	{ tag: 'display', label: 'Section heading', spec: 'Lexend Regular, 36 to 68px, reveals line by line' },
 	{ tag: 'h2', label: 'Heading 2', spec: 'Lexend Medium, 28 to 40px' },
 	{ tag: 'h3', label: 'Heading 3', spec: 'Lexend Medium, 22px' },
@@ -234,6 +257,72 @@ const typeScale = [
 		</div>
 	</section>
 
+	<section class="section" aria-labelledby="icons-title">
+		<div class="container container--wide">
+			<h2 id="icons-title">Icons</h2>
+			<p class="sg-intro">
+				One set throughout: Lucide, at a 1.75 stroke, in soft Sea cyan tinted circles. Icons sit beside a text label and are hidden from
+				screen readers.
+			</p>
+			<ul class="sg-icons" role="list">
+				{
+					iconNames.map((n) => (
+						<li>
+							<span class="icon-circle"><Icon name={n} size={30} /></span>
+							<code>{n}</code>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section section--mist" aria-labelledby="hero-title">
+		<div class="container container--wide">
+			<h2 id="hero-title">Home hero and quick actions</h2>
+			<p class="sg-intro">
+				The photo fills the hero. An Ocean blue glass veil is deepest on the left, where the white text sits, with warm sand light near the
+				bottom. The frosted Visit us card shows today's hours. Four quick actions sit just below.
+			</p>
+		</div>
+		<div class="sg-hero on-blue">
+			<Image class="sg-hero__bg" src={heroImage} alt="" widths={[800, 1400]} sizes="100vw" />
+			<div class="sg-hero__veil" aria-hidden="true"></div>
+			<div class="container container--wide sg-hero__inner">
+				<p class="sg-hero__title">Large white headline</p>
+				<div class="sg-hero__card glass">
+					<p class="sg-hero__card-title">Visit us</p>
+					<p>Open today, {clinic.openTime} to {clinic.closeTime}</p>
+				</div>
+			</div>
+		</div>
+		<QuickActions />
+	</section>
+
+	<section class="section" aria-labelledby="panel-title">
+		<div class="container container--wide">
+			<h2 id="panel-title">Contact panel</h2>
+			<p class="sg-intro">
+				Any link with <code>data-contact</code> opens the full screen contact panel: an Ocean blue circle grows from the link and fills
+				the screen in about 700ms, then the form, phone, hours, address and map fade in. It closes with the X button, Escape or the back
+				button, keeps focus inside while open and returns focus to the link. With reduce motion on, it simply fades in. Without
+				JavaScript the link goes to the Contact page.
+			</p>
+			<a class="btn" href={url('/contact/#message')} data-contact>Try the contact panel</a>
+		</div>
+	</section>
+
+	<section class="section section--mist" aria-labelledby="logo-row-title">
+		<div class="container container--wide">
+			<h2 id="logo-row-title">Logo row</h2>
+			<p class="sg-intro">
+				Partner and membership logos in one muted greyscale style, turning to colour on hover. Logos not yet cleared for use show as
+				matching text tiles. The AHPRA logo is never used.
+			</p>
+			<LogoRow />
+		</div>
+	</section>
+
 	<section class="section section--mist" aria-labelledby="forms-title">
 		<div class="container">
 			<h2 id="forms-title">Form fields</h2>
@@ -327,6 +416,83 @@ const typeScale = [
 		margin-bottom: var(--space-xs);
 		color: var(--bcp-grey);
 		font-size: 1rem;
+	}
+
+	.sg-icons {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+		gap: var(--space-m);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.sg-icons li {
+		display: grid;
+		justify-items: center;
+		gap: 0.5rem;
+	}
+
+	.sg-hero {
+		position: relative;
+		overflow: clip;
+		margin-bottom: var(--space-m);
+		padding-block: var(--space-xl) calc(var(--space-xl) + 2rem);
+		background: var(--bcp-deep);
+		color: var(--bcp-white);
+	}
+
+	.sg-hero__bg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.sg-hero__veil {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--bcp-deep) 92%, transparent) 0%,
+			color-mix(in srgb, var(--bcp-deep) 80%, transparent) 40%,
+			color-mix(in srgb, var(--bcp-blue) 25%, transparent) 100%
+		);
+	}
+
+	.sg-hero__inner {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: var(--space-l);
+	}
+
+	.sg-hero__title {
+		margin: 0;
+		font-size: clamp(2.25rem, 1.4rem + 3.8vw, 4.25rem);
+		font-weight: var(--bcp-weight-heading);
+		line-height: 1.05;
+		letter-spacing: -0.03em;
+	}
+
+	.sg-hero__card {
+		padding: var(--space-m);
+		border-radius: var(--bcp-radius-large);
+		background: color-mix(in srgb, var(--bcp-white) 88%, transparent);
+		color: var(--bcp-ink);
+	}
+
+	.sg-hero__card p {
+		margin: 0;
+	}
+
+	.sg-hero__card-title {
+		color: var(--bcp-blue);
+		font-size: 1.375rem;
+		font-weight: var(--bcp-weight-heading);
 	}
 
 	.sg-display {

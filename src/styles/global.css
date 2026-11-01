@@ -8,10 +8,10 @@
 	--space-m: 1.5rem;
 	--space-l: 2.5rem;
 	--space-xl: clamp(4.5rem, 10vw, 8.5rem);
-	--width: 80rem;
+	--width: 90rem;
 	--width-wide: 90rem;
 	--width-text: 44rem;
-	--gutter: clamp(1rem, 4vw, 2.5rem);
+	--gutter: max(1rem, 5vw);
 	--shadow: 0 1px 2px color-mix(in srgb, var(--bcp-deep) 5%, transparent),
 		0 12px 40px color-mix(in srgb, var(--bcp-deep) 9%, transparent);
 	--shadow-lift: 0 2px 4px color-mix(in srgb, var(--bcp-deep) 6%, transparent),
@@ -163,6 +163,34 @@ a:hover {
 	max-width: calc(var(--width-wide) + var(--gutter) * 2);
 }
 
+/* Runs the full width of the screen */
+.bleed {
+	width: 100%;
+}
+
+/* Soft blue glass placeholder for a photo that is still to come */
+.placeholder {
+	display: grid;
+	place-items: center;
+	align-content: center;
+	gap: 0.75rem;
+	padding: var(--space-m);
+	border-radius: var(--bcp-radius-large);
+	background:
+		radial-gradient(circle at 25% 20%, color-mix(in srgb, var(--bcp-sea) 55%, transparent), transparent 60%),
+		radial-gradient(circle at 80% 85%, color-mix(in srgb, var(--bcp-blue) 30%, transparent), transparent 60%),
+		color-mix(in srgb, var(--bcp-sea) 18%, var(--bcp-white));
+	color: var(--bcp-blue);
+	text-align: center;
+}
+
+.placeholder__label {
+	padding: 0.4rem 1rem;
+	border-radius: var(--bcp-radius-button);
+	background: color-mix(in srgb, var(--bcp-white) 85%, transparent);
+	font-weight: var(--bcp-weight-heading);
+}
+
 .section {
 	position: relative;
 	padding-block: var(--space-xl);
@@ -220,6 +248,24 @@ a:hover {
 	color: var(--bcp-blue);
 }
 
+/* Inner pages: text on the left, booking box on the right */
+.page-grid {
+	display: grid;
+	gap: var(--space-l) var(--space-xl);
+	align-items: start;
+}
+
+@media (min-width: 64rem) {
+	.page-grid {
+		grid-template-columns: minmax(0, 1fr) 24rem;
+	}
+
+	.page-grid__aside {
+		position: sticky;
+		top: 7rem;
+	}
+}
+
 /* Inner page header: large heading on white with a glow off to the side */
 .page-hero {
 	position: relative;
@@ -269,8 +315,8 @@ a:hover {
 	width: var(--size, 40rem);
 	aspect-ratio: 1;
 	border-radius: 50%;
-	background: radial-gradient(circle at center, var(--glow-colour) 0%, transparent 68%);
-	opacity: var(--glow-opacity, 0.55);
+	background: radial-gradient(circle at center, var(--glow-colour) 0%, transparent 70%);
+	opacity: var(--glow-opacity, 1);
 	filter: blur(30px);
 	will-change: transform;
 }
@@ -281,7 +327,7 @@ a:hover {
 
 .glow--blue {
 	--glow-colour: color-mix(in srgb, var(--bcp-blue) 70%, var(--bcp-sea));
-	--glow-opacity: 0.32;
+	--glow-opacity: 0.64;
 }
 
 @media (prefers-reduced-motion: no-preference) {

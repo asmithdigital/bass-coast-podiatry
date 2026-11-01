@@ -11,13 +11,18 @@ export const clinic = {
 	phoneHref: 'tel:+61356722309',
 	street: '182 Graham Street',
 	suburb: 'Wonthaggi VIC 3995',
+	/** Opening times used to work out today's hours. Days use JavaScript numbering: 0 is Sunday. */
+	openDays: [1, 2, 3, 4, 5],
+	openTime: '8:40 am',
+	closeTime: '5:30 pm',
 	hours: [
 		{ days: 'Monday to Friday', time: '8:40 am to 5:30 pm' },
 		{ days: 'Saturday and Sunday', time: 'Closed' },
 	],
 	hoursNote: 'Before and after hours appointments are available.',
 	facebook: 'https://www.facebook.com/basscoastpodiatry/',
-	directions: 'https://www.google.com/maps/search/?api=1&query=182+Graham+Street+Wonthaggi+VIC+3995',
+	directions: 'https://www.google.com/maps/dir/?api=1&destination=182+Graham+Street+Wonthaggi+VIC+3995',
+	mapLink: 'https://www.google.com/maps/search/?api=1&query=182+Graham+Street+Wonthaggi+VIC+3995',
 	mapEmbed: 'https://www.google.com/maps?q=182+Graham+Street+Wonthaggi+VIC+3995&output=embed',
 	// [CHECK WITH CLIENT] Replace with the real Formspree form ID before going live.
 	formspreeId: 'YOUR_FORM_ID',
@@ -32,6 +37,24 @@ export const nav = [
 ];
 
 export const claims = ['Medicare', 'DVA', 'HICAPS', 'TAC', 'WorkSafe'];
+
+/**
+ * Logos shown in the logo row, from the old website (content/logos/).
+ * [CHECK WITH CLIENT] The client must confirm they are entitled to use each one.
+ * Medicare, DVA and WorkSafe restrict use of their logos by practices, so they show as text
+ * until the client has written permission. Set `showLogo: true` once permission is confirmed.
+ * The AHPRA logo is never used: AHPRA asks practitioners not to use it.
+ */
+export const partners = [
+	{ name: 'Medicare', file: 'medicare.jpg', showLogo: false },
+	{ name: 'DVA', file: 'gov.jpg', showLogo: false },
+	{ name: 'HICAPS', file: 'hicaps.jpg', showLogo: true },
+	{ name: 'TAC', file: 'tac.jpg', showLogo: true },
+	{ name: 'WorkSafe', file: 'worksafe.jpg', showLogo: false },
+	{ name: 'Sports Medicine Australia', file: 'sportsmed.jpg', showLogo: true },
+	{ name: 'APC', file: 'apc.jpg', showLogo: true },
+	{ name: 'AAPSM', file: 'aapsm.jpg', showLogo: true },
+] as const;
 
 /** Shared by the home page accordion and the FAQ page. */
 export const faqs = [

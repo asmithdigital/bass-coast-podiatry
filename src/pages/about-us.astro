@@ -1,7 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
+import { Image } from 'astro:assets';
 import BookBox from '../components/BookBox.astro';
+import Icon from '../components/Icon.astro';
+import LogoRow from '../components/LogoRow.astro';
+import aboutImage from '../assets/images/podiatrist-treatment.jpg';
 
 const staff = [
 	{
@@ -41,82 +45,171 @@ const staff = [
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="container prose">
-			<p>
-				Bass Coast Podiatry opened in July 2007 and has been providing full time Podiatry care since. Bass Coast Podiatry is open 5 days
-				per week and is able to meet any special requirements of those needing urgent foot care. All aspects of the profession are covered
-				and no referral is needed to attend the clinic.
-			</p>
-			<p>
-				Bass Coast Podiatry services the Department of Veterans Affairs, TAC, and WorkCover and provides on the spot rebates for patients
-				referred from their GP under the EPC program.
-			</p>
+	<div class="container container--wide">
+		<div class="zoom-frame about__image reveal">
+			<Image
+				src={aboutImage}
+				alt="A podiatrist in gloves treating a patient's foot."
+				widths={[640, 1000, 1200]}
+				sizes="(min-width: 90rem) 90rem, 100vw"
+				loading="eager"
+			/>
+		</div>
+	</div>
+
+	<section class="section" aria-labelledby="story-title">
+		<div class="container container--wide story">
+			<h2 id="story-title" class="display reveal-lines">Our clinic</h2>
+			<div class="story__text reveal">
+				<p class="story__lead">
+					Bass Coast Podiatry opened in July 2007 and has been providing full time Podiatry care since. Bass Coast Podiatry is open 5 days
+					per week and is able to meet any special requirements of those needing urgent foot care. All aspects of the profession are covered
+					and no referral is needed to attend the clinic.
+				</p>
+				<p>
+					Bass Coast Podiatry services the Department of Veterans Affairs, TAC, and WorkCover and provides on the spot rebates for patients
+					referred from their GP under the EPC program.
+				</p>
+			</div>
 		</div>
 	</section>
 
-	<section class="section section--mist" id="team" aria-labelledby="team-title">
-		<div class="container">
+	<section class="section section--mist team-section" id="team" aria-labelledby="team-title">
+		<Glows set="right" />
+		<div class="container container--wide above-glow">
 			<div class="section-head">
-				<h2 id="team-title">Meet our Staff</h2>
-				<p><span class="check">[CHECK WITH CLIENT] Is this staff list still current? Staff photos could be added here.</span></p>
+				<h2 id="team-title" class="display reveal-lines">Meet our Staff</h2>
+				<p class="reveal"><span class="check">[CHECK WITH CLIENT] Is this staff list still current? Staff photos are needed for the placeholders.</span></p>
 			</div>
-			<ul class="grid grid--2 staff" role="list">
+			<ul class="staff" role="list">
 				{
 					staff.map((person) => (
-						<li class="card reveal">
-							<h3>{person.name}</h3>
-							<p class="staff__role">{person.role}</p>
-							<p>{person.bio}</p>
-							{person.check && <p class="check">[CHECK WITH CLIENT] {person.check}</p>}
+						<li class="staff__card glass reveal">
+							<div class="placeholder staff__photo" role="img" aria-label={`Photo of ${person.name} to come`}>
+								<Icon name="person" size={40} />
+								<span class="placeholder__label">Photo to come</span>
+							</div>
+							<div class="staff__body">
+								<h3>{person.name}</h3>
+								<p class="staff__role">{person.role}</p>
+								<p>{person.bio}</p>
+								{person.check && <p class="check">[CHECK WITH CLIENT] {person.check}</p>}
+							</div>
 						</li>
 					))
 				}
+				<li class="staff__card staff__card--admin reveal">
+					<div class="staff__body">
+						<h3>Our Administration team</h3>
+						<p>Kate, Brooke and Kim.</p>
+					</div>
+				</li>
 			</ul>
-
-			<div class="admin reveal">
-				<h2>Our Administration team</h2>
-				<p>Kate, Brooke and Kim.</p>
-			</div>
 		</div>
 	</section>
 
-	<section class="section">
-		<div class="container prose">
-			<h2>Professional memberships</h2>
-			<p>The current website shows logos for Sports Medicine Australia, APC, AAPSM and AHPRA.</p>
-			<p class="check">
-				[CHECK WITH CLIENT] Are these memberships still current, and what are the full names you would like shown? Logos have been
-				replaced with plain text.
-			</p>
-			<BookBox />
+	<section class="section" aria-labelledby="memberships-title">
+		<div class="container container--wide">
+			<h2 id="memberships-title" class="display reveal-lines">Claims, rebates and memberships</h2>
+			<div class="reveal">
+				<LogoRow />
+			</div>
+			<div class="about__book reveal">
+				<BookBox />
+			</div>
 		</div>
 	</section>
 </Layout>
 
 <style>
+	.about__image {
+		aspect-ratio: 4 / 3;
+		box-shadow: var(--shadow-lift);
+	}
+
+	@media (min-width: 40rem) {
+		.about__image {
+			aspect-ratio: 21 / 9;
+		}
+	}
+
+	.story {
+		display: grid;
+		gap: var(--space-m) var(--space-xl);
+	}
+
+	@media (min-width: 56rem) {
+		.story {
+			grid-template-columns: 1fr 1.5fr;
+			align-items: start;
+		}
+	}
+
+	.story__lead {
+		font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.625rem);
+		line-height: 1.55;
+	}
+
 	.staff {
-		margin: 0 0 var(--space-xl);
+		display: grid;
+		gap: clamp(1rem, 2vw, 1.5rem);
+		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
 
-	.staff h3 {
+	@media (min-width: 40rem) {
+		.staff {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 80rem) {
+		.staff {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.staff__card {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		border-radius: var(--bcp-radius-large);
+		background: color-mix(in srgb, var(--bcp-white) 90%, transparent);
+	}
+
+	.staff__photo {
+		aspect-ratio: 4 / 3;
+		border-radius: 0;
+	}
+
+	.staff__body {
+		padding: clamp(1.5rem, 2.5vw, 2rem);
+	}
+
+	.staff__body h3 {
 		margin-bottom: 0.15rem;
 	}
 
 	.staff__role {
-		color: var(--bcp-grey);
-		padding-bottom: var(--space-s);
-		border-bottom: 2px solid var(--bcp-sea);
 		display: inline-block;
+		padding-bottom: var(--space-xs);
+		border-bottom: 2px solid var(--bcp-sea);
+		color: var(--bcp-grey);
 	}
 
-	.admin {
+	.staff__card--admin {
+		justify-content: center;
+		background: var(--bcp-blue);
+		color: var(--bcp-white);
+	}
+
+	.staff__card--admin h3 {
+		color: var(--bcp-white);
+	}
+
+	.about__book {
 		max-width: var(--width-text);
-	}
-
-	.prose :global(.book) {
-		margin-top: var(--space-l);
+		margin-top: var(--space-xl);
 	}
 </style>

@@ -14,14 +14,16 @@ import BookBox from '../components/BookBox.astro';
 	</section>
 
 	<section class="section">
-		<div class="container">
-			<h2 class="visually-hidden">Questions and answers</h2>
-			<p class="check faq-note">
-				[CHECK WITH CLIENT] The current website has one FAQ. The second and third questions are new, with answers taken word for word
-				from other pages. Are there other questions patients often ask?
-			</p>
-			<FaqAccordion />
-			<div class="faq-book">
+		<div class="container container--wide page-grid">
+			<div>
+				<h2 class="visually-hidden">Questions and answers</h2>
+				<p class="check faq-note">
+					[CHECK WITH CLIENT] The current website has one FAQ. The second and third questions are new, with answers taken word for word
+					from other pages. Are there other questions patients often ask?
+				</p>
+				<FaqAccordion />
+			</div>
+			<div class="page-grid__aside">
 				<BookBox />
 			</div>
 		</div>
@@ -34,8 +36,7 @@ import BookBox from '../components/BookBox.astro';
 		margin-bottom: var(--space-l);
 	}
 
-	.faq-book {
-		max-width: var(--width-text);
-		margin-top: var(--space-xl);
+	.page-grid :global(.accordion) {
+		max-width: none;
 	}
 </style>

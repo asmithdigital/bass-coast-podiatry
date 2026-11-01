@@ -1,0 +1,58 @@
+---
+// The contact form, used on the Contact page and in the contact panel.
+import { clinic } from '../data/site';
+
+interface Props {
+	/** Keeps field ids unique when the form appears twice on a page. */
+	idPrefix?: string;
+	compact?: boolean;
+}
+
+const { idPrefix = 'cf', compact = false } = Astro.props;
+const id = (name: string) => `${idPrefix}-${name}`;
+---
+
+<form class:list={['contact-form', { 'contact-form--compact': compact }]} data-astro-reload action={`https://formspree.io/f/${clinic.formspreeId}`} method="POST">
+	<div class="contact-form__row">
+		<div class="field">
+			<label for={id('name')}>Your name</label>
+			<input class="input" id={id('name')} name="name" type="text" autocomplete="name" required />
+		</div>
+		<div class="field">
+			<label for={id('phone')}>Phone number</label>
+			<input class="input" id={id('phone')} name="phone" type="tel" autocomplete="tel" required />
+		</div>
+	</div>
+	<div class="field">
+		<label for={id('email')}>Email address <span class="hint">(optional)</span></label>
+		<input class="input" id={id('email')} name="email" type="email" autocomplete="email" />
+	</div>
+	<div class="field">
+		<label for={id('message')}>Message</label>
+		<span class="hint" id={id('message-hint')}>Let us know if you would like an appointment and what times suit you.</span>
+		<textarea class="input" id={id('message')} name="message" required aria-describedby={id('message-hint')}></textarea>
+	</div>
+	<input type="hidden" name="_subject" value="Website message for Bass Coast Podiatry" />
+	<button class="btn" type="submit">Send message</button>
+</form>
+
+<style>
+	.contact-form__row {
+		display: grid;
+		gap: 0 var(--space-m);
+	}
+
+	@media (min-width: 40rem) {
+		.contact-form__row {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.contact-form--compact .field {
+		margin-bottom: var(--space-s);
+	}
+
+	.contact-form--compact textarea.input {
+		min-height: 7rem;
+	}
+</style>

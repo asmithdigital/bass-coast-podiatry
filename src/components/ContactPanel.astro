@@ -1,0 +1,392 @@
+---
+// Full screen contact panel. Any link with data-contact opens it with an Ocean blue circle that
+// grows from the link and fills the screen. Without JavaScript those links go to /contact/ as normal.
+import Icon from './Icon.astro';
+import ContactForm from './ContactForm.astro';
+import { clinic } from '../data/site';
+---
+
+<div class="contact-panel on-blue" id="contact-panel" role="dialog" aria-modal="true" aria-labelledby="contact-panel-title" hidden>
+	<div class="contact-panel__inner container container--wide">
+		<div class="contact-panel__head">
+			<h2 id="contact-panel-title">Contact us</h2>
+			<button class="contact-panel__close" type="button" data-contact-close>
+				<Icon name="close" size={26} />
+				<span class="visually-hidden">Close the contact panel</span>
+			</button>
+		</div>
+
+		<div class="contact-panel__grid">
+			<div class="contact-panel__form">
+				<h3>Send us a message</h3>
+				<p class="check">[CHECK WITH CLIENT] Placeholder Formspree form ID, so this will not send yet.</p>
+				<ContactForm idPrefix="panel" compact />
+			</div>
+
+			<div class="contact-panel__info">
+				<a class="contact-panel__phone" href={clinic.phoneHref}>
+					<span class="icon-circle"><Icon name="phone" size={26} /></span>
+					<span>
+						<span class="contact-panel__label">Call us</span>
+						<span class="contact-panel__value">{clinic.phone}</span>
+					</span>
+				</a>
+				<div class="contact-panel__facts">
+					<div>
+						<h3>Opening hours</h3>
+						<p>{clinic.hours[0].days}, {clinic.hours[0].time}. {clinic.hoursNote}</p>
+					</div>
+					<div>
+						<h3>Address</h3>
+						<p>{clinic.street}, {clinic.suburb}</p>
+						<a class="text-link" href={clinic.directions} rel="noopener">Get directions <Icon name="arrow" size={18} /></a>
+					</div>
+				</div>
+				<iframe
+					class="contact-panel__map"
+					data-src={clinic.mapEmbed}
+					title="Map showing Bass Coast Podiatry at 182 Graham Street, Wonthaggi"
+					referrerpolicy="no-referrer-when-downgrade"></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// State lives on window and listeners are added once, so a second run of this script
+	// (for example after a hot reload) cannot leave two copies with different state.
+	type PanelState = { ready: boolean; trigger: HTMLElement | null; closingByBack: boolean; refocus: HTMLElement | null };
+	const w = window as unknown as { __bcpContact?: PanelState };
+	const state: PanelState = (w.__bcpContact ??= { ready: false, trigger: null, closingByBack: false, refocus: null });
+
+	const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const panel = () => document.getElementById('contact-panel');
+	const isOpen = () => panel()?.classList.contains('is-open') ?? false;
+	const focusables = (root: HTMLElement) =>
+		[...root.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select, iframe')].filter((el) => !el.hasAttribute('disabled'));
+	// Everything except the panel is made inert while it is open, so focus stays inside.
+	const setOthersInert = (inert: boolean) =>
+		document.querySelectorAll('body > *:not(#contact-panel):not(.page-wash)').forEach((el) => el.toggleAttribute('inert', inert));
+	// Put focus back on the button that opened the panel, once the history step has settled.
+	const restoreFocus = () => {
+		const el = state.refocus;
+		state.refocus = null;
+		el?.focus();
+		requestAnimationFrame(() => el?.focus());
+	};
+
+	function open(from: HTMLElement) {
+		const el = panel();
+		if (!el || isOpen()) return;
+		state.trigger = from;
+		const r = from.getBoundingClientRect();
+		el.style.setProperty('--x', `${r.left + r.width / 2}px`);
+		el.style.setProperty('--y', `${r.top + r.height / 2}px`);
+		const map = el.querySelector<HTMLIFrameElement>('iframe[data-src]');
+		if (map && !map.getAttribute('src')) map.src = map.dataset.src ?? '';
+		el.hidden = false;
+		void el.offsetWidth; // start the transition from the closed state
+		el.classList.add('is-open');
+		document.documentElement.classList.add('no-scroll');
+		setOthersInert(true);
+		// A #contact entry means the back button closes the panel, and the page router treats
+		// stepping back from it as a jump within the same page rather than a new page visit.
+		history.pushState({ ...(history.state ?? {}), bcpContact: true }, '', '#contact');
+		setTimeout(() => {
+			if (isOpen()) el.querySelector<HTMLElement>('[data-contact-close]')?.focus();
+		}, reduceMotion() ? 50 : 450);
+	}
+
+	function close({ fromHistory = false } = {}) {
+		const el = panel();
+		if (!el || !isOpen()) return;
+		el.classList.remove('is-open');
+		document.documentElement.classList.remove('no-scroll');
+		setOthersInert(false);
+		setTimeout(() => {
+			if (!el.classList.contains('is-open')) el.hidden = true;
+		}, reduceMotion() ? 250 : 650);
+		state.refocus = state.trigger;
+		state.trigger = null;
+		// Remove the history entry added on open, so the back button stays in step.
+		if (!fromHistory && history.state?.bcpContact) {
+			state.closingByBack = true;
+			history.back();
+		} else {
+			restoreFocus();
+		}
+	}
+
+	if (!state.ready) {
+		state.ready = true;
+
+		document.addEventListener(
+			'click',
+			(event) => {
+				const target = event.target as HTMLElement;
+				if (target.closest('[data-contact-close]')) {
+					close();
+					return;
+				}
+				const link = target.closest<HTMLAnchorElement>('a[data-contact]');
+				if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+				// On the Contact page itself the link just goes to the form.
+				if (location.pathname.replace(/\/$/, '').endsWith('/contact')) return;
+				event.preventDefault();
+				open(link);
+			},
+			{ capture: true }, // capture, so this runs before the page router turns the click into a navigation
+		);
+
+		document.addEventListener('keydown', (event) => {
+			const el = panel();
+			if (!el || !isOpen()) return;
+			if (event.key === 'Escape') {
+				event.preventDefault();
+				close();
+			} else if (event.key === 'Tab') {
+				const items = focusables(el);
+				const first = items[0];
+				const last = items[items.length - 1];
+				if (event.shiftKey && (document.activeElement === first || !el.contains(document.activeElement))) {
+					event.preventDefault();
+					last.focus();
+				} else if (!event.shiftKey && document.activeElement === last) {
+					event.preventDefault();
+					first.focus();
+				}
+			}
+		});
+
+		// The back button closes the panel. Runs before the page router sees the event, and stops it,
+		// because the page itself has not changed.
+		window.addEventListener(
+			'popstate',
+			(event) => {
+				if (state.closingByBack) {
+					state.closingByBack = false;
+					event.stopImmediatePropagation();
+					restoreFocus();
+					return;
+				}
+				if (isOpen()) {
+					event.stopImmediatePropagation();
+					close({ fromHistory: true });
+				}
+			},
+			{ capture: true },
+		);
+
+		document.addEventListener('astro:before-swap', () => {
+			document.documentElement.classList.remove('no-scroll');
+		});
+
+		// A leftover #contact in the address (for example after a reload) is tidied away.
+		document.addEventListener('astro:page-load', () => {
+			if (location.hash === '#contact' && !isOpen()) history.replaceState(history.state, '', location.pathname + location.search);
+		});
+	}
+</script>
+
+<style>
+	.contact-panel {
+		--x: 50vw;
+		--y: 50vh;
+		position: fixed;
+		inset: 0;
+		z-index: 150;
+		overflow-y: auto;
+		background:
+			radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--bcp-sea) 35%, transparent), transparent 45%),
+			radial-gradient(circle at 10% 95%, color-mix(in srgb, var(--bcp-blue) 80%, transparent), transparent 50%),
+			var(--bcp-deep);
+		color: var(--bcp-white);
+		clip-path: circle(0 at var(--x) var(--y));
+		transition: clip-path 0.6s var(--ease);
+	}
+
+	.contact-panel.is-open {
+		clip-path: circle(150vmax at var(--x) var(--y));
+		transition-duration: 0.7s;
+	}
+
+	.contact-panel__inner {
+		padding-block: clamp(1.25rem, 3vh, 2.5rem);
+		opacity: 0;
+		transform: translateY(16px);
+		transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+	}
+
+	.contact-panel.is-open .contact-panel__inner {
+		opacity: 1;
+		transform: none;
+		transition: opacity 0.45s var(--ease) 0.3s, transform 0.45s var(--ease) 0.3s;
+	}
+
+	/* Reduce motion: no growing circle, just a quick fade */
+	@media (prefers-reduced-motion: reduce) {
+		.contact-panel,
+		.contact-panel.is-open {
+			clip-path: none;
+			opacity: 0;
+			transition: opacity 0.2s linear;
+		}
+
+		.contact-panel.is-open {
+			opacity: 1;
+		}
+
+		.contact-panel__inner,
+		.contact-panel.is-open .contact-panel__inner {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+	}
+
+	.contact-panel h2,
+	.contact-panel h3 {
+		color: var(--bcp-white);
+	}
+
+	.contact-panel__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-m);
+		margin-bottom: clamp(1rem, 2.5vh, 2rem);
+	}
+
+	.contact-panel__head h2 {
+		margin: 0;
+		font-size: clamp(2.25rem, 1.4rem + 3vw, 4rem);
+		font-weight: var(--bcp-weight-text);
+		letter-spacing: -0.025em;
+	}
+
+	.contact-panel__close {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 3.5rem;
+		height: 3.5rem;
+		border: 1px solid color-mix(in srgb, var(--bcp-white) 45%, transparent);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--bcp-white);
+		cursor: pointer;
+		transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+	}
+
+	.contact-panel__close:hover {
+		background: var(--bcp-white);
+		color: var(--bcp-blue);
+	}
+
+	.contact-panel :focus-visible {
+		outline-color: var(--bcp-white);
+	}
+
+	.contact-panel__grid {
+		display: grid;
+		gap: var(--space-l);
+	}
+
+	@media (min-width: 64rem) {
+		.contact-panel__grid {
+			grid-template-columns: 1.1fr 1fr;
+			align-items: start;
+		}
+	}
+
+	/* The form sits on a solid white card */
+	.contact-panel__form {
+		padding: clamp(1.5rem, 3vh, 2.25rem);
+		border-radius: var(--bcp-radius-large);
+		background: var(--bcp-white);
+		color: var(--bcp-ink);
+	}
+
+	.contact-panel__form h3 {
+		color: var(--bcp-blue);
+		margin-bottom: var(--space-xs);
+	}
+
+	.contact-panel__form :focus-visible {
+		outline-color: var(--bcp-blue);
+	}
+
+	.contact-panel__form .check {
+		margin-bottom: var(--space-s);
+		padding-block: 0.5rem;
+	}
+
+	.contact-panel__info {
+		display: grid;
+		gap: var(--space-m);
+	}
+
+	.contact-panel__phone {
+		display: flex;
+		align-items: center;
+		gap: var(--space-s);
+		color: var(--bcp-white);
+		text-decoration: none;
+	}
+
+	.contact-panel__phone .icon-circle {
+		background: color-mix(in srgb, var(--bcp-white) 15%, transparent);
+		color: var(--bcp-white);
+	}
+
+	.contact-panel__label {
+		display: block;
+		color: color-mix(in srgb, var(--bcp-white) 80%, transparent);
+	}
+
+	.contact-panel__value {
+		display: block;
+		font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem);
+		font-weight: var(--bcp-weight-heading);
+		line-height: 1.1;
+	}
+
+	.contact-panel__phone:hover .contact-panel__value {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+		text-decoration-thickness: 2px;
+	}
+
+	.contact-panel__facts {
+		display: grid;
+		gap: var(--space-m);
+	}
+
+	@media (min-width: 40rem) {
+		.contact-panel__facts {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.contact-panel__facts h3 {
+		font-size: 1.125rem;
+		margin-bottom: 0.25rem;
+		opacity: 0.8;
+	}
+
+	.contact-panel__facts p {
+		margin-bottom: var(--space-xs);
+	}
+
+	.contact-panel__facts a {
+		color: var(--bcp-white);
+	}
+
+	.contact-panel__map {
+		width: 100%;
+		height: clamp(12rem, 30vh, 20rem);
+		border: 0;
+		border-radius: var(--bcp-radius-large);
+		background: color-mix(in srgb, var(--bcp-white) 10%, transparent);
+	}
+</style>

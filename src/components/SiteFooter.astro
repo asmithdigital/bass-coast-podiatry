@@ -17,7 +17,7 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 						<Icon name="phone" />
 						Call {clinic.phone}
 					</a>
-					<a class="btn btn--ghost-white" href={url('/contact/')}>Contact form</a>
+					<a class="btn btn--ghost-white" href={url('/contact/#message')} data-contact>Send a message</a>
 				</div>
 			</div>
 		</div>
@@ -34,7 +34,6 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
 				</p>
 				<p>
 					<a href={clinic.facebook} rel="noopener">
-						<Icon name="facebook" size={20} />
 						Bass Coast Podiatry on Facebook
 					</a>
 				</p>

@@ -11,7 +11,7 @@ import { clinic, url } from '../data/site';
 			<Icon name="phone" />
 			Call {clinic.phone}
 		</a>
-		<a class="book__link" href={url('/contact/')}>Contact form</a>
+		<a class="book__link" href={url('/contact/#message')} data-contact>Contact form</a>
 	</div>
 	<p class="book__hours">{clinic.hours[0].days}, {clinic.hours[0].time}. {clinic.hoursNote}</p>
 </aside>

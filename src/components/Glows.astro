@@ -1,6 +1,7 @@
 ---
 // Soft colour glows behind a section. CSS only: blurred radial gradients that drift slowly.
 // Place inside a positioned parent and keep text on white, cards or the deep blue section.
+// Opacity values below are doubled when rendered (round 3 asked for twice the strength).
 interface Glow {
 	colour: 'sea' | 'blue';
 	top?: string;
@@ -48,7 +49,7 @@ const style = (g: Glow) =>
 		g.right && `right:${g.right}`,
 		g.bottom && `bottom:${g.bottom}`,
 		g.size && `--size:${g.size}`,
-		g.opacity !== undefined && `--glow-opacity:${g.opacity}`,
+		g.opacity !== undefined && `--glow-opacity:${Math.min(1, g.opacity * 2)}`,
 	]
 		.filter(Boolean)
 		.join(';');

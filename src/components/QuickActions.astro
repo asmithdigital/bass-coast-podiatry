@@ -1,0 +1,131 @@
+---
+// Four large actions straight under the hero. Two by two on phones.
+import Icon from './Icon.astro';
+import { clinic, url } from '../data/site';
+
+const actions = [
+	{ label: 'Call us', detail: clinic.phone, href: clinic.phoneHref, icon: 'phone' },
+	{ label: 'Get directions', detail: clinic.street, href: clinic.directions, icon: 'directions', external: true },
+	{ label: 'Send a message', detail: 'We will get back to you', href: url('/contact/#message'), icon: 'message', contact: true },
+	{ label: 'Claims and rebates', detail: 'Medicare, DVA, HICAPS and more', href: url('/claims-rebates/'), icon: 'claims' },
+] as const;
+---
+
+<nav class="quick container container--wide" aria-label="Quick actions">
+	<ul role="list">
+		{
+			actions.map((a) => (
+				<li>
+					<a
+						class="quick__action glass"
+						href={a.href}
+						rel={'external' in a ? 'noopener' : undefined}
+						data-contact={'contact' in a ? '' : undefined}
+					>
+						<span class="icon-circle">
+							<Icon name={a.icon} size={28} />
+						</span>
+						<span class="quick__text">
+							<span class="quick__label">{a.label}</span>
+							<span class="quick__detail">{a.detail}</span>
+						</span>
+						<span class="quick__arrow"><Icon name="arrow" size={20} /></span>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</nav>
+
+<style>
+	.quick {
+		position: relative;
+		z-index: 2;
+		margin-top: calc(-1 * clamp(2.5rem, 5vw, 4rem));
+	}
+
+	.quick ul {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: clamp(0.75rem, 1.5vw, 1.25rem);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	@media (min-width: 64rem) {
+		.quick ul {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	.quick__action {
+		--arrow-shift: 0;
+		display: flex;
+		align-items: center;
+		gap: var(--space-s);
+		height: 100%;
+		padding: clamp(1rem, 2vw, 1.75rem);
+		border-radius: var(--bcp-radius-large);
+		background: color-mix(in srgb, var(--bcp-white) 90%, transparent);
+		color: var(--bcp-ink);
+		text-decoration: none;
+		translate: 0 0;
+		transition: translate 0.4s var(--ease), box-shadow 0.4s var(--ease);
+	}
+
+	.quick__action:hover {
+		--arrow-shift: 4px;
+		translate: 0 -4px;
+		box-shadow: var(--shadow-lift);
+	}
+
+	.quick__text {
+		display: grid;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.quick__label {
+		color: var(--bcp-blue);
+		font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+		font-weight: var(--bcp-weight-heading);
+		line-height: 1.25;
+	}
+
+	.quick__detail {
+		color: var(--bcp-grey);
+	}
+
+	.quick__arrow {
+		color: var(--bcp-blue);
+		transform: translateX(var(--arrow-shift));
+		transition: transform 0.3s var(--ease);
+	}
+
+	/* Phones: stack the icon above the label so four fit two by two */
+	@media (max-width: 47.99rem) {
+		.quick__action {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.6rem;
+		}
+
+		.quick__action .icon-circle {
+			width: 3rem;
+			height: 3rem;
+		}
+
+		.quick__detail,
+		.quick__arrow {
+			display: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.quick__action,
+		.quick__action:hover {
+			translate: none;
+		}
+	}
+</style>

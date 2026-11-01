@@ -49,11 +49,11 @@ const Heading = headingLevel;
 		</div>
 	</div>
 	<iframe
-		class="map reveal"
+		class="map"
 		src={clinic.mapEmbed}
 		title="Map showing Bass Coast Podiatry at 182 Graham Street, Wonthaggi"
-		loading="lazy"
 		referrerpolicy="no-referrer-when-downgrade"></iframe>
+	<p class="visit__maplink"><a href={clinic.mapLink} rel="noopener">Open the map in Google Maps</a></p>
 </div>
 
 <style>
@@ -118,5 +118,16 @@ const Heading = headingLevel;
 
 	.map {
 		box-shadow: var(--shadow);
+	}
+
+	.visit__maplink {
+		margin: 0;
+	}
+
+	@media (min-width: 64rem) {
+		.visit__maplink {
+			grid-column: 1 / span 9;
+			grid-row: 2;
+		}
 	}
 </style>

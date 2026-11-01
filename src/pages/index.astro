@@ -3,61 +3,75 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import Glows from '../components/Glows.astro';
+import QuickActions from '../components/QuickActions.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
+import LogoRow from '../components/LogoRow.astro';
 import VisitUs from '../components/VisitUs.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import { clinic, url } from '../data/site';
 import heroImage from '../assets/images/footprints-beach.jpg';
+import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 ---
 
 <Layout description="Bass Coast Podiatry in Wonthaggi has provided podiatry care since 2007. Open Monday to Friday. Call (03) 5672 2309.">
-	<section class="hero">
-		<div class="container container--wide">
-			<div class="hero__intro">
+	<section class="hero on-blue">
+		<Image
+			class="hero__bg"
+			src={heroImage}
+			alt=""
+			widths={[640, 1000, 1400, 1698]}
+			sizes="100vw"
+			loading="eager"
+			fetchpriority="high"
+		/>
+		<div class="hero__tint" aria-hidden="true"></div>
+		<div class="hero__veil" aria-hidden="true"></div>
+		<div class="hero__sun" aria-hidden="true"></div>
+
+		<div class="container container--wide hero__inner">
+			<div class="hero__text">
 				<h1 class="reveal-lines">Podiatry care in Wonthaggi since 2007</h1>
-				<div class="hero__aside reveal">
-					<p class="hero__lead">
-						Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot
-						care.
-					</p>
-					<div class="btn-row">
-						<a class="btn btn--icon" href={clinic.phoneHref}>
-							<Icon name="phone" />
-							Call {clinic.phone}
-						</a>
-						<a class="btn btn--outline" href={url('/contact/')}>Contact us</a>
-					</div>
+				<p class="hero__lead reveal">
+					Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care.
+				</p>
+				<div class="btn-row reveal">
+					<a class="btn btn--white btn--icon" href={clinic.phoneHref}>
+						<Icon name="phone" />
+						Call {clinic.phone}
+					</a>
+					<a class="btn btn--ghost-white" href={url('/contact/#message')} data-contact>Contact us</a>
 				</div>
 			</div>
 
-			<div class="hero__stage">
-				<Glows set="hero" />
-				<div class="hero__photo zoom-frame reveal">
-					<Image
-						src={heroImage}
-						alt="Footprints in the sand along the water's edge at a beach."
-						widths={[640, 1000, 1400, 1700]}
-						sizes="(min-width: 90rem) 64rem, (min-width: 64rem) 72vw, 100vw"
-						loading="eager"
-						fetchpriority="high"
-					/>
-				</div>
-				<div class="hero__cards">
-					<div class="hero-card glass reveal">
-						<span class="icon-circle"><Icon name="clock" size={28} /></span>
-						<p class="hero-card__label">Opening hours</p>
-						<p class="hero-card__value">Open Monday to Friday, 8:40 am to 5:30 pm</p>
+			<aside class="visit-card glass reveal" aria-labelledby="visit-card-title">
+				<h2 id="visit-card-title">Visit us</h2>
+				<div class="visit-card__row">
+					<span class="icon-circle"><Icon name="clock" size={24} /></span>
+					<div>
+						<p class="visit-card__today" data-today>
+							{clinic.hours[0].days}, {clinic.hours[0].time}
+						</p>
+						<p class="visit-card__small" data-today-note>{clinic.hoursNote}</p>
 					</div>
-					<a class="hero-card hero-card--call glass reveal" href={clinic.phoneHref}>
-						<span class="icon-circle"><Icon name="phone" size={28} /></span>
-						<span class="hero-card__label">For all appointments</span>
-						<span class="hero-card__value">Call {clinic.phone}</span>
-					</a>
 				</div>
-			</div>
+				<div class="visit-card__row">
+					<span class="icon-circle"><Icon name="pin" size={24} /></span>
+					<div>
+						<p class="visit-card__strong">{clinic.street}</p>
+						<p class="visit-card__small">{clinic.suburb}</p>
+					</div>
+				</div>
+				<div class="visit-card__row">
+					<span class="icon-circle"><Icon name="phone" size={24} /></span>
+					<p class="visit-card__strong"><a href={clinic.phoneHref}>{clinic.phone}</a></p>
+				</div>
+				<a class="btn visit-card__btn" href={clinic.directions} rel="noopener">Get directions</a>
+			</aside>
 		</div>
 	</section>
+
+	<QuickActions />
 
 	<section class="section services" aria-labelledby="services-title">
 		<Glows set="centre" />
@@ -71,15 +85,23 @@ import heroImage from '../assets/images/footprints-beach.jpg';
 	</section>
 
 	<section class="section team" aria-labelledby="team-title">
-		<div class="container team__inner">
-			<h2 id="team-title" class="display reveal-lines">Meet the team</h2>
-			<div class="team__text reveal">
-				<p class="team__lead">
+		<div class="container container--wide team__inner">
+			<div class="zoom-frame team__image reveal">
+				<Image
+					src={teamImage}
+					alt="A podiatrist testing the sensation on the soles of a patient's feet."
+					widths={[640, 1000, 1200]}
+					sizes="(min-width: 64rem) 50vw, 100vw"
+				/>
+			</div>
+			<div class="team__text">
+				<h2 id="team-title" class="display reveal-lines">Meet the team</h2>
+				<p class="team__lead reveal">
 					Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Kelly, Joshua Khoury and Angie Burgess. They are supported by our
 					administration team, Kate, Brooke and Kim.
 				</p>
-				<p><span class="check">[CHECK WITH CLIENT] Is this team list still current?</span></p>
-				<a class="btn btn--outline" href={url('/about-us/#team')}>Meet our team</a>
+				<p class="reveal"><span class="check">[CHECK WITH CLIENT] Is this team list still current?</span></p>
+				<a class="btn btn--outline reveal" href={url('/about-us/#team')}>Meet our team</a>
 			</div>
 		</div>
 	</section>
@@ -102,6 +124,13 @@ import heroImage from '../assets/images/footprints-beach.jpg';
 		</div>
 	</section>
 
+	<section class="section logos" aria-labelledby="logos-title">
+		<div class="container container--wide reveal">
+			<h2 id="logos-title" class="logos__title">Claims, rebates and memberships</h2>
+			<LogoRow />
+		</div>
+	</section>
+
 	<section class="section visit-section" aria-labelledby="visit-title">
 		<Glows set="left" />
 		<div class="container container--wide above-glow">
@@ -113,7 +142,7 @@ import heroImage from '../assets/images/footprints-beach.jpg';
 	</section>
 
 	<section class="section faq" aria-labelledby="faq-title">
-		<div class="container faq__inner">
+		<div class="container container--wide faq__inner">
 			<div class="faq__head">
 				<h2 id="faq-title" class="display reveal-lines">Frequently asked questions</h2>
 				<a class="text-link reveal" href={url('/faqs/')}>
@@ -127,180 +156,205 @@ import heroImage from '../assets/images/footprints-beach.jpg';
 	</section>
 </Layout>
 
+<script>
+	// Today's hours in the Visit us card, worked out in Wonthaggi's time zone.
+	import { clinic } from '../data/site';
+
+	function showToday() {
+		const el = document.querySelector('[data-today]');
+		if (!el) return;
+		const day = new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Melbourne', weekday: 'short' }).format(new Date());
+		const index = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(day);
+		const open = (clinic.openDays as readonly number[]).includes(index);
+		el.textContent = open ? `Open today, ${clinic.openTime} to ${clinic.closeTime}` : 'Closed today';
+		const note = document.querySelector('[data-today-note]');
+		if (note && !open) note.textContent = `Open ${clinic.hours[0].days}, ${clinic.hours[0].time}.`;
+	}
+
+	document.addEventListener('astro:page-load', showToday);
+</script>
+
 <style>
-	/* Hero */
+	/* Hero: the beach photo fills the screen width, with an Ocean blue glass veil deepest on the left */
 
 	.hero {
 		position: relative;
-		/* Clip the glows sideways only, so they still fade softly into the next section */
-		overflow-x: clip;
-		padding-block: clamp(2rem, 5vw, 4.5rem) clamp(4rem, 9vw, 7rem);
+		display: grid;
+		align-items: center;
+		min-height: 88svh;
+		padding-block: clamp(3rem, 8vw, 6rem) clamp(5rem, 9vw, 8rem);
+		overflow: clip;
+		background: var(--bcp-deep);
+		color: var(--bcp-white);
 	}
 
-	.hero__intro {
+	.hero__bg {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 60% 50%;
+	}
+
+	/* Frosted blue glass over the photo, so the white text sits on a calm, strong surface */
+	.hero__veil {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--bcp-deep) 90%, transparent) 0%,
+			color-mix(in srgb, var(--bcp-deep) 82%, transparent) 38%,
+			color-mix(in srgb, var(--bcp-blue) 45%, transparent) 62%,
+			color-mix(in srgb, var(--bcp-blue) 12%, transparent) 100%
+		);
+		-webkit-backdrop-filter: blur(14px) saturate(120%);
+		backdrop-filter: blur(14px) saturate(120%);
+		-webkit-mask-image: linear-gradient(90deg, #000 45%, transparent 85%);
+		mask-image: linear-gradient(90deg, #000 45%, transparent 85%);
+	}
+
+	/* A second, unblurred tint keeps the right side of the photo gently blue */
+	.hero__tint {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg, color-mix(in srgb, var(--bcp-deep) 70%, transparent), color-mix(in srgb, var(--bcp-blue) 15%, transparent));
+	}
+
+	/* Warm sand light near the bottom, like sunlight on sand */
+	.hero__sun {
+		position: absolute;
+		inset: auto -10% -35% 10%;
+		height: 60%;
+		background: radial-gradient(ellipse at 50% 100%, color-mix(in srgb, var(--bcp-sand) 45%, transparent), transparent 65%);
+		pointer-events: none;
+	}
+
+	.hero__inner {
+		position: relative;
+		z-index: 1;
 		display: grid;
-		gap: var(--space-m) var(--space-l);
-		align-items: end;
-		margin-bottom: clamp(2rem, 5vw, 3.5rem);
+		gap: var(--space-l);
+		align-items: center;
 	}
 
 	@media (min-width: 64rem) {
-		.hero__intro {
-			grid-template-columns: 1.6fr 1fr;
+		.hero__inner {
+			grid-template-columns: minmax(0, 1fr) 25rem;
+			gap: var(--space-xl);
 		}
 	}
 
 	.hero h1 {
-		max-width: 13ch;
-		margin: 0;
+		max-width: 12ch;
+		margin-bottom: var(--space-m);
+		color: var(--bcp-white);
+		font-size: clamp(2.5rem, 1.4rem + 5.2vw, 6.25rem);
+		line-height: 1.02;
+		letter-spacing: -0.035em;
 	}
 
 	.hero__lead {
-		max-width: 30rem;
-		margin-bottom: var(--space-m);
-		font-size: 1.25rem;
-		color: var(--bcp-ink);
+		max-width: 34rem;
+		margin-bottom: var(--space-l);
+		font-size: clamp(1.1875rem, 1rem + 0.5vw, 1.5rem);
+		line-height: 1.55;
 	}
 
-	.hero__stage {
-		position: relative;
-		display: grid;
-		gap: var(--space-s);
-	}
-
-	/* Glows sit behind the photo and cards, below the intro text */
-	.hero__stage :global(.glows) {
-		inset: 10% 0 -30%;
-	}
-
-	.hero__photo,
-	.hero__cards {
-		position: relative;
-		z-index: 1;
-	}
-
-	@media (min-width: 64rem) {
-		.hero__stage {
-			grid-template-columns: minmax(0, 1fr) 21rem;
-			gap: var(--space-m);
-		}
-	}
-
-	.hero__photo {
-		aspect-ratio: 4 / 3;
-		box-shadow: var(--shadow-lift);
-	}
-
-	@media (min-width: 40rem) {
-		.hero__photo {
-			aspect-ratio: 16 / 9;
-		}
-	}
-
-	@media (min-width: 64rem) {
-		.hero__photo {
-			aspect-ratio: auto;
-			height: clamp(28rem, 42vw, 38rem);
-		}
-	}
-
-	.hero__cards {
-		display: grid;
-		gap: var(--space-s);
-	}
-
-	/* Phones: the cards overlap the bottom of the photo */
+	/* Phones: the photo stays behind both the headline and the card, with an even veil */
 	@media (max-width: 63.99rem) {
-		.hero__cards {
-			position: relative;
-			margin: -3.5rem var(--space-s) 0;
+		.hero {
+			min-height: 0;
+		}
+
+		.hero__veil {
+			-webkit-mask-image: none;
+			mask-image: none;
+			background: linear-gradient(
+				180deg,
+				color-mix(in srgb, var(--bcp-deep) 88%, transparent),
+				color-mix(in srgb, var(--bcp-deep) 70%, transparent) 60%,
+				color-mix(in srgb, var(--bcp-blue) 55%, transparent)
+			);
 		}
 	}
 
-	@media (min-width: 40rem) and (max-width: 63.99rem) {
-		.hero__cards {
-			grid-template-columns: 1fr 1fr;
-		}
-	}
-
-	@media (min-width: 64rem) {
-		.hero__cards {
-			grid-template-rows: 1fr 1fr;
-			gap: var(--space-m);
-		}
-	}
-
-	.hero-card {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: 0.25rem;
-		padding: clamp(1.5rem, 2.5vw, 2rem);
+	/* Visit us card: frosted white glass with dark text */
+	.visit-card {
+		display: grid;
+		gap: var(--space-m);
+		padding: clamp(1.5rem, 2.5vw, 2.25rem);
 		border-radius: var(--bcp-radius-large);
-		color: var(--bcp-ink);
-		text-decoration: none;
 		background: color-mix(in srgb, var(--bcp-white) 88%, transparent);
+		color: var(--bcp-ink);
 	}
 
-	.hero-card .icon-circle {
-		width: 3.5rem;
-		height: 3.5rem;
-		margin-bottom: var(--space-s);
+	.visit-card h2 {
+		margin: 0;
+		font-size: 1.625rem;
 	}
 
-	.hero-card p {
+	.visit-card :focus-visible {
+		outline-color: var(--bcp-blue);
+	}
+
+	.visit-card__row {
+		display: flex;
+		align-items: center;
+		gap: var(--space-s);
+	}
+
+	.visit-card__row p {
 		margin: 0;
 	}
 
-	.hero-card__label {
-		margin-top: auto;
+	.visit-card__row .icon-circle {
+		width: 3rem;
+		height: 3rem;
 	}
 
-	.hero-card__label {
-		color: var(--bcp-grey);
-		font-size: 1rem;
-	}
-
-	.hero-card__value {
+	.visit-card__today,
+	.visit-card__strong {
 		color: var(--bcp-blue);
-		font-size: clamp(1.25rem, 1rem + 0.8vw, 1.5rem);
 		font-weight: var(--bcp-weight-heading);
-		line-height: 1.3;
+		line-height: 1.35;
 	}
 
-	.hero-card--call {
-		translate: 0 0;
-		transition: translate 0.5s var(--ease), box-shadow 0.5s var(--ease);
+	.visit-card__strong a {
+		color: var(--bcp-blue);
 	}
 
-	.hero-card--call:hover {
-		translate: 0 -4px;
-		box-shadow: var(--shadow-lift);
+	.visit-card__small {
+		color: var(--bcp-grey);
+		line-height: 1.45;
 	}
 
-	.hero-card--call:hover .hero-card__value {
-		text-decoration: underline;
-		text-underline-offset: 0.2em;
+	.visit-card__btn {
+		justify-self: start;
 	}
 
-	/* Team: a large heading beside the text, no boxes */
+	/* Team: a large photo beside the text */
 
 	.team__inner {
 		display: grid;
-		gap: var(--space-m) var(--space-xl);
+		gap: var(--space-l) var(--space-xl);
+		align-items: center;
 	}
 
 	@media (min-width: 56rem) {
 		.team__inner {
-			grid-template-columns: 1fr 1.2fr;
-			align-items: start;
+			grid-template-columns: 1.1fr 1fr;
 		}
+	}
+
+	.team__image {
+		aspect-ratio: 4 / 3;
+		box-shadow: var(--shadow-lift);
 	}
 
 	.team__lead {
 		font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.625rem);
 		line-height: 1.55;
-		color: var(--bcp-ink);
 	}
 
 	.team__text .btn {
@@ -326,6 +380,16 @@ import heroImage from '../assets/images/footprints-beach.jpg';
 		margin: 0;
 		font-size: 1.25rem;
 		color: color-mix(in srgb, var(--bcp-white) 88%, transparent);
+	}
+
+	.logos {
+		padding-block: clamp(3rem, 6vw, 5rem);
+	}
+
+	.logos__title {
+		font-size: 1.25rem;
+		color: var(--bcp-grey);
+		margin-bottom: var(--space-m);
 	}
 
 	/* FAQ: heading on the left, questions on the right */

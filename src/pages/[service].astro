@@ -5,6 +5,7 @@ import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
 import BookBox from '../components/BookBox.astro';
 import ServiceCards from '../components/ServiceCards.astro';
+import Icon from '../components/Icon.astro';
 import { url } from '../data/site';
 
 export async function getStaticPaths() {
@@ -26,20 +27,26 @@ const { Content } = await render(service);
 		</div>
 	</section>
 
-	{
-		service.data.image && (
-			<div class="container container--wide">
+	<div class="container container--wide">
+		{
+			service.data.image ? (
 				<div class="zoom-frame service__image reveal">
 					<Image
 						src={service.data.image}
 						alt={service.data.imageAlt ?? ''}
 						widths={[640, 1000, 1400, 1700]}
 						sizes="(min-width: 90rem) 90rem, 100vw"
+						loading="eager"
 					/>
 				</div>
-			</div>
-		)
-	}
+			) : (
+				<div class="placeholder service__image reveal" role="img" aria-label={`Photo for ${service.data.title} to come`}>
+					<Icon name={service.data.icon} size={48} />
+					<span class="placeholder__label">Photo to come</span>
+				</div>
+			)
+		}
+	</div>
 
 	<section class="section service">
 		<div class="container service__grid">
@@ -72,7 +79,13 @@ const { Content } = await render(service);
 
 	@media (min-width: 40rem) {
 		.service__image {
-			aspect-ratio: 21 / 9;
+			aspect-ratio: 2 / 1;
+		}
+	}
+
+	@media (min-width: 80rem) {
+		.service__image {
+			aspect-ratio: 5 / 2;
 		}
 	}
 

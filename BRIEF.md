@@ -81,22 +81,23 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 - Contact panel: any link with `data-contact` opens a full screen contact panel with a growing blue circle (about 700ms).
   It closes with X, Escape or Back, keeps focus inside and returns it to the link.
 - Missing photos: a soft blue glass placeholder labelled "Photo to come".
-- All motion is gentle and plays once, and reduce motion turns it off. No sliders, counters or parallax on text.
+- All motion is gentle and plays once, and reduce motion turns it off. Cards fade in and lift as they come into view (a CSS animation, so their own hover transitions can't cancel it), staggered about 80ms apart. No sliders, counters or parallax on text.
 - The desktop menu and Call button stay visible. On phones a Call button is fixed to the bottom of the screen.
 - Previous designs are tagged `round-1-design` and `round-2-design` in git.
 
 ## Homepage order (current)
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
-2. Hero, bento style, about the height of the screen (Our services is not visible on load):
-   - Left (about 65%): a large rounded photo card (16px corners, soft shadow) with the bright beach photo, zooming slightly on hover.
-     In its bottom left corner: the H1 "Podiatry care in Wonthaggi since 2007" (two lines on desktop), the line "Open 5 days per week.
-     Before and after hours appointments are available." and the Call button. A soft white band rises from the bottom of the photo
-     behind the text so it keeps strong contrast; the top of the photo stays clear.
-   - Right (about 35%), the same total height: "Visit us" (larger, frosted glass over a faded greyscale map of the clinic that cannot
-     be clicked; today's hours, address, phone, a round outlined Get directions button and "Send us a message") above the solid Ocean
-     blue "Claims and rebates" card with a round arrow, linking to the claims page. The glass card turns solid white on hover.
-   - Phones: the photo card with the headline, then the two cards stacked.
+2. Hero, filling the screen below the header (Our services is not visible on load), restored from `hero-faded-photo` and improved:
+   - Background: the beach photo covers the whole hero under a 55% white veil, so the beach and footprints show clearly. It sits beneath
+     the moving glow and scrolls away with the hero.
+   - Left (about 60%): the H1 "Podiatry care in Wonthaggi since 2007" (two lines on desktop) and the intro sentence, both in dark Ocean
+     blue (`--bcp-deep`), on a soft white glow behind the text area only (not a box). They sit just above the vertical middle.
+   - Right (about 35%), aligned with the heading: a frosted glass "Visit us" card (hours on two lines, "Closed today" above on weekends,
+     the address with a small Get directions link, the Call button and a "Send us a message" secondary button with a chat icon; solid
+     white on hover) above the smaller blue "Claims and rebates" card. [CHECK WITH CLIENT] whether Claims is the right thing to feature.
+   - Phones: heading and sentence, then Visit us, then Claims and rebates, all over the photo. The fixed phone Call bar hides while the
+     Visit us Call button is on screen.
 3. Our services: the feature card layout, with plain patient words first and the official name smaller underneath for four services:
    "Ingrown toenails, corns and calluses" (General Podiatry), "Orthotics" (Prescription Orthotic Therapy), "Diabetes foot checks"
    (Diabetes foot assessment), "Children's feet" (Paediatric Assessment). Set with `plainName` in each service's markdown, home page only.
@@ -108,7 +109,7 @@ every 4 to 8 seconds (sometimes faster) with smooth easing, growing and shrinkin
 cards so the glass picks up the colour, and fades back as you scroll. Also a paler Sea cyan blob near the top and an occasional faint touch
 of Sand; the section glows provide smaller, paler blobs further down. Paused while the tab is hidden, still with reduce motion.
 
-Earlier home heroes: tag `hero-faded-photo` (full screen faded photo), commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
+Earlier home heroes: commit `8bb1897` (bento photo card with a map card), tag `hero-faded-photo` (full screen faded photo, 82% veil), commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
 
 ## Preview mode (remove all of this at launch)
 

@@ -132,9 +132,12 @@ const pageTitle = title ? `${title} | ${clinic.name}` : `${clinic.name} | Podiat
 
 				observer = new IntersectionObserver(
 					(entries) => {
+						// Items that come into view together reveal one after another, about 80ms apart
+						let order = 0;
 						entries.forEach((entry) => {
 							if (!entry.isIntersecting) return;
 							const el = entry.target as HTMLElement;
+							if (el.classList.contains('reveal')) el.style.setProperty('--reveal-delay', `${order++ * 80}ms`);
 							el.classList.add('is-visible');
 							if (el.classList.contains('reveal-lines')) restore(el);
 							observer?.unobserve(el);

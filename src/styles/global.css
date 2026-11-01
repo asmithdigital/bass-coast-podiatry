@@ -743,15 +743,26 @@ textarea.input {
 /* Motion. Only applies when JavaScript runs and the visitor allows motion. */
 
 @media (prefers-reduced-motion: no-preference) {
+	/* Fade in and lift up once, as an animation rather than a transition, so cards and buttons that set
+	   their own hover transitions still reveal smoothly. Cards that come into view together are staggered
+	   about 80ms apart through --reveal-delay (set by the script in Layout.astro). */
 	.js .reveal {
 		opacity: 0;
-		transform: translateY(24px);
-		transition: opacity 0.9s var(--ease), transform 0.9s var(--ease), translate 0.5s var(--ease), box-shadow 0.5s var(--ease);
 	}
 
 	.js .reveal.is-visible {
-		opacity: 1;
-		transform: none;
+		animation: reveal-up 0.9s var(--ease) var(--reveal-delay, 0ms) both;
+	}
+
+	@keyframes reveal-up {
+		from {
+			opacity: 0;
+			transform: translateY(24px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
 	}
 
 	/* Headings split into lines by the script in Layout.astro */

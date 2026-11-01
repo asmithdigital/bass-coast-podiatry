@@ -160,7 +160,7 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 
 ### Design round 3 additions
 
-- Home hero card: "Visit us", with today's hours worked out in Wonthaggi time ("Open today, 8:40 am to 5:30 pm" or "Closed today").
+- Home hero: H1 and intro over a lightly faded beach photo. "Visit us" card (hours, address, "Get directions", "Call (03) 5672 2309", "Send us a message") above a smaller "Claims and rebates" card ("Medicare, DVA, HICAPS, TAC and WorkSafe"). **[CHECK WITH CLIENT]** Is Claims and rebates the right thing to feature in the hero, or should it be something else (for example a popular service)?
 - Home hero: H1 on its own; intro line and "Call (03) 5672 2309"; bento cards "Visit us" (today's hours, address, "Get directions", "Send us a message") and "Claims and rebates" ("Medicare, DVA, HICAPS, TAC and WorkSafe"), plus a photo tile.
 - Home page service cards lead with plain patient words, with the official name underneath: "Ingrown toenails, corns and calluses" (General Podiatry), "Orthotics" (Prescription Orthotic Therapy), "Diabetes foot checks" (Diabetes foot assessment), "Children's feet" (Paediatric Assessment). These replace the four quick link boxes that sat below the hero. **[CHECK WITH CLIENT]** Which four services are most popular? These four are a first guess.
 - About: new heading "Our clinic" over the existing clinic text. "Meet our Staff" and "Our Administration team" are now cards.
@@ -185,4 +185,5 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 10. Logos: entitlement to use each one, and the AHPRA registration sentence.
 11. About: staff photos for the placeholders. Prescription Orthotic Therapy: a photo for the placeholder.
 12. Home: which four services are most popular, for the plain patient words on the service cards.
-13. Not shown on the site: WorkCover or WorkSafe wording, and the stock photo licence.
+13. Home hero: whether Claims and rebates is the right thing to feature beside Visit us, or something else.
+14. Not shown on the site: WorkCover or WorkSafe wording, and the stock photo licence.

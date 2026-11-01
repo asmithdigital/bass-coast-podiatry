@@ -15,54 +15,54 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 <Layout description="Bass Coast Podiatry in Wonthaggi has provided podiatry care since 2007. Open Monday to Friday. Call (03) 5672 2309.">
 	<section class="hero">
+		<!-- Lightly faded beach photo behind the hero only. It sits beneath the moving glow and scrolls away with the hero. -->
+		<div class="hero__bg" aria-hidden="true">
+			<Image src={heroImage} alt="" widths={[800, 1280, 1698]} sizes="100vw" loading="eager" fetchpriority="high" />
+		</div>
+
 		<div class="container container--wide hero__grid">
-			<!-- Large photo card, with the headline in its bottom left corner -->
-			<div class="hero__photo zoom-frame">
-				<Image
-					src={heroImage}
-					alt="Footprints in the sand along the water's edge at a beach."
-					widths={[640, 1000, 1400, 1698]}
-					sizes="(min-width: 64rem) 62vw, 100vw"
-					loading="eager"
-					fetchpriority="high"
-				/>
-				<div class="hero__copy">
-					<h1 class="hero__title reveal-lines">Podiatry care in Wonthaggi since 2007</h1>
-					<p class="hero__line">Open 5 days per week. Before and after hours appointments are available.</p>
-					<a class="btn btn--icon" href={clinic.phoneHref} data-hero-call>
-						<Icon name="phone" />
-						Call {clinic.phone}
-					</a>
-				</div>
+			<div class="hero__main">
+				<h1 class="hero__title reveal-lines">Podiatry care in Wonthaggi since 2007</h1>
+				<p class="hero__lead reveal">
+					Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care.
+				</p>
 			</div>
 
 			<div class="hero__cards">
-				<!-- Visit us, over a faded map of the clinic location -->
-				<article class="hcard hcard--visit glass" aria-labelledby="visit-card-title">
-					<div class="hcard__map" aria-hidden="true">
-						<iframe src={clinic.mapEmbed} title="Map of the clinic location" tabindex="-1" loading="eager"></iframe>
+				<article class="hcard hcard--visit glass reveal" aria-labelledby="visit-card-title">
+					<div class="hcard__head">
+						<span class="icon-circle"><Icon name="clock" size={24} /></span>
+						<h2 id="visit-card-title">Visit us</h2>
 					</div>
-					<a class="hcard__corner" href={clinic.directions} rel="noopener">
-						<Icon name="directions" size={20} />
-						<span class="visually-hidden">Get directions on Google Maps</span>
-					</a>
-					<h2 id="visit-card-title">Visit us</h2>
-					<p class="hcard__today" data-today>{clinic.hours[0].days}, {clinic.hours[0].time}</p>
-					<p class="hcard__note" data-today-note>{clinic.hoursNote}</p>
-					<p class="hcard__address">
-						{clinic.street}<br />
-						{clinic.suburb}
+					<p class="hcard__closed" data-closed-today hidden>Closed today</p>
+					<p class="hcard__hours">
+						<span>Open {clinic.hours[0].days}</span>
+						<span>{clinic.hours[0].time}</span>
 					</p>
-					<p class="hcard__phone"><a href={clinic.phoneHref}>{clinic.phone}</a></p>
-					<p class="hcard__message"><a href={url('/contact/#message')} data-contact>Send us a message</a></p>
+					<p class="hcard__address">
+						{clinic.street}, {clinic.suburb}
+						<a class="hcard__directions" href={clinic.directions} rel="noopener">Get directions</a>
+					</p>
+					<div class="hcard__actions">
+						<a class="btn btn--icon" href={clinic.phoneHref} data-hero-call>
+							<Icon name="phone" />
+							Call {clinic.phone}
+						</a>
+						<a class="btn btn--outline btn--icon" href={url('/contact/#message')} data-contact>
+							<Icon name="message" />
+							Send us a message
+						</a>
+					</div>
 				</article>
 
-				<!-- Claims and rebates, solid Ocean blue -->
-				<article class="hcard hcard--claims on-blue" aria-labelledby="claims-card-title">
-					<span class="hcard__corner" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
-					<h2 id="claims-card-title">Claims and rebates</h2>
-					<p><a class="hcard__stretch" href={url('/claims-rebates/')}>Medicare, DVA, HICAPS, TAC and WorkSafe</a></p>
-				</article>
+					<article class="bento bento--claims on-blue reveal" aria-labelledby="claims-card-title">
+						<span class="bento__corner" aria-hidden="true"><Icon name="arrowUpRight" size={18} /></span>
+						<h2 id="claims-card-title">Claims and rebates</h2>
+						<p>
+							<a class="bento__stretch" href={url('/claims-rebates/')}>Medicare, DVA, HICAPS, TAC and WorkSafe</a>
+						</p>
+					</article>
+
 			</div>
 		</div>
 	</section>
@@ -153,28 +153,24 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 </Layout>
 
 <script>
-	// Today's hours in the Visit us card, worked out in Wonthaggi's time zone.
+	// Shows "Closed today" in the Visit us card on days the clinic is closed, worked out in Wonthaggi's time zone.
 	import { clinic } from '../data/site';
 
 	function showToday() {
-		const el = document.querySelector('[data-today]');
+		const el = document.querySelector<HTMLElement>('[data-closed-today]');
 		if (!el) return;
 		const day = new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Melbourne', weekday: 'short' }).format(new Date());
 		const index = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(day);
-		const open = (clinic.openDays as readonly number[]).includes(index);
-		el.textContent = open ? `Open today, ${clinic.openTime} to ${clinic.closeTime}` : 'Closed today';
-		const note = document.querySelector('[data-today-note]');
-		if (note && !open) note.textContent = `Open ${clinic.hours[0].days}, ${clinic.hours[0].time}.`;
+		el.hidden = (clinic.openDays as readonly number[]).includes(index);
 	}
 
 	document.addEventListener('astro:page-load', showToday);
 </script>
 
 <style>
-	/* Hero: the beach photo fills the screen width, with an Ocean blue glass veil deepest on the left */
-
-	/* Hero, bento style: a large photo card on the left (about 65%) with the headline in its bottom left
-	   corner, and two cards on the right (about 35%) at the same total height. About the height of the screen. */
+	/* Hero: fills the screen below the header, over a lightly faded beach photo. Left (about 60%) the headline
+	   and intro on a soft white glow; right (about 35%) Visit us above Claims and rebates. The content sits a
+	   little above the vertical middle. */
 
 	.hero {
 		--header-h: 4.75rem;
@@ -182,7 +178,10 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		display: grid;
 		align-items: center;
 		min-height: calc(100svh - var(--header-h));
-		padding-block: clamp(1.25rem, 3vh, 2.5rem);
+		/* The soft glow behind the text must not widen the page on phones */
+		overflow-x: clip;
+		/* More space below than above lifts the content just above the middle */
+		padding-block: clamp(2rem, 4vh, 3rem) clamp(4rem, 13vh, 8rem);
 	}
 
 	@media (min-width: 64rem) {
@@ -191,136 +190,121 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		}
 	}
 
+	/* The photo sits under the moving glow (z-index -2, the glow is -1) with a 55% white veil, so the beach
+	   and footprints show clearly. The text gets its own soft white glow (see .hero__main). */
+	.hero__bg {
+		position: absolute;
+		inset: 0;
+		z-index: -2;
+		overflow: hidden;
+	}
+
+	.hero__bg img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 62% 50%;
+	}
+
+	.hero__bg::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: color-mix(in srgb, var(--bcp-white) 55%, transparent);
+	}
+
 	.hero__grid {
 		display: grid;
-		gap: clamp(1rem, 1.5vw, 1.5rem);
+		gap: var(--space-l) 5%;
+		align-items: center;
 	}
 
 	@media (min-width: 64rem) {
 		.hero__grid {
-			grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
+			grid-template-columns: 60fr 35fr;
 		}
 	}
 
-	/* Photo card: clear and bright. A soft white gradient in the bottom left corner only keeps the text strong. */
-	.hero__photo {
+	/* Soft white glow behind the headline and intro only, so the photo is lighter right behind the words.
+	   It fades out at the edges, so it never reads as a box. */
+	.hero__main {
 		position: relative;
-		display: flex;
-		align-items: flex-end;
-		min-height: 34rem;
-		border-radius: var(--bcp-radius-panel);
-		box-shadow: var(--shadow-lift);
+		isolation: isolate;
 	}
 
-	@media (min-width: 64rem) {
-		.hero__photo {
-			min-height: 0;
-			height: clamp(30rem, calc(100svh - var(--header-h) - 4rem), 46rem);
-		}
-	}
-
-	.hero__photo img {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: 62% 40%;
-	}
-
-	.hero__photo::after {
+	.hero__main::before {
 		content: '';
 		position: absolute;
-		inset: 0;
-		/* Soft white rising from the bottom behind the text, strongest on the left. The upper part of the photo
-		   (the walker and the footprints) stays clear and bright. */
-		background:
-			radial-gradient(ellipse 80% 70% at 0% 100%, color-mix(in srgb, var(--bcp-white) 70%, transparent) 0%, transparent 100%),
-			linear-gradient(
-				to top,
-				color-mix(in srgb, var(--bcp-white) 95%, transparent) 0%,
-				color-mix(in srgb, var(--bcp-white) 91%, transparent) 46%,
-				color-mix(in srgb, var(--bcp-white) 45%, transparent) 60%,
-				transparent 72%
-			);
+		inset: -22% -14% -26% -18%;
+		z-index: -1;
+		background: radial-gradient(
+			closest-side,
+			color-mix(in srgb, var(--bcp-white) 92%, transparent) 0%,
+			color-mix(in srgb, var(--bcp-white) 84%, transparent) 55%,
+			color-mix(in srgb, var(--bcp-white) 40%, transparent) 82%,
+			transparent 100%
+		);
 		pointer-events: none;
 	}
 
-	/* Phones: the text takes most of the card width, so the soft white rises from the bottom instead */
-	@media (max-width: 63.99rem) {
-		.hero__photo::after {
-			background: linear-gradient(
-				to top,
-				color-mix(in srgb, var(--bcp-white) 96%, transparent) 0%,
-				color-mix(in srgb, var(--bcp-white) 92%, transparent) 55%,
-				color-mix(in srgb, var(--bcp-white) 55%, transparent) 75%,
-				transparent 92%
-			);
-		}
-	}
-
-	.hero__copy {
-		position: relative;
-		z-index: 1;
-		padding: clamp(1.5rem, 3vw, 2.75rem);
-		max-width: 100%;
-	}
-
 	.hero__title {
-		width: fit-content;
-		max-width: 13em;
-		margin: 0 0 0.6rem;
-		font-size: clamp(2.25rem, 0.9rem + 3.7vw, 4.25rem);
+		color: var(--bcp-deep);
+		margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
+		font-size: clamp(2.25rem, 0.85rem + 4.25vw, 4.65rem);
 		line-height: 1.04;
 		letter-spacing: -0.035em;
 	}
 
-	.hero__line {
-		width: fit-content;
-		max-width: 30rem;
+	.hero__lead {
+		max-width: 36rem;
 		margin-bottom: var(--space-m);
+		margin-bottom: 0;
 		font-size: 1.25rem;
-		line-height: 1.5;
-		color: var(--bcp-ink);
+		line-height: 1.55;
+		color: var(--bcp-deep);
 	}
 
-	/* Right hand cards: Visit us larger on top, Claims smaller below, together the height of the photo card */
+	/* Visit us above the smaller Claims card, vertically aligned with the heading */
 	.hero__cards {
 		display: grid;
-		gap: clamp(1rem, 1.5vw, 1.5rem);
+		gap: clamp(0.75rem, 1.2vw, 1rem);
 	}
 
-	@media (min-width: 64rem) {
-		.hero__cards {
-			grid-template-rows: 1.7fr 1fr;
-		}
+	.bento {
+		position: relative;
+		border-radius: var(--bcp-radius-panel);
 	}
 
+	.bento--claims {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		padding: clamp(1rem, 1.4vw, 1.35rem);
+	}
+
+	.bento h2 {
+		margin: 0;
+		font-size: 1.25rem;
+		line-height: 1.3;
+	}
+
+	.bento p {
+		margin: 0;
+	}
+
+	/* Visit us: frosted glass that turns solid white on hover */
 	.hcard {
 		position: relative;
 		display: flex;
 		flex-direction: column;
 		gap: 0.3rem;
 		padding: clamp(1.25rem, 1.8vw, 1.75rem);
-		padding-right: 4.5rem;
 		border-radius: var(--bcp-radius-panel);
-		overflow: hidden;
 		transition: background-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
 	}
 
-	.hcard h2 {
-		margin: 0 0 0.35rem;
-		font-size: clamp(1.375rem, 1.1rem + 0.6vw, 1.75rem);
-		line-height: 1.25;
-	}
-
-	.hcard p {
-		margin: 0;
-	}
-
-	/* Frosted glass that the glow tints, turning solid white on hover */
 	.hcard--visit.glass {
-		background: color-mix(in srgb, var(--bcp-white) 66%, transparent);
+		background: color-mix(in srgb, var(--bcp-white) 72%, transparent);
 	}
 
 	.hcard--visit.glass:hover,
@@ -329,131 +313,121 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		box-shadow: var(--shadow-lift);
 	}
 
-	/* Faded, non-interactive map of the clinic behind the Visit us text. It is drawn larger than the card
-	   so the map's own buttons sit outside the visible area. */
-	.hcard--visit {
-		isolation: isolate;
+	.hcard h2 {
+		margin: 0;
+		font-size: clamp(1.375rem, 1.1rem + 0.6vw, 1.75rem);
+		line-height: 1.25;
 	}
 
-	.hcard__map {
-		position: absolute;
-		inset: 0;
-		z-index: -1;
-		pointer-events: none;
-		opacity: 0.22;
-		filter: grayscale(1) contrast(0.85);
+	.hcard p {
+		margin: 0;
 	}
 
-	/* Drawn wider and taller than the card, centred on the clinic, so the map's own labels and buttons fall outside */
-	.hcard__map iframe {
-		position: absolute;
-		top: -110px;
-		left: -300px;
-		width: calc(100% + 600px);
-		max-width: none;
-		height: calc(100% + 220px);
-		border: 0;
-		pointer-events: none;
+	.hcard__head {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 0.6rem;
 	}
 
-	.hcard__today {
+	.hcard__head .icon-circle {
+		width: 2.75rem;
+		height: 2.75rem;
+	}
+
+	.hcard__closed {
 		color: var(--bcp-blue);
-		font-size: 1.25rem;
 		font-weight: var(--bcp-weight-heading);
 	}
 
-	.hcard__note {
+	.hcard__hours span {
+		display: block;
 		line-height: 1.45;
+	}
+
+	.hcard__hours span:first-child {
+		font-weight: var(--bcp-weight-heading);
 	}
 
 	.hcard__address {
-		margin-top: 0.75rem !important;
+		margin-top: 0.6rem !important;
 		line-height: 1.45;
 	}
 
-	.hcard__phone a {
+	.hcard__directions {
+		display: inline-block;
+		margin-left: 0.25rem;
 		font-weight: var(--bcp-weight-heading);
 	}
 
-	.hcard__message {
-		margin-top: auto !important;
-		padding-top: 0.75rem;
+	.hcard__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		margin-top: 1rem;
 	}
 
-	.hcard__message a {
-		font-size: 1.125rem;
+	.hcard__actions .btn {
+		min-height: 3.25rem;
+		padding: 0.7rem 1.25rem;
 	}
 
-	/* Round outlined icon button in the top right corner */
-	.hcard__corner {
-		position: absolute;
-		top: clamp(1rem, 1.5vw, 1.4rem);
-		right: clamp(1rem, 1.5vw, 1.4rem);
-		z-index: 1;
-		display: grid;
-		place-items: center;
-		width: 2.75rem;
-		height: 2.75rem;
-		border: 1px solid color-mix(in srgb, var(--bcp-blue) 45%, transparent);
-		border-radius: 50%;
-		background: color-mix(in srgb, var(--bcp-white) 70%, transparent);
-		color: var(--bcp-blue);
-		transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
-	}
-
-	a.hcard__corner:hover {
-		background: var(--bcp-blue);
-		color: var(--bcp-white);
-	}
-
-	/* Claims and rebates: solid Ocean blue */
-	.hcard--claims {
-		justify-content: center;
+	/* Small solid Ocean blue card, the blue card style from the style guide */
+	.bento--claims {
+		padding-right: 3.5rem;
 		background: var(--bcp-blue);
 		color: var(--bcp-white);
 		box-shadow: var(--shadow);
 	}
 
-	.hcard--claims h2 {
+	.bento--claims h2 {
 		color: var(--bcp-white);
+		font-size: 1.125rem;
 	}
 
-	.hcard--claims .hcard__corner {
-		border-color: color-mix(in srgb, var(--bcp-white) 60%, transparent);
-		background: transparent;
+	.bento__corner {
+		position: absolute;
+		top: 0.9rem;
+		right: 0.9rem;
+		display: grid;
+		place-items: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border: 1px solid color-mix(in srgb, var(--bcp-white) 55%, transparent);
+		border-radius: 50%;
 		color: var(--bcp-white);
+		transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 	}
 
-	.hcard--claims:hover .hcard__corner {
+	.bento--claims:hover .bento__corner {
 		background: var(--bcp-white);
 		color: var(--bcp-blue);
 	}
 
 	/* The whole Claims card is clickable through its link */
-	.hcard__stretch {
+	.bento__stretch {
 		color: var(--bcp-white);
-		font-size: 1.125rem;
-		line-height: 1.45;
 		text-decoration: none;
+		line-height: 1.45;
 	}
 
-	.hcard__stretch::after {
+	.bento__stretch::after {
 		content: '';
 		position: absolute;
 		inset: 0;
 		border-radius: var(--bcp-radius-panel);
 	}
 
-	.hcard__stretch:focus-visible {
+	.bento__stretch:focus-visible {
 		outline: none;
 	}
 
-	.hcard__stretch:focus-visible::after {
+	.bento__stretch:focus-visible::after {
 		outline: 3px solid var(--bcp-white);
-		outline-offset: -4px;
+		outline-offset: 3px;
 	}
 
-	.hcard--claims:hover .hcard__stretch {
+	.bento--claims:hover .bento__stretch {
 		text-decoration: underline;
 		text-underline-offset: 0.2em;
 	}

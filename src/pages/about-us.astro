@@ -17,7 +17,6 @@ const staff = [
 		name: 'Jennifer Lewis',
 		role: 'Principal Podiatrist',
 		bio: 'Jennifer has worked and lived in the Bass Coast region for the last 15 years. She is passionately committed to the Podiatry profession and enjoys all facets of Podiatry. Jennifer has developed a special interest in high risk and diabetes foot care and assessment. Jennifer enjoys dancing, walking her dog and is also an avid snow skier during the winter months.',
-		check: '"The last 15 years" was written some years ago. Please confirm the number.',
 	},
 	{
 		name: 'Alison Kelly',
@@ -79,21 +78,18 @@ const staff = [
 		<div class="container container--wide above-glow">
 			<div class="section-head">
 				<h2 id="team-title" class="display reveal-lines">Meet our Staff</h2>
-				<p class="reveal"><span class="check">[CHECK WITH CLIENT] Is this staff list still current? Staff photos are needed for the placeholders.</span></p>
 			</div>
 			<ul class="staff" role="list">
 				{
 					staff.map((person) => (
 						<li class="staff__card glass reveal">
-							<div class="placeholder staff__photo" role="img" aria-label={`Photo of ${person.name} to come`}>
+							<div class="placeholder staff__photo" aria-hidden="true">
 								<Icon name="person" size={40} />
-								<span class="placeholder__label">Photo to come</span>
 							</div>
 							<div class="staff__body">
 								<h3>{person.name}</h3>
 								<p class="staff__role">{person.role}</p>
 								<p>{person.bio}</p>
-								{person.check && <p class="check">[CHECK WITH CLIENT] {person.check}</p>}
 							</div>
 						</li>
 					))

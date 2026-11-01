@@ -15,9 +15,6 @@ const items = limit ? faqs.slice(0, limit) : faqs;
 			<details open={i === 0}>
 				<summary>{faq.question}</summary>
 				<div class="answer">
-					{faq.isNew && (
-						<p class="check">[CHECK WITH CLIENT] New question. The answer uses wording from the current website.</p>
-					)}
 					{faq.answer.map((para) => (
 						<p>{para}</p>
 					))}

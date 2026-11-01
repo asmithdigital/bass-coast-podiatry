@@ -26,7 +26,6 @@ The Nail Laser heats the nail bed enough to kill the nail fungus. The skin below
 
 Research shows that the nail laser is 70 to 83% effective after a single treatment. Please read the post procedure information to ensure you get the best chance of successful results for your nails. For some cases, a second treatment will be required to ensure clear nail growth.
 
-<p class="check">[CHECK WITH CLIENT] The success rates and the words "permanent cure" below should be checked against the AHPRA advertising guidelines before going live. The "post procedure information" mentioned on this page is not on the current website. Where should patients find it?</p>
 
 ## What Can I Expect During Treatment?
 

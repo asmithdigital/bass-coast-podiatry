@@ -58,7 +58,8 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 
 - Use the current site's wording. Only fix obvious typos, and list every change in `content/INVENTORY.md`.
 - Never invent facts, services, staff, prices or claims.
-- If something is unclear, show a visible note `[CHECK WITH CLIENT]` (class `check`) rather than guessing.
+- If something is unclear, don't guess: add it to the `[CHECK WITH CLIENT]` list in `content/INVENTORY.md`. Since the concept was
+  made ready to share, no check notes, instructions or "to come" labels are shown on the site itself.
 - No patient testimonials (AHPRA advertising rules).
 - Partner and membership logos (design round 3): one muted row, set in `partners` in `src/data/site.ts`. Never the AHPRA logo.
   Medicare, DVA and WorkSafe restrict logo use, so they show as text until the client has permission. See `content/INVENTORY.md`.
@@ -93,9 +94,9 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
      the moving glow and scrolls away with the hero.
    - Left (about 60%): the H1 "Podiatry care in Wonthaggi since 2007" (two lines on desktop) and the intro sentence, both in dark Ocean
      blue (`--bcp-deep`), on a soft white glow behind the text area only (not a box). They sit just above the vertical middle.
-   - Right (about 35%), aligned with the heading: a frosted glass "Visit us" card (hours on two lines, "Closed today" above on weekends,
-     the address with a small Get directions link, the Call button and a "Send us a message" secondary button with a chat icon; solid
-     white on hover) above the smaller blue "Claims and rebates" card. [CHECK WITH CLIENT] whether Claims is the right thing to feature.
+   - Right (about 35%), aligned with the heading: a compact frosted glass "Visit us" card (hours on two lines, the address, the Call
+     button with a "Send us a message" text link and chat icon beside it, then "Get directions" with a map pin; solid white on hover)
+     above the smaller blue "Claims and rebates" card. Whether Claims is the right thing to feature is in the INVENTORY.md check list.
    - Phones: heading and sentence, then Visit us, then Claims and rebates, all over the photo. The fixed phone Call bar hides while the
      Visit us Call button is on screen.
 3. Our services: the feature card layout, with plain patient words first and the official name smaller underneath for four services:
@@ -117,7 +118,8 @@ Earlier home heroes: commit `8bb1897` (bento photo card with a map card), tag `h
 - `public/robots.txt` disallows everything. Note: on GitHub Pages a project site's robots.txt is not at the domain root, so the meta tag is what actually keeps it out of search.
 - The "Preview only" banner was removed in design round 2.
 - Password screen (`src/components/PasswordGate.astro`), password `bcp-preview`, remembered for the browser session, switched off on localhost. It only stops casual viewers; it is not secure.
-- Contact form uses Formspree with a placeholder form ID in `src/data/site.ts`.
+- Contact form uses Formspree with a placeholder form ID in `src/data/site.ts`. Until it is set, submitting shows a friendly preview
+  message and sends nothing.
 
 ## Quality checks before finishing any change
 

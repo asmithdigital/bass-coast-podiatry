@@ -171,7 +171,11 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 
 - New short text: "Call us to make an appointment, or send us a message."
 
-## All [CHECK WITH CLIENT] notes on the preview
+## All [CHECK WITH CLIENT] items
+
+These used to show as notes on the preview pages. For the shareable concept they are no longer shown anywhere on the site, so this list
+is the only record. Nothing has been removed from it.
+
 
 1. Home: is the team list still current?
 2. About: is the staff list still current? Staff photos?
@@ -181,9 +185,11 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 6. Laser: success rates and "permanent cure" against AHPRA rules; where the post procedure information lives.
 7. Visiting Pedorthist: which pedorthist, how often, more detail.
 8. FAQs: two new questions, and any others patients ask.
-9. Contact: Formspree form ID and destination email (Contact page and the contact panel).
+9. Contact: Formspree form ID and destination email (Contact page and the contact panel). Until the ID is set, submitting either form
+   shows "Thanks. This is a preview, so messages aren't sent yet. Please call us on (03) 5672 2309." and nothing is sent.
 10. Logos: entitlement to use each one, and the AHPRA registration sentence.
-11. About: staff photos for the placeholders. Prescription Orthotic Therapy: a photo for the placeholder.
+11. About: staff photos for the five plain photo placeholders. Prescription Orthotic Therapy: a photo for its placeholder.
+    Also: are the FAQ answers and the two new FAQ questions right, and is the staff and team list (home and About) still current?
 12. Home: which four services are most popular, for the plain patient words on the service cards.
 13. Home hero: whether Claims and rebates is the right thing to feature beside Visit us, or something else.
 14. Not shown on the site: WorkCover or WorkSafe wording, and the stock photo licence.

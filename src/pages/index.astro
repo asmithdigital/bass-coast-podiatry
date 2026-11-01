@@ -31,28 +31,28 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 			<div class="hero__cards">
 				<article class="hcard hcard--visit glass reveal" aria-labelledby="visit-card-title">
 					<div class="hcard__head">
-						<span class="icon-circle"><Icon name="clock" size={24} /></span>
+						<span class="icon-circle"><Icon name="clock" size={20} /></span>
 						<h2 id="visit-card-title">Visit us</h2>
 					</div>
-					<p class="hcard__closed" data-closed-today hidden>Closed today</p>
 					<p class="hcard__hours">
 						<span>Open {clinic.hours[0].days}</span>
 						<span>{clinic.hours[0].time}</span>
 					</p>
-					<p class="hcard__address">
-						{clinic.street}, {clinic.suburb}
-						<a class="hcard__directions" href={clinic.directions} rel="noopener">Get directions</a>
-					</p>
+					<p class="hcard__address">{clinic.street}, {clinic.suburb}</p>
 					<div class="hcard__actions">
 						<a class="btn btn--icon" href={clinic.phoneHref} data-hero-call>
 							<Icon name="phone" />
 							Call {clinic.phone}
 						</a>
-						<a class="btn btn--outline btn--icon" href={url('/contact/#message')} data-contact>
-							<Icon name="message" />
+						<a class="hcard__link" href={url('/contact/#message')} data-contact>
+							<Icon name="message" size={18} />
 							Send us a message
 						</a>
 					</div>
+					<a class="hcard__link hcard__directions" href={clinic.directions} rel="noopener">
+						<Icon name="pin" size={18} />
+						Get directions
+					</a>
 				</article>
 
 					<article class="bento bento--claims on-blue reveal" aria-labelledby="claims-card-title">
@@ -95,7 +95,6 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 					Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Kelly, Joshua Khoury and Angie Burgess. They are supported by our
 					administration team, Kate, Brooke and Kim.
 				</p>
-				<p class="reveal"><span class="check">[CHECK WITH CLIENT] Is this team list still current?</span></p>
 				<a class="btn btn--outline reveal" href={url('/about-us/#team')}>Meet our team</a>
 			</div>
 		</div>
@@ -151,21 +150,6 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		</div>
 	</section>
 </Layout>
-
-<script>
-	// Shows "Closed today" in the Visit us card on days the clinic is closed, worked out in Wonthaggi's time zone.
-	import { clinic } from '../data/site';
-
-	function showToday() {
-		const el = document.querySelector<HTMLElement>('[data-closed-today]');
-		if (!el) return;
-		const day = new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Melbourne', weekday: 'short' }).format(new Date());
-		const index = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(day);
-		el.hidden = (clinic.openDays as readonly number[]).includes(index);
-	}
-
-	document.addEventListener('astro:page-load', showToday);
-</script>
 
 <style>
 	/* Hero: fills the screen below the header, over a lightly faded beach photo. Left (about 60%) the headline
@@ -292,13 +276,15 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		margin: 0;
 	}
 
-	/* Visit us: frosted glass that turns solid white on hover */
+	/* Visit us: frosted glass that turns solid white on hover. About 20% smaller than the other cards
+	   (padding, text and width), so it sits lightly next to the heading. */
 	.hcard {
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: 0.3rem;
-		padding: clamp(1.25rem, 1.8vw, 1.75rem);
+		gap: 0.25rem;
+		padding: clamp(1rem, 1.2vw, 1.25rem);
+		font-size: 1rem;
 		border-radius: var(--bcp-radius-panel);
 		transition: background-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
 	}
@@ -315,7 +301,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 	.hcard h2 {
 		margin: 0;
-		font-size: clamp(1.375rem, 1.1rem + 0.6vw, 1.75rem);
+		font-size: clamp(1.125rem, 0.9rem + 0.5vw, 1.4rem);
 		line-height: 1.25;
 	}
 
@@ -326,18 +312,13 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	.hcard__head {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 0.6rem;
+		gap: 0.6rem;
+		margin-bottom: 0.45rem;
 	}
 
 	.hcard__head .icon-circle {
-		width: 2.75rem;
-		height: 2.75rem;
-	}
-
-	.hcard__closed {
-		color: var(--bcp-blue);
-		font-weight: var(--bcp-weight-heading);
+		width: 2.25rem;
+		height: 2.25rem;
 	}
 
 	.hcard__hours span {
@@ -350,26 +331,51 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	}
 
 	.hcard__address {
-		margin-top: 0.6rem !important;
+		margin-top: 0.45rem !important;
 		line-height: 1.45;
 	}
 
-	.hcard__directions {
-		display: inline-block;
-		margin-left: 0.25rem;
-		font-weight: var(--bcp-weight-heading);
-	}
-
+	/* Call button with the message link beside it on the same line */
 	.hcard__actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.6rem;
-		margin-top: 1rem;
+		align-items: center;
+		gap: 0.5rem 0.8rem;
+		margin-top: 0.8rem;
 	}
 
 	.hcard__actions .btn {
-		min-height: 3.25rem;
-		padding: 0.7rem 1.25rem;
+		gap: 0.45rem;
+		min-height: 2.75rem;
+		padding: 0.55rem 0.9rem;
+		font-size: 0.9375rem;
+	}
+
+	.hcard__actions .btn :global(svg) {
+		width: 1.125rem;
+		height: 1.125rem;
+	}
+
+	.hcard__link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.9375rem;
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	.hcard__directions {
+		align-self: flex-start;
+		margin-top: 0.6rem;
+	}
+
+	/* The right hand cards are a little narrower than their column on desktop, so they read lighter than the
+	   heading, while leaving room for Call and Send us a message on one line from 1440px wide */
+	@media (min-width: 64rem) {
+		.hero__cards {
+			width: 92%;
+			justify-self: end;
+		}
 	}
 
 	/* Small solid Ocean blue card, the blue card style from the style guide */

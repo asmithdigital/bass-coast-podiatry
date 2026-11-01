@@ -10,9 +10,17 @@ interface Props {
 
 const { idPrefix = 'cf', compact = false } = Astro.props;
 const id = (name: string) => `${idPrefix}-${name}`;
+// Until the real Formspree form ID is set in site.ts, the form shows a friendly note instead of sending.
+const isPreview = clinic.formspreeId === 'YOUR_FORM_ID';
 ---
 
-<form class:list={['contact-form', { 'contact-form--compact': compact }]} data-astro-reload action={`https://formspree.io/f/${clinic.formspreeId}`} method="POST">
+<form
+	class:list={['contact-form', { 'contact-form--compact': compact }]}
+	data-astro-reload
+	data-preview-form={isPreview ? '' : undefined}
+	action={`https://formspree.io/f/${clinic.formspreeId}`}
+	method="POST"
+>
 	<div class="contact-form__row">
 		<div class="field">
 			<label for={id('name')}>Your name</label>
@@ -34,7 +42,29 @@ const id = (name: string) => `${idPrefix}-${name}`;
 	</div>
 	<input type="hidden" name="_subject" value="Website message for Bass Coast Podiatry" />
 	<button class="btn" type="submit">Send message</button>
+	<p class="contact-form__thanks" role="status" tabindex="-1" hidden>
+		Thanks. This is a preview, so messages aren't sent yet. Please call us on <a href={clinic.phoneHref}>{clinic.phone}</a>.
+	</p>
 </form>
+
+<script>
+	// Preview only: show the thank you note instead of sending. Delegated, so it works after page changes
+	// and for the form in the contact panel.
+	const w = window as unknown as { __bcpPreviewForm?: boolean };
+	if (!w.__bcpPreviewForm) {
+		w.__bcpPreviewForm = true;
+		document.addEventListener('submit', (event) => {
+			const form = event.target as HTMLFormElement;
+			if (!form.matches?.('form[data-preview-form]')) return;
+			event.preventDefault();
+			const note = form.querySelector<HTMLElement>('.contact-form__thanks');
+			if (!note) return;
+			note.hidden = false;
+			note.focus();
+			form.reset();
+		});
+	}
+</script>
 
 <style>
 	.contact-form__row {
@@ -54,5 +84,18 @@ const id = (name: string) => `${idPrefix}-${name}`;
 
 	.contact-form--compact textarea.input {
 		min-height: 7rem;
+	}
+
+	.contact-form__thanks {
+		margin: var(--space-m) 0 0;
+		padding: var(--space-s) var(--space-m);
+		border-radius: var(--bcp-radius);
+		background: var(--tint);
+		color: var(--bcp-ink);
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	.contact-form__thanks:focus {
+		outline: none;
 	}
 </style>

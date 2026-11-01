@@ -40,9 +40,8 @@ const { Content } = await render(service);
 					/>
 				</div>
 			) : (
-				<div class="placeholder service__image reveal" role="img" aria-label={`Photo for ${service.data.title} to come`}>
+				<div class="placeholder service__image reveal" aria-hidden="true">
 					<Icon name={service.data.icon} size={48} />
-					<span class="placeholder__label">Photo to come</span>
 				</div>
 			)
 		}

@@ -27,7 +27,7 @@ Main actions: call, find the clinic, understand the services.
   - Ocean blue `#0B4F7C`: logo, headings, buttons, glows
   - Sand `#F4C97B`: logo arch and the current page marker in the menu. Never text.
   - Light sand `#FBEFD6`: in the brand pack, but no longer used for backgrounds (design round 2)
-  - Cloud grey `#EEF0F2` (in `tokens.css`): the page base across the whole site. White for cards and glass, Mist `#F8F9FA` for some sections.
+  - White to Mist `#F8F9FA`: the page base, under the moving background. Cloud grey `#EEF0F2` stays in `tokens.css` but is no longer the base.
   - Ink `#1E2A33`: body text
   - Added in design round 2, in `src/styles/tokens.css` (brand.css stays as supplied): Sea cyan `#7FD3E6` for glows and tints, Deep Ocean blue `#073A5C` for contrast sections, the footer, the mobile menu and the contact panel.
 - Font: Lexend from Google Fonts. Medium (500) for headings, Regular (400) for text.
@@ -88,21 +88,22 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 ## Homepage order (current)
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
-2. Hero, two columns on desktop:
-   - Left: the H1 "Podiatry care in Wonthaggi since 2007" on its own, large, with plenty of space.
-   - Right, sitting lower, level with the middle of the headline: the intro and the "Call (03) 5672 2309" button, then a small bento row:
-     a frosted glass "Visit us" card (today's hours, address, Get directions, "Send us a message" which opens the contact panel), a small
-     solid Ocean blue "Claims and rebates" card linking to the claims page, and a rounded beach photo tile.
-   - Phones: headline, intro and button, then the cards stacked. Call appears once in the hero; the header keeps its own Call button.
-     The fixed phone Call bar hides while the hero Call button is on screen.
+2. Hero, two columns on desktop, top-aligned (about 45% left, 55% right):
+   - Left: the H1 "Podiatry care in Wonthaggi since 2007", then the intro paragraph and the "Call (03) 5672 2309" button.
+   - Right, a bento block: the beach photo large across the full column, then two cards side by side at matching heights: a frosted
+     glass "Visit us" card (today's hours, address, Get directions, "Send us a message" which opens the contact panel) and the solid
+     Ocean blue "Claims and rebates" card linking to the claims page.
+   - Phones: heading, paragraph, button, photo, then the two cards stacked. Call appears once in the hero; the header keeps its own Call
+     button. The fixed phone Call bar hides while the hero Call button is on screen.
 3. Our services: the feature card layout, with plain patient words first and the official name smaller underneath for four services:
    "Ingrown toenails, corns and calluses" (General Podiatry), "Orthotics" (Prescription Orthotic Therapy), "Diabetes foot checks"
    (Diabetes foot assessment), "Children's feet" (Paediatric Assessment). Set with `plainName` in each service's markdown, home page only.
 4. Meet the team, 5. Claims and rebates deep blue section, 6. Logo row, 7. Hours and location with the map, 8. Three FAQs, 9. Footer
 
-Moving background (`Ambient.astro`): fixed behind every page, large soft blobs of Ocean blue, Sea cyan, Soft green `#8FE3C4` and a touch of
-Sand that drift, merge and change shape, one cycle about 26 seconds. CSS only, animating `transform` alone. Paused while the tab is hidden,
-still with reduce motion. Ocean blue is kept the palest so Ink text and Ocean blue headings keep strong contrast.
+Moving background (`Ambient.astro`): fixed behind every page. A white to very light (`#F8F9FA`) base with four separate soft blobs of
+coloured light, Ocean blue, Sea cyan, Soft green `#8FE3C4` and a little Sand, each about 30 to 45% of the screen width with white space
+between them. Each drifts, grows and shrinks on its own path, on a 16 to 24 second loop. CSS only, animating `transform` alone. Paused
+while the tab is hidden, still with reduce motion. Ocean blue is kept the palest so Ink text and Ocean blue headings keep strong contrast.
 
 Earlier home heroes are tagged `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
 

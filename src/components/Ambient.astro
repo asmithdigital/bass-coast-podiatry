@@ -1,8 +1,9 @@
 ---
-// Moving background fixed behind the whole page: large soft blobs of Ocean blue, Sea cyan, soft green
-// and a touch of sand that drift, merge and change shape like a lava lamp (one cycle about 26 seconds).
+// Moving background fixed behind the whole page: a white to very light base with four separate soft
+// blobs of coloured light (Ocean blue, Sea cyan, Soft green and a little Sand). Each one drifts, grows and
+// shrinks on its own path, like a lava lamp, on a 16 to 24 second loop, with white space between them.
 // CSS only, and only `transform` is animated, so it runs on the GPU without repainting.
-// The colours stay pale enough that Ink body text and Ocean blue headings keep strong contrast on top.
+// Ocean blue is kept the palest, so Ink body text and Ocean blue headings keep strong contrast on top.
 // It stands still with reduce motion, and pauses while the tab is hidden (script in Layout.astro).
 ---
 
@@ -11,7 +12,6 @@
 	<span class="blob blob--blue"></span>
 	<span class="blob blob--mint"></span>
 	<span class="blob blob--sand"></span>
-	<span class="blob blob--sea2"></span>
 </div>
 
 <style is:global>
@@ -22,92 +22,76 @@
 		overflow: hidden;
 		pointer-events: none;
 		contain: strict;
+		background: linear-gradient(180deg, var(--bcp-white) 0%, var(--bcp-mist) 100%);
 	}
 
 	.blob {
 		position: absolute;
-		width: var(--s);
-		aspect-ratio: 1;
 		top: var(--y);
 		left: var(--x);
+		width: var(--s);
+		aspect-ratio: 1;
 		border-radius: 50%;
-		/* Soft edges come from the gradient itself, so no costly blur filter is needed */
+		/* A soft core that fades out over most of the radius gives very fuzzy edges without a blur filter */
 		background: radial-gradient(
 			closest-side,
 			color-mix(in srgb, var(--c) calc(var(--a) * 100%), transparent) 0%,
-			color-mix(in srgb, var(--c) calc(var(--a) * 60%), transparent) 45%,
+			color-mix(in srgb, var(--c) calc(var(--a) * 70%), transparent) 30%,
+			color-mix(in srgb, var(--c) calc(var(--a) * 25%), transparent) 65%,
 			transparent 100%
 		);
 		translate: -50% -50%;
 		will-change: transform;
 	}
 
-	/* Ocean blue is kept the palest, so headings and body text stay readable over it */
+	/* Sizes are about 30 to 45% of the screen width, with a floor so they still read on phones */
 	.blob--sea {
 		--c: var(--bcp-sea);
-		--a: 0.75;
-		--s: 75vmax;
-		--x: 82%;
-		--y: 18%;
+		--a: 0.8;
+		--s: max(45vw, 11rem);
+		--x: 80%;
+		--y: 22%;
 	}
 
 	.blob--blue {
 		--c: var(--bcp-blue);
-		--a: 0.26;
-		--s: 70vmax;
-		--x: 18%;
-		--y: 70%;
+		--a: 0.3;
+		--s: max(40vw, 10rem);
+		--x: 14%;
+		--y: 58%;
 	}
 
 	.blob--mint {
 		--c: var(--bcp-mint);
-		--a: 0.6;
-		--s: 60vmax;
-		--x: 55%;
-		--y: 85%;
+		--a: 0.75;
+		--s: max(38vw, 9.5rem);
+		--x: 62%;
+		--y: 88%;
 	}
 
 	.blob--sand {
 		--c: var(--bcp-sand);
-		--a: 0.35;
-		--s: 42vmax;
-		--x: 30%;
-		--y: 20%;
-	}
-
-	.blob--sea2 {
-		--c: var(--bcp-sea);
-		--a: 0.45;
-		--s: 50vmax;
-		--x: 95%;
-		--y: 80%;
+		--a: 0.55;
+		--s: max(30vw, 8rem);
+		--x: 34%;
+		--y: 12%;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
-		.blob {
-			animation: lava 26s ease-in-out infinite;
+		.blob--sea {
+			animation: lava-sea 20s ease-in-out infinite;
 		}
 
 		.blob--blue {
-			animation-duration: 30s;
-			animation-delay: -9s;
-			animation-direction: reverse;
+			animation: lava-blue 24s ease-in-out infinite;
 		}
 
 		.blob--mint {
-			animation-duration: 22s;
-			animation-delay: -15s;
+			animation: lava-mint 17s ease-in-out infinite;
 		}
 
 		.blob--sand {
-			animation-duration: 28s;
-			animation-delay: -4s;
-			animation-direction: reverse;
-		}
-
-		.blob--sea2 {
-			animation-duration: 24s;
-			animation-delay: -18s;
+			animation: lava-sand 22s ease-in-out infinite;
 		}
 
 		/* Paused while the tab is hidden */
@@ -116,27 +100,56 @@
 		}
 	}
 
-	/* Drift, stretch and turn so the blobs merge and change shape */
-	@keyframes lava {
+	/* Each blob has its own path: drift, grow and shrink */
+	@keyframes lava-sea {
 		0%,
 		100% {
-			transform: translate3d(0, 0, 0) rotate(0deg) scale(1, 1);
+			transform: translate3d(0, 0, 0) scale(1);
 		}
-		25% {
-			transform: translate3d(-14vw, 8vh, 0) rotate(40deg) scale(1.25, 0.8);
+		33% {
+			transform: translate3d(-16vw, 14vh, 0) scale(1.3);
 		}
-		50% {
-			transform: translate3d(-6vw, -12vh, 0) rotate(110deg) scale(0.85, 1.2);
-		}
-		75% {
-			transform: translate3d(10vw, 6vh, 0) rotate(200deg) scale(1.15, 0.9);
+		66% {
+			transform: translate3d(-4vw, 30vh, 0) scale(0.8);
 		}
 	}
 
-	/* Fewer layers on small screens to save battery */
-	@media (max-width: 47.99rem) {
-		.blob--sea2 {
-			display: none;
+	@keyframes lava-blue {
+		0%,
+		100% {
+			transform: translate3d(0, 0, 0) scale(0.9);
+		}
+		40% {
+			transform: translate3d(18vw, -20vh, 0) scale(1.25);
+		}
+		70% {
+			transform: translate3d(8vw, 12vh, 0) scale(0.75);
+		}
+	}
+
+	@keyframes lava-mint {
+		0%,
+		100% {
+			transform: translate3d(0, 0, 0) scale(1.1);
+		}
+		30% {
+			transform: translate3d(-20vw, -18vh, 0) scale(0.8);
+		}
+		65% {
+			transform: translate3d(12vw, -30vh, 0) scale(1.3);
+		}
+	}
+
+	@keyframes lava-sand {
+		0%,
+		100% {
+			transform: translate3d(0, 0, 0) scale(1);
+		}
+		50% {
+			transform: translate3d(14vw, 22vh, 0) scale(1.35);
+		}
+		80% {
+			transform: translate3d(-8vw, 8vh, 0) scale(0.85);
 		}
 	}
 </style>

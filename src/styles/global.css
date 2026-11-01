@@ -36,7 +36,7 @@ html {
 
 body {
 	margin: 0;
-	background: var(--bcp-cloud);
+	background: var(--bcp-white);
 	color: var(--bcp-ink);
 	font-family: var(--bcp-font);
 	font-weight: var(--bcp-weight-text);

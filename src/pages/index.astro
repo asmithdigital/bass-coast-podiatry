@@ -15,32 +15,25 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 <Layout description="Bass Coast Podiatry in Wonthaggi has provided podiatry care since 2007. Open Monday to Friday. Call (03) 5672 2309.">
 	<section class="hero">
+		<!-- Faded beach photo behind the hero only. It sits beneath the moving blobs and scrolls away with the hero. -->
+		<div class="hero__bg" aria-hidden="true">
+			<Image src={heroImage} alt="" widths={[800, 1280, 1698]} sizes="100vw" loading="eager" fetchpriority="high" />
+		</div>
+
 		<div class="container container--wide hero__grid">
 			<div class="hero__main">
 				<h1 class="hero__title reveal-lines">Podiatry care in Wonthaggi since 2007</h1>
-				<div class="hero__intro reveal">
-					<p class="hero__lead">
-						Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care.
-					</p>
-					<a class="btn btn--icon" href={clinic.phoneHref} data-hero-call>
-						<Icon name="phone" />
-						Call {clinic.phone}
-					</a>
-				</div>
+				<p class="hero__lead reveal">
+					Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care.
+				</p>
+				<a class="btn btn--icon reveal" href={clinic.phoneHref} data-hero-call>
+					<Icon name="phone" />
+					Call {clinic.phone}
+				</a>
 			</div>
 
-			<div class="hero__bento">
-				<div class="bento bento--photo zoom-frame reveal">
-					<Image
-						src={heroImage}
-						alt="Footprints in the sand along the water's edge at a beach."
-						widths={[640, 1000, 1400]}
-						sizes="(min-width: 64rem) 50vw, 100vw"
-						loading="eager"
-						fetchpriority="high"
-					/>
-				</div>
-					<article class="bento bento--visit glass reveal" aria-labelledby="visit-card-title">
+			<div class="hero__cards">
+				<article class="bento bento--visit glass reveal" aria-labelledby="visit-card-title">
 						<div class="bento__top">
 							<span class="icon-circle"><Icon name="clock" size={24} /></span>
 							<h2 id="visit-card-title">Visit us</h2>
@@ -175,27 +168,59 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 <style>
 	/* Hero: the beach photo fills the screen width, with an Ocean blue glass veil deepest on the left */
 
-	/* Hero: left (about 45%) the headline, intro and Call button; right (about 55%) a bento block with the
-	   photo across the top and the Visit us and Claims cards side by side below it. Both columns top-aligned. */
+	/* Hero: fills the screen below the header, over a faded beach photo. Left (about 60%) the headline,
+	   intro and Call button; right (about 35%) the Visit us and Claims cards stacked. Content centred. */
 
 	.hero {
+		--header-h: 4.75rem;
 		position: relative;
-		padding-block: clamp(2rem, 5vh, 3.5rem) clamp(3rem, 7vh, 5rem);
+		display: grid;
+		align-items: center;
+		min-height: calc(100svh - var(--header-h));
+		padding-block: clamp(2rem, 5vh, 3.5rem);
+	}
+
+	@media (min-width: 64rem) {
+		.hero {
+			--header-h: 6rem;
+		}
+	}
+
+	/* The photo sits under the moving blobs (z-index -2, the blobs are -1) and is faded with a white veil
+	   so it reads like a light watermark. Raise the veil, never darken the text, if anything is hard to read. */
+	.hero__bg {
+		position: absolute;
+		inset: 0;
+		z-index: -2;
+		overflow: hidden;
+	}
+
+	.hero__bg img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 62% 50%;
+	}
+
+	.hero__bg::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: color-mix(in srgb, var(--bcp-white) 82%, transparent);
 	}
 
 	.hero__grid {
 		display: grid;
-		gap: var(--space-l) clamp(2.5rem, 5vw, 5rem);
-		align-items: start;
+		gap: var(--space-l) 5%;
+		align-items: center;
 	}
 
 	@media (min-width: 64rem) {
 		.hero__grid {
-			grid-template-columns: 45fr 55fr;
+			grid-template-columns: 60fr 35fr;
 		}
 	}
 
-	/* About 15% smaller than before */
 	.hero__title {
 		margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
 		font-size: clamp(2.25rem, 0.85rem + 4.25vw, 4.65rem);
@@ -204,28 +229,17 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	}
 
 	.hero__lead {
-		max-width: 34rem;
+		max-width: 36rem;
 		margin-bottom: var(--space-m);
 		font-size: 1.25rem;
 		line-height: 1.55;
 		color: var(--bcp-ink);
 	}
 
-	/* Bento: the photo across the top, then Visit us and Claims side by side at matching heights */
-	.hero__bento {
+	/* Two small cards stacked on the right */
+	.hero__cards {
 		display: grid;
 		gap: clamp(0.75rem, 1.2vw, 1rem);
-	}
-
-	@media (min-width: 40rem) {
-		.hero__bento {
-			grid-template-columns: 1fr 1fr;
-			align-items: stretch;
-		}
-
-		.bento--photo {
-			grid-column: 1 / -1;
-		}
 	}
 
 	.bento {
@@ -351,17 +365,6 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	.bento--claims:hover .bento__stretch {
 		text-decoration: underline;
 		text-underline-offset: 0.2em;
-	}
-
-	/* Large rounded photo across the right column */
-	.bento--photo {
-		aspect-ratio: 16 / 9;
-		box-shadow: var(--shadow-lift);
-	}
-
-	.bento--photo img {
-		position: absolute;
-		inset: 0;
 	}
 
 	/* Team: a large photo beside the text */

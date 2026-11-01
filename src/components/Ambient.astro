@@ -1,5 +1,5 @@
 ---
-// Moving background fixed behind the whole page: a white to very light base with four separate soft
+// Moving background fixed behind the whole page, over a white to very light base (set on body), with four separate soft
 // blobs of coloured light (Ocean blue, Sea cyan, Soft green and a little Sand). Each one drifts, grows and
 // shrinks on its own path, like a lava lamp, on a 16 to 24 second loop, with white space between them.
 // CSS only, and only `transform` is animated, so it runs on the GPU without repainting.
@@ -22,7 +22,7 @@
 		overflow: hidden;
 		pointer-events: none;
 		contain: strict;
-		background: linear-gradient(180deg, var(--bcp-white) 0%, var(--bcp-mist) 100%);
+		/* See-through: the white base is on the page (global.css), so the home hero photo can sit underneath */
 	}
 
 	.blob {

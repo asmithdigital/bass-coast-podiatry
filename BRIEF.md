@@ -88,24 +88,26 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 ## Homepage order (current)
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
-2. Hero, two columns on desktop, top-aligned (about 45% left, 55% right):
-   - Left: the H1 "Podiatry care in Wonthaggi since 2007", then the intro paragraph and the "Call (03) 5672 2309" button.
-   - Right, a bento block: the beach photo large across the full column, then two cards side by side at matching heights: a frosted
-     glass "Visit us" card (today's hours, address, Get directions, "Send us a message" which opens the contact panel) and the solid
-     Ocean blue "Claims and rebates" card linking to the claims page.
-   - Phones: heading, paragraph, button, photo, then the two cards stacked. Call appears once in the hero; the header keeps its own Call
-     button. The fixed phone Call bar hides while the hero Call button is on screen.
+2. Hero, filling the screen below the header (Our services is not visible on load):
+   - Background: the beach photo covers the whole hero, faded with an 82% white veil so it reads like a watermark. It sits beneath the
+     moving blobs and scrolls away with the hero. If any text is hard to read, raise the veil rather than darkening the text.
+   - Left (about 60%): the H1 "Podiatry care in Wonthaggi since 2007" on two lines on desktop, the intro paragraph, then the
+     "Call (03) 5672 2309" button.
+   - Right (about 35%), vertically centred: the frosted glass "Visit us" card (today's hours, address, Get directions, "Send us a
+     message" which opens the contact panel) stacked above the blue "Claims and rebates" card linking to the claims page.
+   - Phones: headline, paragraph, button, then the two cards stacked, all over the faded photo, with the hero at least the screen height.
+     The fixed phone Call bar hides while the hero Call button is on screen.
 3. Our services: the feature card layout, with plain patient words first and the official name smaller underneath for four services:
    "Ingrown toenails, corns and calluses" (General Podiatry), "Orthotics" (Prescription Orthotic Therapy), "Diabetes foot checks"
    (Diabetes foot assessment), "Children's feet" (Paediatric Assessment). Set with `plainName` in each service's markdown, home page only.
 4. Meet the team, 5. Claims and rebates deep blue section, 6. Logo row, 7. Hours and location with the map, 8. Three FAQs, 9. Footer
 
-Moving background (`Ambient.astro`): fixed behind every page. A white to very light (`#F8F9FA`) base with four separate soft blobs of
+Moving background (`Ambient.astro`): fixed behind every page, over a white to very light (`#F8F9FA`) base set on `body`, with four separate soft blobs of
 coloured light, Ocean blue, Sea cyan, Soft green `#8FE3C4` and a little Sand, each about 30 to 45% of the screen width with white space
 between them. Each drifts, grows and shrinks on its own path, on a 16 to 24 second loop. CSS only, animating `transform` alone. Paused
 while the tab is hidden, still with reduce motion. Ocean blue is kept the palest so Ink text and Ocean blue headings keep strong contrast.
 
-Earlier home heroes are tagged `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
+Earlier home heroes: commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
 
 ## Preview mode (remove all of this at launch)
 

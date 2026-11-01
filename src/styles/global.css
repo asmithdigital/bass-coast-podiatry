@@ -36,7 +36,8 @@ html {
 
 body {
 	margin: 0;
-	background: var(--bcp-white);
+	/* White to very light base under the moving background (Ambient.astro) */
+	background: linear-gradient(180deg, var(--bcp-white) 0%, var(--bcp-mist) 100%) fixed;
 	color: var(--bcp-ink);
 	font-family: var(--bcp-font);
 	font-weight: var(--bcp-weight-text);

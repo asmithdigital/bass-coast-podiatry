@@ -161,8 +161,8 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 ### Design round 3 additions
 
 - Home hero card: "Visit us", with today's hours worked out in Wonthaggi time ("Open today, 8:40 am to 5:30 pm" or "Closed today").
-- Home hero (round 2 layout in bento style): H1 with the intro line, "Call (03) 5672 2309" and "Our services". Bento cards "Visit us" (today's hours, address, phone, "Get directions") and "Claims and rebates" ("Medicare, DVA, HICAPS, TAC and WorkSafe").
-- Common reasons people visit, below the hero, replacing the quick actions: "Ingrown toenails, corns and calluses" ("Also warts and thickened or discoloured nails."), "Orthotics" ("Prescription orthoses for heel, knee and foot pain."), "Diabetes foot checks" ("Circulation, sensation and general foot health."), "Children's feet" ("Assessment, treatment and advice for parents."). Each line is drawn from its service page. **[CHECK WITH CLIENT]** Which four services are most popular? These four are a first guess.
+- Home hero: H1 on its own; intro line and "Call (03) 5672 2309"; bento cards "Visit us" (today's hours, address, "Get directions", "Send us a message") and "Claims and rebates" ("Medicare, DVA, HICAPS, TAC and WorkSafe"), plus a photo tile.
+- Home page service cards lead with plain patient words, with the official name underneath: "Ingrown toenails, corns and calluses" (General Podiatry), "Orthotics" (Prescription Orthotic Therapy), "Diabetes foot checks" (Diabetes foot assessment), "Children's feet" (Paediatric Assessment). These replace the four quick link boxes that sat below the hero. **[CHECK WITH CLIENT]** Which four services are most popular? These four are a first guess.
 - About: new heading "Our clinic" over the existing clinic text. "Meet our Staff" and "Our Administration team" are now cards.
 - Contact panel and Contact page share one form. Field hint and button text unchanged.
 - "Photo to come" labels on placeholders.
@@ -184,5 +184,5 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 9. Contact: Formspree form ID and destination email (Contact page and the contact panel).
 10. Logos: entitlement to use each one, and the AHPRA registration sentence.
 11. About: staff photos for the placeholders. Prescription Orthotic Therapy: a photo for the placeholder.
-12. Home: which four services are most popular, for the cards below the hero.
+12. Home: which four services are most popular, for the plain patient words on the service cards.
 13. Not shown on the site: WorkCover or WorkSafe wording, and the stock photo licence.

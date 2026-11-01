@@ -1,0 +1,142 @@
+---
+// Moving background fixed behind the whole page: large soft blobs of Ocean blue, Sea cyan, soft green
+// and a touch of sand that drift, merge and change shape like a lava lamp (one cycle about 26 seconds).
+// CSS only, and only `transform` is animated, so it runs on the GPU without repainting.
+// The colours stay pale enough that Ink body text and Ocean blue headings keep strong contrast on top.
+// It stands still with reduce motion, and pauses while the tab is hidden (script in Layout.astro).
+---
+
+<div class="ambient" aria-hidden="true" transition:persist="ambient">
+	<span class="blob blob--sea"></span>
+	<span class="blob blob--blue"></span>
+	<span class="blob blob--mint"></span>
+	<span class="blob blob--sand"></span>
+	<span class="blob blob--sea2"></span>
+</div>
+
+<style is:global>
+	.ambient {
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		overflow: hidden;
+		pointer-events: none;
+		contain: strict;
+	}
+
+	.blob {
+		position: absolute;
+		width: var(--s);
+		aspect-ratio: 1;
+		top: var(--y);
+		left: var(--x);
+		border-radius: 50%;
+		/* Soft edges come from the gradient itself, so no costly blur filter is needed */
+		background: radial-gradient(
+			closest-side,
+			color-mix(in srgb, var(--c) calc(var(--a) * 100%), transparent) 0%,
+			color-mix(in srgb, var(--c) calc(var(--a) * 60%), transparent) 45%,
+			transparent 100%
+		);
+		translate: -50% -50%;
+		will-change: transform;
+	}
+
+	/* Ocean blue is kept the palest, so headings and body text stay readable over it */
+	.blob--sea {
+		--c: var(--bcp-sea);
+		--a: 0.75;
+		--s: 75vmax;
+		--x: 82%;
+		--y: 18%;
+	}
+
+	.blob--blue {
+		--c: var(--bcp-blue);
+		--a: 0.26;
+		--s: 70vmax;
+		--x: 18%;
+		--y: 70%;
+	}
+
+	.blob--mint {
+		--c: var(--bcp-mint);
+		--a: 0.6;
+		--s: 60vmax;
+		--x: 55%;
+		--y: 85%;
+	}
+
+	.blob--sand {
+		--c: var(--bcp-sand);
+		--a: 0.35;
+		--s: 42vmax;
+		--x: 30%;
+		--y: 20%;
+	}
+
+	.blob--sea2 {
+		--c: var(--bcp-sea);
+		--a: 0.45;
+		--s: 50vmax;
+		--x: 95%;
+		--y: 80%;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.blob {
+			animation: lava 26s ease-in-out infinite;
+		}
+
+		.blob--blue {
+			animation-duration: 30s;
+			animation-delay: -9s;
+			animation-direction: reverse;
+		}
+
+		.blob--mint {
+			animation-duration: 22s;
+			animation-delay: -15s;
+		}
+
+		.blob--sand {
+			animation-duration: 28s;
+			animation-delay: -4s;
+			animation-direction: reverse;
+		}
+
+		.blob--sea2 {
+			animation-duration: 24s;
+			animation-delay: -18s;
+		}
+
+		/* Paused while the tab is hidden */
+		.ambient-paused .blob {
+			animation-play-state: paused;
+		}
+	}
+
+	/* Drift, stretch and turn so the blobs merge and change shape */
+	@keyframes lava {
+		0%,
+		100% {
+			transform: translate3d(0, 0, 0) rotate(0deg) scale(1, 1);
+		}
+		25% {
+			transform: translate3d(-14vw, 8vh, 0) rotate(40deg) scale(1.25, 0.8);
+		}
+		50% {
+			transform: translate3d(-6vw, -12vh, 0) rotate(110deg) scale(0.85, 1.2);
+		}
+		75% {
+			transform: translate3d(10vw, 6vh, 0) rotate(200deg) scale(1.15, 0.9);
+		}
+	}
+
+	/* Fewer layers on small screens to save battery */
+	@media (max-width: 47.99rem) {
+		.blob--sea2 {
+			display: none;
+		}
+	}
+</style>

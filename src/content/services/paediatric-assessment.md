@@ -1,5 +1,6 @@
 ---
 title: Paediatric Assessment
+plainName: "Children's feet"
 order: 4
 summary: Assessment and treatment of children's feet, with advice for parents on normal and abnormal development.
 icon: children

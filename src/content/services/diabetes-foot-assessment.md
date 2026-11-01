@@ -1,5 +1,6 @@
 ---
 title: Diabetes foot assessment
+plainName: "Diabetes foot checks"
 order: 7
 summary: Routine foot checks for people with diabetes, covering circulation, sensation and general foot health.
 icon: diabetes

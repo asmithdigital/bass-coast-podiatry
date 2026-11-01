@@ -7,6 +7,9 @@ const services = defineCollection({
 	schema: ({ image }) =>
 		z.object({
 			title: z.string(),
+			// Plain patient words shown first on the home page cards, with the official title underneath.
+			// [CHECK WITH CLIENT] Which services are most popular.
+			plainName: z.string().optional(),
 			order: z.number(),
 			// One sentence for the home page card, taken from the page text.
 			summary: z.string(),

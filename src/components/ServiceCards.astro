@@ -10,9 +10,11 @@ interface Props {
 	/** Show the first service as a large photo card, with a call card to finish the grid. */
 	feature?: boolean;
 	headingLevel?: 'h2' | 'h3';
+	/** Lead with plain patient words where a service has them, with the official name smaller underneath. */
+	plainNames?: boolean;
 }
 
-const { exclude, feature = false, headingLevel = 'h3' } = Astro.props;
+const { exclude, feature = false, headingLevel = 'h3', plainNames = false } = Astro.props;
 const Heading = headingLevel;
 const services = (await getCollection('services'))
 	.filter((s) => s.id !== exclude)
@@ -39,8 +41,9 @@ const cards = featured ? rest : services;
 						<Icon name={featured.data.icon} size={34} />
 					</span>
 					<Heading class="service-card__title">
-						<a href={url(`/${featured.id}/`)}>{featured.data.title}</a>
+						<a href={url(`/${featured.id}/`)}>{(plainNames && featured.data.plainName) || featured.data.title}</a>
 					</Heading>
+					{plainNames && featured.data.plainName && <p class="service-card__official">{featured.data.title}</p>}
 					<p>{featured.data.summary}</p>
 					<span class="service-card__more" aria-hidden="true">
 						Read more <Icon name="arrow" size={18} />
@@ -56,8 +59,9 @@ const cards = featured ? rest : services;
 					<Icon name={s.data.icon} size={34} />
 				</span>
 				<Heading class="service-card__title">
-					<a href={url(`/${s.id}/`)}>{s.data.title}</a>
+					<a href={url(`/${s.id}/`)}>{(plainNames && s.data.plainName) || s.data.title}</a>
 				</Heading>
+				{plainNames && s.data.plainName && <p class="service-card__official">{s.data.title}</p>}
 				<p>{s.data.summary}</p>
 				<span class="service-card__more" aria-hidden="true">
 					Read more <Icon name="arrow" size={18} />
@@ -163,6 +167,16 @@ const cards = featured ? rest : services;
 
 	.service-card p {
 		flex: 1;
+	}
+
+	/* Official service name, smaller, under the plain patient words */
+	.service-card p.service-card__official {
+		flex: none;
+		margin: -0.25rem 0 0.6rem;
+		color: var(--bcp-grey);
+		font-size: 1rem;
+		font-weight: var(--bcp-weight-heading);
+		letter-spacing: 0.01em;
 	}
 
 	.service-card__more {

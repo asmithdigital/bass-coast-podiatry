@@ -1,5 +1,6 @@
 ---
 title: Prescription Orthotic Therapy
+plainName: "Orthotics"
 order: 6
 summary: Prescription orthoses to treat a variety of conditions in the feet and lower limb.
 icon: orthotics

@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
 import Icon from '../components/Icon.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
-import CommonReasons from '../components/CommonReasons.astro';
 import LogoRow from '../components/LogoRow.astro';
 import { Image } from 'astro:assets';
 import heroImage from '../assets/images/footprints-beach.jpg';
@@ -17,7 +16,8 @@ const tokens = Object.fromEntries(
 );
 
 const colours = [
-	{ token: 'bcp-cloud', name: 'Cloud grey', use: 'Base colour: the page background across the whole site.' },
+	{ token: 'bcp-cloud', name: 'Cloud grey', use: 'Base colour: the page background across the whole site, under the moving background.' },
+	{ token: 'bcp-mint', name: 'Soft green', use: 'Moving background only, with Ocean blue, Sea cyan and a touch of Sand.' },
 	{ token: 'bcp-white', name: 'White', use: 'Cards, glass and text on blue.' },
 	{ token: 'bcp-mist', name: 'Mist', use: 'Base colour: quiet section backgrounds.' },
 	{ token: 'bcp-blue', name: 'Ocean blue', use: 'Logo, headings, buttons, links and glows.' },
@@ -283,39 +283,55 @@ const typeScale = [
 		</div>
 	</section>
 
-	<section class="section sg-hero-section" aria-labelledby="hero-title">
-		<Glows set="hero" />
-		<div class="container container--wide above-glow">
+	<section class="section" aria-labelledby="hero-title">
+		<div class="container container--wide">
 			<h2 id="hero-title">Home hero</h2>
 			<p class="sg-intro sg-solid">
-				Left, about 65%: a rounded photo panel, bright and clear, that zooms very slightly on hover. The H1 and two buttons (Call and Our
-				services) sit on a frosted plate in its bottom left corner. Right, about 35%: two stacked glass cards over bright glows, Visit us
-				(today's hours, address, Get directions, Send us a message) and Claims and rebates. On phones the photo panel comes first and the
-				cards stack below. Below the hero, four common reasons people visit link to their service pages.
+				Two columns. Left: the H1 on its own, large, with plenty of space. Right, sitting lower so it lines up with the middle and bottom
+				of the headline: the intro and the Call button, then a small bento row with the frosted Visit us card (today's hours, address,
+				Get directions, Send us a message), a small solid Ocean blue Claims and rebates card, and a rounded photo tile. Phones: headline,
+				intro and button, then the cards stacked. Call appears once in the hero; the header keeps its own Call button.
 			</p>
 			<div class="sg-hero">
-				<div class="sg-hero__panel zoom-frame">
-					<Image class="sg-hero__photo" src={heroImage} alt="Footprints in the sand along the water's edge at a beach." widths={[800, 1200]} sizes="(min-width: 64rem) 60vw, 100vw" />
-					<div class="sg-hero__plate glass">
-						<p class="sg-hero__title">Large headline on a frosted plate</p>
-						<span class="btn btn--icon"><Icon name="phone" /> Call {clinic.phone}</span>
-					</div>
-				</div>
+				<p class="sg-hero__title">Large headline on its own</p>
 				<div class="sg-hero__side">
-					<div class="sg-hero__card glass">
-						<span class="sg-corner" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
-						<p class="sg-hero__card-title">Visit us</p>
-						<p>Open today, {clinic.openTime} to {clinic.closeTime}</p>
-					</div>
-					<div class="sg-hero__card glass">
-						<span class="sg-corner" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
-						<p class="sg-hero__card-title">Claims and rebates</p>
-						<p>Medicare, DVA, HICAPS, TAC and WorkSafe</p>
+					<p>Intro paragraph, then the Call button.</p>
+					<span class="btn btn--icon"><Icon name="phone" /> Call {clinic.phone}</span>
+					<div class="sg-bento">
+						<div class="sg-bento__visit glass">
+							<p class="sg-bento__title">Visit us</p>
+							<p>Open today, {clinic.openTime} to {clinic.closeTime}</p>
+						</div>
+						<div class="sg-bento__claims on-blue">
+							<p class="sg-bento__title">Claims and rebates</p>
+							<p>Medicare, DVA, HICAPS, TAC and WorkSafe</p>
+						</div>
+						<div class="sg-bento__photo zoom-frame">
+							<Image src={heroImage} alt="Footprints in the sand along the water's edge at a beach." widths={[400, 700]} sizes="20vw" />
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<CommonReasons />
+	</section>
+
+	<section class="section" aria-labelledby="ambient-title">
+		<div class="container container--wide">
+			<h2 id="ambient-title">Moving background</h2>
+			<p class="sg-intro sg-solid">
+				A soft moving gradient is fixed behind every page (<code>Ambient.astro</code>): large blobs of Ocean blue, Sea cyan, Soft green
+				and a touch of Sand drift, merge and change shape like a lava lamp, one cycle about 26 seconds. Content scrolls over it and glass
+				cards pick up its colour. It is CSS only and animates <code>transform</code> alone, so it runs on the GPU without repainting. It
+				pauses while the tab is hidden and stands still with reduce motion. Ocean blue is kept the palest, so Ink body text and Ocean blue
+				headings keep strong contrast. Text still sits on cards or solid backgrounds wherever possible.
+			</p>
+			<ul class="sg-blobs" role="list">
+				<li><span style="background: var(--bcp-blue); opacity: 0.4"></span>Ocean blue, 26% strength</li>
+				<li><span style="background: var(--bcp-sea)"></span>Sea cyan, 75%</li>
+				<li><span style="background: var(--bcp-mint)"></span>Soft green, 60%</li>
+				<li><span style="background: var(--bcp-sand)"></span>Sand, 35%</li>
+			</ul>
+		</div>
 	</section>
 
 	<section class="section" aria-labelledby="panel-title">
@@ -454,77 +470,75 @@ const typeScale = [
 
 	.sg-hero {
 		display: grid;
-		gap: var(--space-m);
+		gap: var(--space-l);
+		padding: var(--space-l);
+		border-radius: var(--bcp-radius-large);
+		background: color-mix(in srgb, var(--bcp-white) 35%, transparent);
 	}
 
 	@media (min-width: 64rem) {
 		.sg-hero {
-			grid-template-columns: 65fr 35fr;
+			grid-template-columns: 1.1fr 1fr;
+		}
+
+		.sg-hero__side {
+			padding-top: 4rem;
 		}
 	}
 
-	.sg-hero__panel {
-		position: relative;
-		min-height: 26rem;
-		border-radius: var(--bcp-radius-panel);
-		box-shadow: var(--shadow-lift);
-	}
-
-	.sg-hero__photo {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.sg-hero__plate {
-		position: absolute;
-		left: 1rem;
-		right: 1rem;
-		bottom: 1rem;
-		max-width: 28rem;
-		padding: var(--space-m);
-		border-radius: calc(var(--bcp-radius-panel) - 4px);
-	}
-
-	.sg-hero__plate.glass {
-		background: color-mix(in srgb, var(--bcp-white) 80%, transparent);
-	}
-
 	.sg-hero__title {
-		margin: 0 0 var(--space-s);
+		margin: 0;
 		color: var(--bcp-blue);
-		font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+		font-size: clamp(2rem, 1.2rem + 3vw, 3.5rem);
 		font-weight: var(--bcp-weight-heading);
-		line-height: 1.05;
+		line-height: 1.04;
 		letter-spacing: -0.03em;
 	}
 
-	.sg-hero__side {
+	.sg-bento {
 		display: grid;
-		gap: var(--space-m);
+		grid-template-columns: 1.3fr 1fr;
+		grid-template-rows: auto auto;
+		gap: 0.75rem;
+		margin-top: var(--space-m);
 	}
 
-	.sg-hero__card {
-		position: relative;
-		padding: var(--space-m);
-		border-radius: var(--bcp-radius-panel);
-	}
-
-	.sg-hero__card.glass,
-	.sg-card--tint.glass {
-		background: color-mix(in srgb, var(--bcp-white) 58%, transparent);
-	}
-
-	.sg-hero__card p {
+	.sg-bento p {
 		margin: 0;
 	}
 
-	.sg-hero__card-title {
-		color: var(--bcp-blue);
-		font-size: 1.5rem;
+	.sg-bento__visit {
+		grid-row: span 2;
+		padding: var(--space-s);
+		border-radius: var(--bcp-radius-panel);
+	}
+
+	.sg-bento__claims {
+		padding: var(--space-s);
+		border-radius: var(--bcp-radius-panel);
+		background: var(--bcp-blue);
+		color: var(--bcp-white);
+	}
+
+	.sg-bento__title {
 		font-weight: var(--bcp-weight-heading);
+	}
+
+	.sg-bento__visit .sg-bento__title {
+		color: var(--bcp-blue);
+	}
+
+	.sg-bento__photo {
+		min-height: 6rem;
+		border-radius: var(--bcp-radius-panel);
+	}
+
+	.sg-bento__photo img {
+		height: 100%;
+	}
+
+	.sg-card--tint.glass {
+		background: color-mix(in srgb, var(--bcp-white) 58%, transparent);
 	}
 
 	.sg-corner {
@@ -540,8 +554,29 @@ const typeScale = [
 		color: var(--bcp-blue);
 	}
 
-	.sg-hero-section :global(.reasons) {
-		margin-top: var(--space-m);
+	.sg-blobs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-m);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.sg-blobs li {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.5rem 1rem 0.5rem 0.5rem;
+		border-radius: var(--bcp-radius-button);
+		background: var(--bcp-white);
+	}
+
+	.sg-blobs span {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		filter: blur(3px);
 	}
 
 	.sg-display {

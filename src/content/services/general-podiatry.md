@@ -1,5 +1,6 @@
 ---
 title: General Podiatry
+plainName: "Ingrown toenails, corns and calluses"
 order: 1
 summary: Care for calluses, corns, ingrown toenails, warts and thickened or discoloured nails.
 icon: general

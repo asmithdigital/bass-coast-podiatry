@@ -5,6 +5,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import PasswordGate from '../components/PasswordGate.astro';
 import ContactPanel from '../components/ContactPanel.astro';
+import Ambient from '../components/Ambient.astro';
 import Icon from '../components/Icon.astro';
 import { clinic, url } from '../data/site';
 
@@ -52,12 +53,19 @@ const pageTitle = title ? `${title} | ${clinic.name}` : `${clinic.name} | Podiat
 				if (!window.__bcpRootReady) {
 					window.__bcpRootReady = true;
 					document.addEventListener('astro:after-swap', prepareRoot);
+					// Pause the moving background while the tab is hidden
+					var pause = function () {
+						document.documentElement.classList.toggle('ambient-paused', document.hidden);
+					};
+					document.addEventListener('visibilitychange', pause);
+					document.addEventListener('astro:after-swap', pause);
 				}
 			})();
 		</script>
 		<ClientRouter />
 	</head>
 	<body>
+		<Ambient />
 		<PasswordGate />
 		<a class="skip-link" href="#main">Skip to main content</a>
 		<SiteHeader />

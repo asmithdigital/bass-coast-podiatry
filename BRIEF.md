@@ -89,19 +89,22 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 ## Homepage order (current)
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
-2. Hero, filling the screen below the header (Our services is not visible on load), restored from `hero-faded-photo` and improved:
-   - Background: the beach photo covers the whole hero under a 55% white veil, so the beach and footprints show clearly. It sits beneath
-     the moving glow and scrolls away with the hero.
-   - Left (about 60%): the H1 "Podiatry care in Wonthaggi since 2007" (two lines on desktop) and the intro sentence, both in dark Ocean
-     blue (`--bcp-deep`), on a soft white glow behind the text area only (not a box). They sit just above the vertical middle.
-   - Right (about 35%), aligned with the heading: a compact frosted glass "Visit us" card (hours on two lines, the address, the Call
-     button with a "Send us a message" text link and chat icon beside it, then "Get directions" with a map pin; solid white on hover)
-     above the smaller blue "Claims and rebates" card. Whether Claims is the right thing to feature is in the INVENTORY.md check list.
-   - Phones: heading and sentence, then Visit us, then Claims and rebates, all over the photo. The fixed phone Call bar hides while the
-     Visit us Call button is on screen.
-3. Our services: the feature card layout, with plain patient words first and the official name smaller underneath for four services:
-   "Ingrown toenails, corns and calluses" (General Podiatry), "Orthotics" (Prescription Orthotic Therapy), "Diabetes foot checks"
-   (Diabetes foot assessment), "Children's feet" (Paediatric Assessment). Set with `plainName` in each service's markdown, home page only.
+2. Hero, a bento layout based on commit `c659857` (the demophorius.com reference): no full width background photo.
+   - Left (about 65%): a large photo card with the podiatrist treating a toenail (`podiatrist-treatment.jpg`), bright and clear. In its
+     bottom left corner, on a gentle dark Ocean blue fade in that corner only, the white H1 "Expert foot care in Wonthaggi" (two lines)
+     and an uppercase line "No referral needed. Open five days a week." No buttons. The whole card links to Our services.
+   - Right, top: a white card with a stacked list (hours and address, each with an icon in a tinted circle), the Call button, then
+     "Send us a message" (opens the contact panel) and "Get directions" text links with icons.
+   - Right, bottom: the smaller solid Ocean blue "Claims and rebates" card with a round arrow, linking to Claims and rebates.
+   - The two right cards together match the photo card's height. Every card zooms to 1.02 as a whole with a deeper shadow on hover
+     (400ms, no zoom with reduce motion).
+   - Phones: photo card, white card, blue card. The fixed phone Call bar hides while the hero Call button is on screen.
+   - Page title "Bass Coast Podiatry | Podiatry in Wonthaggi"; the meta description starts "Podiatry in Wonthaggi since 2007".
+3. Our services: eight equal cards, four per row on desktop (two on tablets, one on phones), no photo and no call card. Plain patient
+   words first with the official name smaller underneath for four services: "Ingrown toenails, corns and calluses" (General Podiatry),
+   "Orthotics" (Prescription Orthotic Therapy), "Diabetes foot checks" (Diabetes foot assessment), "Children's feet" (Paediatric
+   Assessment). Set with `plainName` in each service's markdown, home page only. The Our services page keeps its feature card layout, with
+   the beach photo on the large card so the toenail photo is not repeated.
 4. Meet the team, 5. Claims and rebates deep blue section, 6. Logo row, 7. Hours and location with the map, 8. Three FAQs, 9. Footer
 
 Moving background (`Ambient.astro`): fixed behind every page on a mostly white base (`--bcp-page` `#F7F8FA`). One main blob, a vivid
@@ -110,7 +113,7 @@ every 4 to 8 seconds (sometimes faster) with smooth easing, growing and shrinkin
 cards so the glass picks up the colour, and fades back as you scroll. Also a paler Sea cyan blob near the top and an occasional faint touch
 of Sand; the section glows provide smaller, paler blobs further down. Paused while the tab is hidden, still with reduce motion.
 
-Earlier home heroes: commit `8bb1897` (bento photo card with a map card), tag `hero-faded-photo` (full screen faded photo, 82% veil), commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
+Earlier home heroes: tag `hero-before-bento-v2` (full screen faded beach photo with the Visit us and Claims cards), commit `8bb1897` (bento photo card with a map card), tag `hero-faded-photo` (full screen faded photo, 82% veil), commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
 
 ## Preview mode (remove all of this at launch)
 

@@ -12,9 +12,12 @@ interface Props {
 	headingLevel?: 'h2' | 'h3';
 	/** Lead with plain patient words where a service has them, with the official name smaller underneath. */
 	plainNames?: boolean;
+	/** Use a different photo on the feature card, so the same photo is not repeated across pages. */
+	featureImage?: ImageMetadata;
+	featureImageAlt?: string;
 }
 
-const { exclude, feature = false, headingLevel = 'h3', plainNames = false } = Astro.props;
+const { exclude, feature = false, headingLevel = 'h3', plainNames = false, featureImage, featureImageAlt } = Astro.props;
 const Heading = headingLevel;
 const services = (await getCollection('services'))
 	.filter((s) => s.id !== exclude)
@@ -30,8 +33,8 @@ const cards = featured ? rest : services;
 			<li class="service-card service-card--feature glass reveal">
 				<div class="zoom-frame service-card__photo">
 					<Image
-						src={featured.data.image!}
-						alt={featured.data.imageAlt ?? ''}
+						src={featureImage ?? featured.data.image!}
+						alt={featureImage ? (featureImageAlt ?? '') : (featured.data.imageAlt ?? '')}
 						widths={[480, 760, 1100]}
 						sizes="(min-width: 64rem) 40rem, 100vw"
 					/>
@@ -112,6 +115,11 @@ const cards = featured ? rest : services;
 			grid-column: span 2;
 			grid-row: span 2;
 		}
+	}
+
+	/* Without a feature card every card is the same size, in even rows */
+	.service-cards:not(.service-cards--feature) {
+		grid-auto-rows: 1fr;
 	}
 
 	.service-card {

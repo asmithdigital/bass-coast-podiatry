@@ -9,60 +9,72 @@ import LogoRow from '../components/LogoRow.astro';
 import VisitUs from '../components/VisitUs.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import { clinic, url } from '../data/site';
-import heroImage from '../assets/images/footprints-beach.jpg';
+import heroImage from '../assets/images/podiatrist-treatment.jpg';
 import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 ---
 
-<Layout description="Bass Coast Podiatry in Wonthaggi has provided podiatry care since 2007. Open Monday to Friday. Call (03) 5672 2309.">
+<Layout description="Podiatry in Wonthaggi since 2007. Bass Coast Podiatry is open Monday to Friday and no referral is needed. Call (03) 5672 2309.">
 	<section class="hero">
-		<!-- Lightly faded beach photo behind the hero only. It sits beneath the moving glow and scrolls away with the hero. -->
-		<div class="hero__bg" aria-hidden="true">
-			<Image src={heroImage} alt="" widths={[800, 1280, 1698]} sizes="100vw" loading="eager" fetchpriority="high" />
-		</div>
-
 		<div class="container container--wide hero__grid">
-			<div class="hero__main">
-				<h1 class="hero__title reveal-lines">Podiatry care in Wonthaggi since 2007</h1>
-				<p class="hero__lead reveal">
-					Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care.
-				</p>
+			<!-- Large photo card with the heading in its bottom left corner. The whole card links to Our services. -->
+			<div class="hero-photo hero-lift reveal">
+				<Image
+					class="hero-photo__img"
+					src={heroImage}
+					alt="A podiatrist in gloves treating a patient's toenail."
+					widths={[640, 1000, 1200]}
+					sizes="(min-width: 64rem) 62vw, 100vw"
+					loading="eager"
+					fetchpriority="high"
+				/>
+				<div class="hero-photo__text">
+					<h1 class="hero-photo__title">Expert foot care in Wonthaggi</h1>
+					<p class="hero-photo__line">No referral needed. Open five days a week.</p>
+				</div>
+				<a class="hero-photo__link" href={url('/our-services/')}><span class="visually-hidden">See our services</span></a>
 			</div>
 
-			<div class="hero__cards">
-				<article class="hcard hcard--visit glass reveal" aria-labelledby="visit-card-title">
-					<div class="hcard__head">
-						<span class="icon-circle"><Icon name="clock" size={20} /></span>
-						<h2 id="visit-card-title">Visit us</h2>
-					</div>
-					<p class="hcard__hours">
-						<span>Open {clinic.hours[0].days}</span>
-						<span>{clinic.hours[0].time}</span>
-					</p>
-					<p class="hcard__address">{clinic.street}, {clinic.suburb}</p>
-					<div class="hcard__actions">
-						<a class="btn btn--icon" href={clinic.phoneHref} data-hero-call>
-							<Icon name="phone" />
-							Call {clinic.phone}
-						</a>
-						<a class="hcard__link" href={url('/contact/#message')} data-contact>
-							<Icon name="message" size={18} />
+			<div class="hero__side">
+				<article class="hcard hero-lift reveal" aria-label="Visit us">
+					<ul class="hcard__list" role="list">
+						<li>
+							<span class="icon-circle"><Icon name="clock" size={20} /></span>
+							<p>
+								<strong>{clinic.hours[0].days}</strong>
+								<span>{clinic.hours[0].time}</span>
+							</p>
+						</li>
+						<li>
+							<span class="icon-circle"><Icon name="pin" size={20} /></span>
+							<p>
+								<span>{clinic.street},</span>
+								<span>{clinic.suburb}</span>
+							</p>
+						</li>
+					</ul>
+					<a class="btn btn--icon hcard__call" href={clinic.phoneHref} data-hero-call>
+						<Icon name="phone" />
+						Call {clinic.phone}
+					</a>
+					<div class="hcard__links">
+						<a href={url('/contact/#message')} data-contact>
+							<Icon name="message" size={20} />
 							Send us a message
 						</a>
+						<a href={clinic.directions} rel="noopener">
+							<Icon name="pin" size={20} />
+							Get directions
+						</a>
 					</div>
-					<a class="hcard__link hcard__directions" href={clinic.directions} rel="noopener">
-						<Icon name="pin" size={18} />
-						Get directions
-					</a>
 				</article>
 
-					<article class="bento bento--claims on-blue reveal" aria-labelledby="claims-card-title">
-						<span class="bento__corner" aria-hidden="true"><Icon name="arrowUpRight" size={18} /></span>
-						<h2 id="claims-card-title">Claims and rebates</h2>
-						<p>
-							<a class="bento__stretch" href={url('/claims-rebates/')}>Medicare, DVA, HICAPS, TAC and WorkSafe</a>
-						</p>
-					</article>
-
+				<article class="claims-card hero-lift on-blue reveal" aria-labelledby="claims-card-title">
+					<span class="claims-card__arrow" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
+					<h2 id="claims-card-title">Claims and rebates</h2>
+					<p>
+						<a class="claims-card__stretch" href={url('/claims-rebates/')}>Medicare, DVA, HICAPS, TAC and WorkSafe</a>
+					</p>
+				</article>
 			</div>
 		</div>
 	</section>
@@ -74,7 +86,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 				<h2 id="services-title" class="display reveal-lines">Our services</h2>
 				<p class="reveal">All aspects of the profession are covered and no referral is needed to attend the clinic.</p>
 			</div>
-			<ServiceCards feature plainNames />
+			<ServiceCards plainNames />
 		</div>
 	</section>
 
@@ -152,288 +164,274 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 </Layout>
 
 <style>
-	/* Hero: fills the screen below the header, over a lightly faded beach photo. Left (about 60%) the headline
-	   and intro on a soft white glow; right (about 35%) Visit us above Claims and rebates. The content sits a
-	   little above the vertical middle. */
+	/* Hero: bento layout from the reference. A large photo card on the left (about 65%) with the heading in its
+	   bottom left corner, and on the right a white Visit us card above a smaller Ocean blue Claims card. The two
+	   right cards together match the photo card's height. Every card zooms a little as a whole on hover. */
 
 	.hero {
-		--header-h: 4.75rem;
 		position: relative;
-		display: grid;
-		align-items: center;
-		min-height: calc(100svh - var(--header-h));
-		/* The soft glow behind the text must not widen the page on phones */
-		overflow-x: clip;
-		/* More space below than above lifts the content just above the middle */
-		padding-block: clamp(2rem, 4vh, 3rem) clamp(4rem, 13vh, 8rem);
-	}
-
-	@media (min-width: 64rem) {
-		.hero {
-			--header-h: 6rem;
-		}
-	}
-
-	/* The photo sits under the moving glow (z-index -2, the glow is -1) with a 55% white veil, so the beach
-	   and footprints show clearly. The text gets its own soft white glow (see .hero__main). */
-	.hero__bg {
-		position: absolute;
-		inset: 0;
-		z-index: -2;
-		overflow: hidden;
-	}
-
-	.hero__bg img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: 62% 50%;
-	}
-
-	.hero__bg::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: color-mix(in srgb, var(--bcp-white) 55%, transparent);
+		padding-block: clamp(0.75rem, 2.5vh, 1.75rem) clamp(2rem, 5vh, 3.5rem);
 	}
 
 	.hero__grid {
 		display: grid;
-		gap: var(--space-l) 5%;
-		align-items: center;
+		gap: clamp(1rem, 1.5vw, 1.5rem);
 	}
 
 	@media (min-width: 64rem) {
 		.hero__grid {
-			grid-template-columns: 60fr 35fr;
+			grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
 		}
 	}
 
-	/* Soft white glow behind the headline and intro only, so the photo is lighter right behind the words.
-	   It fades out at the edges, so it never reads as a box. */
-	.hero__main {
-		position: relative;
-		isolation: isolate;
+	/* Whole card hover: a slight zoom with a deeper shadow. Uses the scale property, so it never fights the
+	   reveal animation (which uses transform). */
+	.hero-lift {
+		box-shadow: var(--shadow);
+		transition: scale 0.4s var(--ease), box-shadow 0.4s var(--ease);
 	}
 
-	.hero__main::before {
+	@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+		.hero-lift:hover,
+		.hero-lift:focus-within {
+			scale: 1.02;
+		}
+	}
+
+	.hero-lift:hover,
+	.hero-lift:focus-within {
+		box-shadow: var(--shadow-lift), 0 24px 48px -12px color-mix(in srgb, var(--bcp-deep) 28%, transparent);
+	}
+
+	/* Photo card */
+	.hero-photo {
+		position: relative;
+		isolation: isolate;
+		display: flex;
+		align-items: flex-end;
+		min-height: 30rem;
+		overflow: hidden;
+		border-radius: var(--bcp-radius-panel);
+		background: var(--bcp-deep);
+	}
+
+	@media (min-width: 64rem) {
+		.hero-photo {
+			min-height: clamp(26rem, calc(100svh - 17rem), 42rem);
+		}
+	}
+
+	.hero-photo__img {
+		position: absolute;
+		inset: 0;
+		z-index: -2;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 60% 40%;
+	}
+
+	/* A gentle dark fade in the bottom left corner only, so the white text reads clearly */
+	.hero-photo::before {
 		content: '';
 		position: absolute;
-		inset: -22% -14% -26% -18%;
+		inset: 0;
 		z-index: -1;
-		background: radial-gradient(
-			closest-side,
-			color-mix(in srgb, var(--bcp-white) 92%, transparent) 0%,
-			color-mix(in srgb, var(--bcp-white) 84%, transparent) 55%,
-			color-mix(in srgb, var(--bcp-white) 40%, transparent) 82%,
-			transparent 100%
-		);
+		background:
+			radial-gradient(
+				120% 85% at 0% 100%,
+				color-mix(in srgb, var(--bcp-deep) 82%, transparent) 0%,
+				color-mix(in srgb, var(--bcp-deep) 55%, transparent) 38%,
+				transparent 70%
+			);
 		pointer-events: none;
 	}
 
-	.hero__title {
-		color: var(--bcp-deep);
-		margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
-		font-size: clamp(2.25rem, 0.85rem + 4.25vw, 4.65rem);
-		line-height: 1.04;
+	.hero-photo__text {
+		padding: clamp(1.5rem, 3vw, 3rem);
+		color: var(--bcp-white);
+	}
+
+	.hero-photo__title {
+		max-width: 16ch;
+		margin: 0 0 clamp(0.75rem, 1.6vh, 1.25rem);
+		padding-bottom: 0.06em;
+		color: var(--bcp-white);
+		font-size: clamp(2rem, min(0.9rem + 4.2vw, 9vh), 5rem);
+		line-height: 1.02;
 		letter-spacing: -0.035em;
+		text-wrap: balance;
 	}
 
-	.hero__lead {
-		max-width: 36rem;
-		margin-bottom: var(--space-m);
-		margin-bottom: 0;
-		font-size: 1.25rem;
-		line-height: 1.55;
-		color: var(--bcp-deep);
-	}
-
-	/* Visit us above the smaller Claims card, vertically aligned with the heading */
-	.hero__cards {
-		display: grid;
-		gap: clamp(0.75rem, 1.2vw, 1rem);
-	}
-
-	.bento {
-		position: relative;
-		border-radius: var(--bcp-radius-panel);
-	}
-
-	.bento--claims {
-		display: flex;
-		flex-direction: column;
-		gap: 0.3rem;
-		padding: clamp(1rem, 1.4vw, 1.35rem);
-	}
-
-	.bento h2 {
+	.hero-photo__line {
 		margin: 0;
-		font-size: 1.25rem;
-		line-height: 1.3;
-	}
-
-	.bento p {
-		margin: 0;
-	}
-
-	/* Visit us: frosted glass that turns solid white on hover. About 20% smaller than the other cards
-	   (padding, text and width), so it sits lightly next to the heading. */
-	.hcard {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		padding: clamp(1rem, 1.2vw, 1.25rem);
+		color: var(--bcp-white);
 		font-size: 1rem;
-		border-radius: var(--bcp-radius-panel);
-		transition: background-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
-	}
-
-	.hcard--visit.glass {
-		background: color-mix(in srgb, var(--bcp-white) 72%, transparent);
-	}
-
-	.hcard--visit.glass:hover,
-	.hcard--visit.glass:focus-within {
-		background: var(--bcp-white);
-		box-shadow: var(--shadow-lift);
-	}
-
-	.hcard h2 {
-		margin: 0;
-		font-size: clamp(1.125rem, 0.9rem + 0.5vw, 1.4rem);
-		line-height: 1.25;
-	}
-
-	.hcard p {
-		margin: 0;
-	}
-
-	.hcard__head {
-		display: flex;
-		align-items: center;
-		gap: 0.6rem;
-		margin-bottom: 0.45rem;
-	}
-
-	.hcard__head .icon-circle {
-		width: 2.25rem;
-		height: 2.25rem;
-	}
-
-	.hcard__hours span {
-		display: block;
-		line-height: 1.45;
-	}
-
-	.hcard__hours span:first-child {
 		font-weight: var(--bcp-weight-heading);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
 	}
 
-	.hcard__address {
-		margin-top: 0.45rem !important;
-		line-height: 1.45;
-	}
-
-	/* Call button with the message link beside it on the same line */
-	.hcard__actions {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.5rem 0.8rem;
-		margin-top: 0.8rem;
-	}
-
-	.hcard__actions .btn {
-		gap: 0.45rem;
-		min-height: 2.75rem;
-		padding: 0.55rem 0.9rem;
-		font-size: 0.9375rem;
-	}
-
-	.hcard__actions .btn :global(svg) {
-		width: 1.125rem;
-		height: 1.125rem;
-	}
-
-	.hcard__link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.35rem;
-		font-size: 0.9375rem;
-		font-weight: var(--bcp-weight-heading);
-	}
-
-	.hcard__directions {
-		align-self: flex-start;
-		margin-top: 0.6rem;
-	}
-
-	/* The right hand cards are a little narrower than their column on desktop, so they read lighter than the
-	   heading, while leaving room for Call and Send us a message on one line from 1440px wide */
-	@media (min-width: 64rem) {
-		.hero__cards {
-			width: 92%;
-			justify-self: end;
+	@media (max-width: 30rem) {
+		.hero-photo__line {
+			font-size: 0.875rem;
+			letter-spacing: 0.06em;
 		}
 	}
 
-	/* Small solid Ocean blue card, the blue card style from the style guide */
-	.bento--claims {
-		padding-right: 3.5rem;
+	/* The whole photo card links to Our services */
+	.hero-photo__link::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		border-radius: var(--bcp-radius-panel);
+	}
+
+	.hero-photo__link:focus-visible {
+		outline: none;
+	}
+
+	.hero-photo__link:focus-visible::after {
+		outline: 3px solid var(--bcp-blue);
+		outline-offset: 3px;
+	}
+
+	/* Right hand cards */
+	.hero__side {
+		display: grid;
+		gap: clamp(1rem, 1.5vw, 1.5rem);
+	}
+
+	@media (min-width: 64rem) {
+		.hero__side {
+			grid-template-rows: 1fr auto;
+		}
+	}
+
+	/* Visit us: a white card with a simple stacked list */
+	.hcard {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+		gap: clamp(1.1rem, 2.6vh, 1.75rem);
+		padding: clamp(1.5rem, 2.4vw, 2.5rem);
+		font-size: clamp(1.0625rem, 0.95rem + 0.3vw, 1.25rem);
+		border-radius: var(--bcp-radius-panel);
+		background: var(--bcp-white);
+	}
+
+	.hcard__list {
+		display: grid;
+		gap: clamp(1rem, 2.4vh, 1.5rem);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.hcard__list li {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+	}
+
+	.hcard__list .icon-circle {
+		width: clamp(2.75rem, 2.2rem + 1vw, 3.25rem);
+		height: clamp(2.75rem, 2.2rem + 1vw, 3.25rem);
+	}
+
+	.hcard__list p {
+		margin: 0;
+		line-height: 1.45;
+	}
+
+	.hcard__list strong,
+	.hcard__list span:not(.icon-circle) {
+		display: block;
+	}
+
+	.hcard__list strong {
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	.hcard__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem 1.5rem;
+	}
+
+	.hcard__links a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	/* Claims and rebates: smaller solid Ocean blue card with a round arrow button */
+	.claims-card {
+		position: relative;
+		padding: clamp(1.25rem, 1.8vw, 1.75rem);
+		padding-right: 4.5rem;
+		border-radius: var(--bcp-radius-panel);
 		background: var(--bcp-blue);
 		color: var(--bcp-white);
-		box-shadow: var(--shadow);
 	}
 
-	.bento--claims h2 {
+	.claims-card h2 {
+		margin: 0 0 0.3rem;
 		color: var(--bcp-white);
-		font-size: 1.125rem;
+		font-size: clamp(1.25rem, 1.05rem + 0.5vw, 1.5rem);
+		line-height: 1.3;
 	}
 
-	.bento__corner {
+	.claims-card p {
+		margin: 0;
+	}
+
+	.claims-card__arrow {
 		position: absolute;
-		top: 0.9rem;
-		right: 0.9rem;
+		top: clamp(1rem, 1.5vw, 1.4rem);
+		right: clamp(1rem, 1.5vw, 1.4rem);
 		display: grid;
 		place-items: center;
-		width: 2.25rem;
-		height: 2.25rem;
+		width: 2.75rem;
+		height: 2.75rem;
 		border: 1px solid color-mix(in srgb, var(--bcp-white) 55%, transparent);
 		border-radius: 50%;
 		color: var(--bcp-white);
 		transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 	}
 
-	.bento--claims:hover .bento__corner {
+	.claims-card:hover .claims-card__arrow {
 		background: var(--bcp-white);
 		color: var(--bcp-blue);
 	}
 
 	/* The whole Claims card is clickable through its link */
-	.bento__stretch {
+	.claims-card__stretch {
 		color: var(--bcp-white);
 		text-decoration: none;
 		line-height: 1.45;
 	}
 
-	.bento__stretch::after {
+	.claims-card__stretch::after {
 		content: '';
 		position: absolute;
 		inset: 0;
 		border-radius: var(--bcp-radius-panel);
 	}
 
-	.bento__stretch:focus-visible {
+	.claims-card__stretch:focus-visible {
 		outline: none;
 	}
 
-	.bento__stretch:focus-visible::after {
-		outline: 3px solid var(--bcp-white);
+	.claims-card__stretch:focus-visible::after {
+		outline: 3px solid var(--bcp-blue);
 		outline-offset: 3px;
 	}
 
-	.bento--claims:hover .bento__stretch {
+	.claims-card:hover .claims-card__stretch {
 		text-decoration: underline;
 		text-underline-offset: 0.2em;
 	}

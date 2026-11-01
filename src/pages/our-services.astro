@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import BookBox from '../components/BookBox.astro';
-import beachImage from '../assets/images/footprints-beach.jpg';
 ---
 
 <Layout title="Our services" description="Podiatry services at Bass Coast Podiatry in Wonthaggi, from general foot care to nail surgery and orthotics.">
@@ -18,7 +17,7 @@ import beachImage from '../assets/images/footprints-beach.jpg';
 	<section class="section">
 		<div class="container container--wide">
 			<h2 class="visually-hidden">All services</h2>
-			<ServiceCards feature featureImage={beachImage} featureImageAlt="A person walking barefoot along the beach, leaving footprints in the sand." />
+			<ServiceCards feature />
 			<div class="services-book">
 				<BookBox />
 			</div>

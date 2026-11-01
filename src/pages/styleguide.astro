@@ -5,7 +5,7 @@ import Icon from '../components/Icon.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
 import LogoRow from '../components/LogoRow.astro';
 import { Image } from 'astro:assets';
-import heroImage from '../assets/images/podiatrist-treatment.jpg';
+import heroImage from '../assets/images/footprints-beach.jpg';
 import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 import brandCss from '../styles/brand.css?raw';
 import tokensCss from '../styles/tokens.css?raw';
@@ -329,28 +329,22 @@ const typeScale = [
 		<div class="container container--wide">
 			<h2 id="hero-title">Home hero</h2>
 			<p class="sg-intro sg-solid">
-				On desktop the hero fills exactly the screen below the header, so only the three bento cards show on load and Our services is
-				always below the fold. The group sits in the middle, at most 1400px wide, and as tall as the two right cards' content. Left: a large photo
-				card (the podiatrist treating a toenail) with the H1 "Expert foot care in Wonthaggi" and "No referral needed. Open five days a
-				week." in white on a gentle dark fade in its bottom left corner; the whole card links to Our services. Right, about a quarter of
-				the width: a white card (hours, address, Call, Send us a message, Get directions) above a smaller solid Ocean blue Claims and
-				rebates card with a round arrow. Together they match the photo card's height. Below, a small mouse gently bobs; clicking it
-				scrolls smoothly to Our services, and it fades out once you scroll. Phones: photo card, white card, blue card, no scroll cue.
+				The hero fills the screen below the header, so Our services is always below the fold. The beach photo covers it under a 55% white
+				veil, and the moving glow drifts on top of the photo. Left, straight on the background with a soft white glow behind the words:
+				the H1 "Expert foot care in Wonthaggi", the small caps line "No referral needed. Open five days a week.", "Caring for feet on the
+				Bass Coast since 2007." and an Our services button. Right: one frosted glass card (hours, address, Call, Send us a message, Get
+				directions) whose footer is a solid Ocean blue Claims and rebates band with a small arrow. A small mouse bobs at the bottom centre
+				and scrolls to Our services. Phones: the words and button, then the card, over the photo, with no scroll cue.
 			</p>
 			<div class="sg-hero">
-				<div class="sg-hero__photo frame">
-					<Image src={heroImage} alt="A podiatrist in gloves treating a patient's toenail." widths={[480, 800]} sizes="(min-width: 64rem) 50vw, 100vw" />
-					<p class="sg-hero__title">Expert foot care in Wonthaggi</p>
+				<div class="sg-hero__bg" aria-hidden="true">
+					<Image src={heroImage} alt="" widths={[480, 800]} sizes="(min-width: 64rem) 90vw, 100vw" />
 				</div>
-				<div class="sg-hero__side">
-					<div class="sg-bento__visit frame">
-						<p class="sg-bento__title">Visit us</p>
-						<p>Hours, address, Call, Send us a message, Get directions</p>
-					</div>
-					<div class="sg-bento__claims frame on-blue">
-						<p class="sg-bento__title">Claims and rebates</p>
-						<p>Medicare, DVA, HICAPS, TAC and WorkSafe</p>
-					</div>
+				<p class="sg-hero__title">Expert foot care in Wonthaggi</p>
+				<div class="sg-hero__card frame glass">
+					<p class="sg-bento__title">Visit us</p>
+					<p>Hours, address, Call, Send us a message, Get directions</p>
+					<p class="sg-hero__band on-blue">Claims and rebates</p>
 				</div>
 				<span class="sg-hero__cue" aria-hidden="true"></span>
 			</div>
@@ -528,16 +522,18 @@ const typeScale = [
 
 	.sg-hero {
 		position: relative;
+		isolation: isolate;
 		display: grid;
-		gap: 0.75rem;
+		gap: var(--space-m);
+		align-items: center;
+		overflow: hidden;
 		padding: var(--space-l) var(--space-l) 4rem;
 		border-radius: var(--bcp-radius-large);
-		background: color-mix(in srgb, var(--bcp-white) 35%, transparent);
 	}
 
 	@media (min-width: 64rem) {
 		.sg-hero {
-			grid-template-columns: 1fr 24%;
+			grid-template-columns: 1fr 30%;
 		}
 	}
 
@@ -545,54 +541,52 @@ const typeScale = [
 		margin: 0;
 	}
 
-	.sg-hero__photo {
-		--frame-radius: var(--bcp-radius-panel);
-		display: flex;
-		align-items: flex-end;
-		min-height: 18rem;
-	}
-
-	.sg-hero__photo img {
+	.sg-hero__bg {
 		position: absolute;
 		inset: 0;
 		z-index: -1;
 	}
 
+	.sg-hero__bg img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.sg-hero__bg::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: color-mix(in srgb, var(--bcp-white) 55%, transparent);
+	}
+
 	.sg-hero__title {
-		padding: var(--space-m);
-		color: var(--bcp-white);
+		color: var(--bcp-deep);
 		font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
 		font-weight: var(--bcp-weight-heading);
 		line-height: 1.04;
 		letter-spacing: -0.03em;
-		text-shadow: 0 2px 16px color-mix(in srgb, var(--bcp-deep) 60%, transparent);
 	}
 
-	.sg-hero__side {
+	.sg-hero__card {
+		--frame-radius: var(--bcp-radius-panel);
 		display: grid;
-		grid-template-rows: 1fr auto;
-		gap: 0.75rem;
+		gap: 0.4rem;
+		padding: var(--space-s) var(--space-s) 0;
 	}
 
-	.sg-bento__visit {
-		--frame-radius: var(--bcp-radius-panel);
-		--frame-bg: var(--bcp-white);
-		padding: var(--space-s);
-	}
-
-	.sg-bento__claims {
-		--frame-radius: var(--bcp-radius-panel);
-		--frame-bg: var(--bcp-blue);
-		padding: var(--space-s);
+	.sg-hero__band {
+		margin: 0.5rem calc(-1 * var(--space-s)) 0 !important;
+		padding: 0.6rem var(--space-s);
+		border-radius: 0 0 var(--bcp-radius-panel) var(--bcp-radius-panel);
+		background: var(--bcp-blue);
 		color: var(--bcp-white);
-	}
-
-	.sg-bento__title {
 		font-weight: var(--bcp-weight-heading);
 	}
 
-	.sg-bento__visit .sg-bento__title {
+	.sg-bento__title {
 		color: var(--bcp-blue);
+		font-weight: var(--bcp-weight-heading);
 	}
 
 	/* Scroll cue sketch */

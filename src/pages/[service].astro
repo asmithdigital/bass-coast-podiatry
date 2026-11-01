@@ -22,7 +22,7 @@ const { Content } = await render(service);
 		<Glows set="page" />
 		<div class="container container--wide">
 			<a class="eyebrow" href={url('/our-services/')}>Our services</a>
-			<h1 class="reveal-lines">{service.data.title}</h1>
+			<h1 class="reveal">{service.data.title}</h1>
 			<p>{service.data.summary}</p>
 		</div>
 	</section>
@@ -30,7 +30,7 @@ const { Content } = await render(service);
 	<div class="container container--wide">
 		{
 			service.data.image ? (
-				<div class="zoom-frame service__image reveal">
+				<div class="frame service__image reveal">
 					<Image
 						src={service.data.image}
 						alt={service.data.imageAlt ?? ''}
@@ -60,7 +60,7 @@ const { Content } = await render(service);
 
 	<section class="section section--mist" aria-labelledby="other-title">
 		<div class="container container--wide">
-			<h2 id="other-title" class="display reveal-lines">Other services</h2>
+			<h2 id="other-title" class="display reveal">Other services</h2>
 			<ServiceCards exclude={service.id} />
 		</div>
 	</section>
@@ -71,8 +71,12 @@ const { Content } = await render(service);
 		padding-top: clamp(3rem, 6vw, 5rem);
 	}
 
+	/* Hover and shadow on the photo come from the shared frame effect (.frame in global.css) */
 	.service__image {
 		aspect-ratio: 4 / 3;
+	}
+
+	.placeholder.service__image {
 		box-shadow: var(--shadow-lift);
 	}
 

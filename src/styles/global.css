@@ -551,6 +551,10 @@ a:hover {
 }
 
 @media (min-width: 64rem) {
+	.grid--3 {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
 	.grid--4 {
 		grid-template-columns: repeat(4, 1fr);
 	}
@@ -727,73 +731,143 @@ textarea.input {
 	box-shadow: 0 0 0 5px color-mix(in srgb, var(--bcp-sea) 35%, transparent);
 }
 
-/* Image that zooms gently on hover inside a rounded frame */
-.zoom-frame {
-	overflow: hidden;
-	border-radius: var(--bcp-radius-large);
+/* One shared hover for every card and image: the "camera pulling back".
+   The card's visible frame (background, border and shadow, drawn on ::before) draws in about 7px on each side
+   with its rounded corners kept, while any photo inside zooms out from 1.08 to 1. The card itself is never
+   scaled, so its text stays the same size and does not move. Used on all cards and image frames on every page.
+   - Cards set --frame-bg, --frame-border, --frame-radius and --frame-shadow instead of their own background.
+   - A photo that fills the whole frame is a direct child img; a photo filling only part sits in .frame__media.
+   - Keyboard focus inside a card plays the same effect, and the link inside shows its focus ring.
+   - With reduce motion nothing moves; only the shadow changes. */
+@property --frame-inset {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 0px;
 }
 
-.zoom-frame img {
+@property --frame-zoom {
+	syntax: '<number>';
+	inherits: true;
+	initial-value: 1.08;
+}
+
+.frame {
+	--frame-bg: transparent;
+	--frame-border: 0 solid transparent;
+	--frame-radius: var(--bcp-radius-large);
+	--frame-shadow: var(--shadow);
+	--frame-blur: none;
+	position: relative;
+	isolation: isolate;
+	border-radius: var(--frame-radius);
+	background: transparent;
+	border-color: transparent;
+	box-shadow: none;
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+	transition:
+		--frame-inset 0.5s var(--ease),
+		--frame-zoom 0.5s var(--ease);
+}
+
+.frame::before {
+	content: '';
+	position: absolute;
+	inset: var(--frame-inset);
+	z-index: -1;
+	border: var(--frame-border);
+	border-radius: var(--frame-radius);
+	background: var(--frame-bg);
+	box-shadow: var(--frame-shadow);
+	-webkit-backdrop-filter: var(--frame-blur);
+	backdrop-filter: var(--frame-blur);
+	pointer-events: none;
+	transition: box-shadow 0.5s var(--ease);
+}
+
+/* Glass cards keep their frosted look on the frame layer */
+.frame.glass {
+	--frame-bg: var(--glass);
+	--frame-border: var(--glass-border);
+	--frame-blur: blur(18px) saturate(140%);
+}
+
+/* A photo filling the whole frame: clipped to the frame as it draws in, and zoomed by --frame-zoom.
+   The clip is worked out in the photo's own (scaled) space, so it always matches the frame exactly. */
+.frame > img {
+	display: block;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 1.2s var(--ease);
+	scale: var(--frame-zoom);
+	clip-path: inset(
+		calc(50% * (1 - 1 / var(--frame-zoom)) + var(--frame-inset) / var(--frame-zoom))
+			round calc(var(--frame-radius) / var(--frame-zoom))
+	);
+}
+
+/* A photo filling part of a card (such as the top of a service card) */
+.frame__media {
+	overflow: hidden;
+	clip-path: inset(var(--frame-inset) var(--frame-inset) 0 round var(--frame-radius) var(--frame-radius) 0 0);
+}
+
+.frame__media img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	scale: var(--frame-zoom);
+}
+
+.frame:focus-within {
+	--frame-shadow: var(--shadow-lift);
+}
+
+@media (hover: hover) {
+	.frame:hover {
+		--frame-shadow: var(--shadow-lift);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.frame:focus-within {
+		--frame-inset: 7px;
+		--frame-zoom: 1;
+	}
+
+	@media (hover: hover) {
+		.frame:hover {
+			--frame-inset: 7px;
+			--frame-zoom: 1;
+		}
+	}
 }
 
 /* Motion. Only applies when JavaScript runs and the visitor allows motion. */
 
 @media (prefers-reduced-motion: no-preference) {
-	/* Fade in and lift up once, as an animation rather than a transition, so cards and buttons that set
-	   their own hover transitions still reveal smoothly. Cards that come into view together are staggered
-	   about 80ms apart through --reveal-delay (set by the script in Layout.astro). */
+	/* One shared reveal for everything that animates in, on load or as you scroll: a gentle fade and a 16px
+	   lift, always 0.8s with the same easing. It is an animation rather than a transition, so cards and buttons
+	   that set their own hover transitions still reveal smoothly. Items that come into view together are
+	   staggered 80ms apart through --reveal-delay (set by the script in Layout.astro). */
 	.js .reveal {
 		opacity: 0;
 	}
 
 	.js .reveal.is-visible {
-		animation: reveal-up 0.9s var(--ease) var(--reveal-delay, 0ms) both;
+		animation: reveal-up 0.8s var(--ease) var(--reveal-delay, 0ms) both;
 	}
 
 	@keyframes reveal-up {
 		from {
 			opacity: 0;
-			transform: translateY(24px);
+			transform: translateY(16px);
 		}
 		to {
 			opacity: 1;
 			transform: none;
 		}
-	}
-
-	/* Headings split into lines by the script in Layout.astro */
-	.line {
-		display: block;
-		overflow: hidden;
-		padding-bottom: 0.08em;
-		margin-bottom: -0.08em;
-	}
-
-	.line__inner {
-		display: block;
-		transform: translateY(105%);
-		transition: transform 0.9s var(--ease);
-		transition-delay: calc(var(--i, 0) * 110ms);
-	}
-
-	.reveal-lines.is-visible .line__inner {
-		transform: none;
-	}
-
-	/* Hide line reveal headings for the moment before they are split, so they do not flash */
-	.js .reveal-lines:not(.is-split):not(.is-visible) {
-		opacity: 0;
-	}
-
-	.zoom-frame:hover img,
-	a:hover .zoom-frame img,
-	.card:hover .zoom-frame img,
-	.service-card:hover .zoom-frame img {
-		transform: scale(1.04);
 	}
 }
 

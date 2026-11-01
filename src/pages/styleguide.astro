@@ -5,7 +5,8 @@ import Icon from '../components/Icon.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
 import LogoRow from '../components/LogoRow.astro';
 import { Image } from 'astro:assets';
-import heroImage from '../assets/images/footprints-beach.jpg';
+import heroImage from '../assets/images/podiatrist-treatment.jpg';
+import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 import brandCss from '../styles/brand.css?raw';
 import tokensCss from '../styles/tokens.css?raw';
 import { clinic, url } from '../data/site';
@@ -60,7 +61,7 @@ const iconNames = [
 
 const typeScale = [
 	{ tag: 'h1', label: 'Heading 1 (home hero: up to 100px, white)', spec: 'Lexend Medium, 38px on phones to 76px on desktop' },
-	{ tag: 'display', label: 'Section heading', spec: 'Lexend Regular, 36 to 68px, reveals line by line' },
+	{ tag: 'display', label: 'Section heading', spec: 'Lexend Regular, 36 to 68px, fades in with a short lift' },
 	{ tag: 'h2', label: 'Heading 2', spec: 'Lexend Medium, 28 to 40px' },
 	{ tag: 'h3', label: 'Heading 3', spec: 'Lexend Medium, 22px' },
 	{ tag: 'h4', label: 'Heading 4', spec: 'Lexend Medium, 19px' },
@@ -71,7 +72,7 @@ const typeScale = [
 	<section class="page-hero">
 		<Glows set="page" />
 		<div class="container container--wide">
-			<h1 class="reveal-lines">Brand style guide</h1>
+			<h1 class="reveal">Brand style guide</h1>
 			<p>Everything on this page uses the same brand.css and tokens.css variables as the website.</p>
 		</div>
 	</section>
@@ -205,7 +206,7 @@ const typeScale = [
 				white border and a soft shadow, so the glow behind tints them. Large corners: <code>var(--bcp-radius-large)</code>
 				({tokens['bcp-radius-large']}), hero panel and its cards: <code>var(--bcp-radius-panel)</code> ({tokens['bcp-radius-panel']}).
 			</p>
-			<div class="grid grid--4 sg-block">
+			<div class="grid grid--3 sg-block">
 				<div class="card glass sg-card sg-card--tint">
 					<span class="sg-corner" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
 					<span class="icon-circle"><Icon name="general" size={34} /></span>
@@ -221,9 +222,56 @@ const typeScale = [
 					<h3>Blue card</h3>
 					<p>For calls to action, with white text.</p>
 				</div>
-				<div class="zoom-frame sg-zoom">
-					<img src={url('/downloads/bcp-logo-stacked-blue.png')} alt="Stacked logo in a frame that zooms gently on hover" loading="lazy" />
-				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="motion-title">
+		<div class="container container--wide">
+			<h2 id="motion-title">Hover and reveal</h2>
+			<p class="sg-intro sg-solid">
+				<strong>One hover for every card and image</strong> (class <code>frame</code> in <code>global.css</code>): the "camera pulling back".
+				On hover or keyboard focus the card's visible frame draws in about 7px on each side with its rounded corners kept, and any photo
+				inside zooms out from 1.08 to 1. The card itself is never scaled, so its text stays the same size and does not move. The shadow
+				deepens a little. 0.5s with a smooth ease out, reversing smoothly. With reduce motion on, only the shadow changes. Used on the
+				home hero cards, service cards, the Meet the team photo, the large photos on About and the service pages, and the cards on the
+				Our services page. Cards set <code>--frame-bg</code> (and <code>--frame-radius</code>) instead of a background; a photo filling
+				the card is a direct child image, and a photo filling part of a card sits in <code>frame__media</code>.
+			</p>
+			<p class="sg-intro sg-solid">
+				Buttons and text links keep their own simple hover everywhere: buttons darken to deep Ocean blue (outline buttons fill), and the
+				small arrow on buttons and arrow links nudges 4px to the right. Plain links thicken their underline.
+			</p>
+			<div class="grid grid--3 sg-block">
+				<a class="frame glass sg-frame-card" href="#motion-title">
+					<span class="icon-circle"><Icon name="general" size={34} /></span>
+					<span class="sg-frame-card__title">Glass card</span>
+					<span>Hover or tab to it to see the frame draw in.</span>
+				</a>
+				<a class="frame sg-frame-photo" href="#motion-title">
+					<Image src={teamImage} alt="A podiatrist testing the sensation on the soles of a patient's feet." widths={[480, 800]} sizes="(min-width: 64rem) 30vw, 100vw" />
+				</a>
+				<a class="frame on-blue sg-frame-card sg-frame-card--blue" href="#motion-title">
+					<span class="sg-frame-card__title">Blue card</span>
+					<span>The same effect on a solid Ocean blue card.</span>
+				</a>
+			</div>
+
+			<h3 class="sg-subhead">Reveal</h3>
+			<p class="sg-intro sg-solid">
+				<strong>One reveal for everything that animates in</strong> (class <code>reveal</code>), on load or as you scroll: a gentle fade and
+				a 16px lift, always 0.8s with the same easing. Items that come into view together follow each other 80ms apart. It plays once,
+				and with reduce motion on everything simply shows.
+			</p>
+			<button class="btn btn--outline sg-replay" type="button" data-replay>Play the reveal again</button>
+			<div class="grid grid--4 sg-block" data-replay-group>
+				{
+					['First', 'Second', 'Third', 'Fourth'].map((label) => (
+						<div class="card sg-reveal-card reveal">
+							<span class="sg-frame-card__title">{label}</span>
+						</div>
+					))
+				}
 			</div>
 		</div>
 	</section>
@@ -281,30 +329,30 @@ const typeScale = [
 		<div class="container container--wide">
 			<h2 id="hero-title">Home hero</h2>
 			<p class="sg-intro sg-solid">
-				Two columns. Left: the H1 on its own, large, with plenty of space. Right, sitting lower so it lines up with the middle and bottom
-				of the headline: the intro and the Call button, then a small bento row with the frosted Visit us card (today's hours, address,
-				Get directions, Send us a message), a small solid Ocean blue Claims and rebates card, and a rounded photo tile. Phones: headline,
-				intro and button, then the cards stacked. Call appears once in the hero; the header keeps its own Call button.
+				On desktop the hero fills exactly the screen below the header, so only the three bento cards show on load and Our services is
+				always below the fold. The group sits in the middle, about 72% of the hero's height and at most 1400px wide. Left: a large photo
+				card (the podiatrist treating a toenail) with the H1 "Expert foot care in Wonthaggi" and "No referral needed. Open five days a
+				week." in white on a gentle dark fade in its bottom left corner; the whole card links to Our services. Right, about a quarter of
+				the width: a white card (hours, address, Call, Send us a message, Get directions) above a smaller solid Ocean blue Claims and
+				rebates card with a round arrow. Together they match the photo card's height. Below, a small mouse gently bobs; clicking it
+				scrolls smoothly to Our services, and it fades out once you scroll. Phones: photo card, white card, blue card, no scroll cue.
 			</p>
 			<div class="sg-hero">
-				<p class="sg-hero__title">Large headline on its own</p>
+				<div class="sg-hero__photo frame">
+					<Image src={heroImage} alt="A podiatrist in gloves treating a patient's toenail." widths={[480, 800]} sizes="(min-width: 64rem) 50vw, 100vw" />
+					<p class="sg-hero__title">Expert foot care in Wonthaggi</p>
+				</div>
 				<div class="sg-hero__side">
-					<p>Intro paragraph, then the Call button.</p>
-					<span class="btn btn--icon"><Icon name="phone" /> Call {clinic.phone}</span>
-					<div class="sg-bento">
-						<div class="sg-bento__visit glass">
-							<p class="sg-bento__title">Visit us</p>
-							<p>Open today, {clinic.openTime} to {clinic.closeTime}</p>
-						</div>
-						<div class="sg-bento__claims on-blue">
-							<p class="sg-bento__title">Claims and rebates</p>
-							<p>Medicare, DVA, HICAPS, TAC and WorkSafe</p>
-						</div>
-						<div class="sg-bento__photo zoom-frame">
-							<Image src={heroImage} alt="Footprints in the sand along the water's edge at a beach." widths={[400, 700]} sizes="20vw" />
-						</div>
+					<div class="sg-bento__visit frame">
+						<p class="sg-bento__title">Visit us</p>
+						<p>Hours, address, Call, Send us a message, Get directions</p>
+					</div>
+					<div class="sg-bento__claims frame on-blue">
+						<p class="sg-bento__title">Claims and rebates</p>
+						<p>Medicare, DVA, HICAPS, TAC and WorkSafe</p>
 					</div>
 				</div>
+				<span class="sg-hero__cue" aria-hidden="true"></span>
 			</div>
 		</div>
 	</section>
@@ -374,6 +422,22 @@ const typeScale = [
 		</div>
 	</section>
 </Layout>
+
+<script>
+	// Style guide only: play the shared reveal again on the four sample cards
+	document.addEventListener('astro:page-load', () => {
+		const button = document.querySelector('[data-replay]');
+		button?.addEventListener('click', () => {
+			const cards = document.querySelectorAll<HTMLElement>('[data-replay-group] .reveal');
+			cards.forEach((card) => card.classList.remove('is-visible'));
+			void document.body.offsetWidth;
+			cards.forEach((card, i) => {
+				card.style.setProperty('--reveal-delay', `${i * 80}ms`);
+				card.classList.add('is-visible');
+			});
+		});
+	});
+</script>
 
 <style>
 	.sg-intro {
@@ -463,54 +527,63 @@ const typeScale = [
 	}
 
 	.sg-hero {
+		position: relative;
 		display: grid;
-		gap: var(--space-l);
-		padding: var(--space-l);
+		gap: 0.75rem;
+		padding: var(--space-l) var(--space-l) 4rem;
 		border-radius: var(--bcp-radius-large);
 		background: color-mix(in srgb, var(--bcp-white) 35%, transparent);
 	}
 
 	@media (min-width: 64rem) {
 		.sg-hero {
-			grid-template-columns: 1.1fr 1fr;
+			grid-template-columns: 1fr 24%;
 		}
+	}
 
-		.sg-hero__side {
-			padding-top: 4rem;
-		}
+	.sg-hero p {
+		margin: 0;
+	}
+
+	.sg-hero__photo {
+		--frame-radius: var(--bcp-radius-panel);
+		display: flex;
+		align-items: flex-end;
+		min-height: 18rem;
+	}
+
+	.sg-hero__photo img {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
 	}
 
 	.sg-hero__title {
-		margin: 0;
-		color: var(--bcp-blue);
-		font-size: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+		padding: var(--space-m);
+		color: var(--bcp-white);
+		font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
 		font-weight: var(--bcp-weight-heading);
 		line-height: 1.04;
 		letter-spacing: -0.03em;
+		text-shadow: 0 2px 16px color-mix(in srgb, var(--bcp-deep) 60%, transparent);
 	}
 
-	.sg-bento {
+	.sg-hero__side {
 		display: grid;
-		grid-template-columns: 1.3fr 1fr;
-		grid-template-rows: auto auto;
+		grid-template-rows: 1fr auto;
 		gap: 0.75rem;
-		margin-top: var(--space-m);
-	}
-
-	.sg-bento p {
-		margin: 0;
 	}
 
 	.sg-bento__visit {
-		grid-row: span 2;
+		--frame-radius: var(--bcp-radius-panel);
+		--frame-bg: var(--bcp-white);
 		padding: var(--space-s);
-		border-radius: var(--bcp-radius-panel);
 	}
 
 	.sg-bento__claims {
+		--frame-radius: var(--bcp-radius-panel);
+		--frame-bg: var(--bcp-blue);
 		padding: var(--space-s);
-		border-radius: var(--bcp-radius-panel);
-		background: var(--bcp-blue);
 		color: var(--bcp-white);
 	}
 
@@ -522,13 +595,63 @@ const typeScale = [
 		color: var(--bcp-blue);
 	}
 
-	.sg-bento__photo {
-		min-height: 6rem;
-		border-radius: var(--bcp-radius-panel);
+	/* Scroll cue sketch */
+	.sg-hero__cue {
+		position: absolute;
+		left: 50%;
+		bottom: 1.25rem;
+		width: 1.25rem;
+		height: 1.9rem;
+		translate: -50% 0;
+		border: 2px solid var(--bcp-blue);
+		border-radius: 0.65rem;
 	}
 
-	.sg-bento__photo img {
-		height: 100%;
+	/* Hover and reveal demos */
+	.sg-frame-card {
+		--frame-radius: var(--bcp-radius-large);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+		min-height: 14rem;
+		padding: clamp(1.5rem, 3vw, 2.25rem);
+		color: var(--bcp-ink);
+		text-decoration: none;
+	}
+
+	.sg-frame-card--blue {
+		--frame-bg: var(--bcp-blue);
+		color: var(--bcp-white);
+	}
+
+	.sg-frame-card__title {
+		font-size: 1.375rem;
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	.sg-frame-photo {
+		min-height: 14rem;
+	}
+
+	.sg-frame-photo img {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+	}
+
+	.sg-subhead {
+		margin-top: var(--space-l);
+	}
+
+	.sg-replay {
+		margin-bottom: var(--space-m);
+	}
+
+	.sg-reveal-card {
+		display: grid;
+		place-items: center;
+		min-height: 8rem;
 	}
 
 	.sg-card--tint.glass {
@@ -599,20 +722,6 @@ const typeScale = [
 
 	.sg-card--blue h3 {
 		color: var(--bcp-white);
-	}
-
-	.sg-zoom {
-		display: grid;
-		place-items: center;
-		min-height: 14rem;
-		background: var(--bcp-white);
-		box-shadow: var(--shadow);
-	}
-
-	.sg-zoom img {
-		width: 60%;
-		height: auto;
-		object-fit: contain;
 	}
 
 	.sg-h1,

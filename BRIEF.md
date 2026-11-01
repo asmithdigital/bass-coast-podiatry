@@ -75,14 +75,18 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 - Wide and open: content up to 1440px with side margins of 5vw. The hero and feature images run the full width of the screen.
 - Text always sits on white, a solid or frosted card, or a deep blue surface, never directly on a busy photo or glow. Body text at least 18px.
 - Bright, blurred Ocean blue and Sea cyan glows (`Glows.astro`, CSS only) that drift and slowly change shape: vivid behind the hero's right side and the Services section, smaller and softer further down.
-- Large headings; section headings are Lexend Regular and reveal line by line once.
-- Frosted glass and white cards with soft shadows; images zoom gently on hover; buttons carry a small arrow that moves on hover.
+- Large headings; section headings are Lexend Regular.
+- Frosted glass and white cards with soft shadows.
+- One shared hover for every card and image (class `frame` in `global.css`), the "camera pulling back" from demophorius.com: the
+  card's visible frame draws in about 7px on each side with its rounded corners kept, and any photo inside zooms out from 1.08 to 1.
+  The card is never scaled, so text stays put. 0.5s ease out. Keyboard focus plays the same effect with a focus ring. With reduce
+  motion on, only the shadow changes. Buttons darken (outline buttons fill) and their arrow nudges 4px; arrow links nudge the same way.
 - One full width deep blue section per page at most. Deep blue footer with a large "Book an appointment" line.
 - Page changes: a soft blue to cyan wash, about 600ms. Header becomes compact and frosted on scroll. Mobile menu is a full screen deep blue overlay.
 - Contact panel: any link with `data-contact` opens a full screen contact panel with a growing blue circle (about 700ms).
   It closes with X, Escape or Back, keeps focus inside and returns it to the link.
 - Missing photos: a soft blue glass placeholder labelled "Photo to come".
-- All motion is gentle and plays once, and reduce motion turns it off. Cards fade in and lift as they come into view (a CSS animation, so their own hover transitions can't cancel it), staggered about 80ms apart. No sliders, counters or parallax on text.
+- All motion is gentle and plays once, and reduce motion turns it off. One shared reveal (class `reveal`) for everything that animates in, headings included: a fade and a 16px lift, 0.8s, staggered 80ms apart for groups (a CSS animation, so hover transitions can't cancel it). No other entrance effects. No sliders, counters or parallax on text.
 - The desktop menu and Call button stay visible. On phones a Call button is fixed to the bottom of the screen.
 - Previous designs are tagged `round-1-design` and `round-2-design` in git.
 
@@ -90,14 +94,18 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
 2. Hero, a bento layout based on commit `c659857` (the demophorius.com reference): no full width background photo.
+   - Desktop: the hero fills exactly the screen below the header (100svh minus 6rem), so only the bento group shows on load and Our
+     services is always below the fold. The group is centred, about 72% of the hero's height (25rem to 50rem) and at most 1400px wide.
+     The right column is about a quarter of the width (17.5rem to 22rem); the white card's text and spacing follow the screen height.
+   - Scroll cue: a small mouse centred near the bottom of the hero that gently bobs (still with reduce motion), scrolls smoothly to
+     Our services on click and fades out once the visitor scrolls. Hidden on phones and tablets, where the hero can be taller.
    - Left (about 65%): a large photo card with the podiatrist treating a toenail (`podiatrist-treatment.jpg`), bright and clear. In its
      bottom left corner, on a gentle dark Ocean blue fade in that corner only, the white H1 "Expert foot care in Wonthaggi" (two lines)
      and an uppercase line "No referral needed. Open five days a week." No buttons. The whole card links to Our services.
    - Right, top: a white card with a stacked list (hours and address, each with an icon in a tinted circle), the Call button, then
      "Send us a message" (opens the contact panel) and "Get directions" text links with icons.
    - Right, bottom: the smaller solid Ocean blue "Claims and rebates" card with a round arrow, linking to Claims and rebates.
-   - The two right cards together match the photo card's height. Every card zooms to 1.02 as a whole with a deeper shadow on hover
-     (400ms, no zoom with reduce motion).
+   - The two right cards together match the photo card's height. Hover is the shared frame effect (see Design rules).
    - Phones: photo card, white card, blue card. The fixed phone Call bar hides while the hero Call button is on screen.
    - Page title "Bass Coast Podiatry | Podiatry in Wonthaggi"; the meta description starts "Podiatry in Wonthaggi since 2007".
 3. Our services: eight equal cards, four per row on desktop (two on tablets, one on phones), no photo and no call card. Plain patient
@@ -113,7 +121,7 @@ every 4 to 8 seconds (sometimes faster) with smooth easing, growing and shrinkin
 cards so the glass picks up the colour, and fades back as you scroll. Also a paler Sea cyan blob near the top and an occasional faint touch
 of Sand; the section glows provide smaller, paler blobs further down. Paused while the tab is hidden, still with reduce motion.
 
-Earlier home heroes: tag `hero-before-bento-v2` (full screen faded beach photo with the Visit us and Claims cards), commit `8bb1897` (bento photo card with a map card), tag `hero-faded-photo` (full screen faded photo, 82% veil), commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
+Earlier home heroes: commit `3ea549a` (bento hero below the header, whole card zoom hover), tag `hero-before-bento-v2` (full screen faded beach photo with the Visit us and Claims cards), commit `8bb1897` (bento photo card with a map card), tag `hero-faded-photo` (full screen faded photo, 82% veil), commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
 
 ## Preview mode (remove all of this at launch)
 

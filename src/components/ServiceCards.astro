@@ -30,8 +30,8 @@ const cards = featured ? rest : services;
 <ul class:list={['service-cards', { 'service-cards--feature': featured }]} role="list">
 	{
 		featured && (
-			<li class="service-card service-card--feature glass reveal">
-				<div class="zoom-frame service-card__photo">
+			<li class="service-card service-card--feature frame glass reveal">
+				<div class="frame__media service-card__photo">
 					<Image
 						src={featureImage ?? featured.data.image!}
 						alt={featureImage ? (featureImageAlt ?? '') : (featured.data.imageAlt ?? '')}
@@ -57,7 +57,7 @@ const cards = featured ? rest : services;
 	}
 	{
 		cards.map((s) => (
-			<li class="service-card glass reveal">
+			<li class="service-card frame glass reveal">
 				<span class="icon-circle">
 					<Icon name={s.data.icon} size={34} />
 				</span>
@@ -74,7 +74,7 @@ const cards = featured ? rest : services;
 	}
 	{
 		featured && (
-			<li class="service-card service-card--call on-blue reveal">
+			<li class="service-card service-card--call frame on-blue reveal">
 				<p class="service-card__call-text">Call us to make an appointment, or send us a message.</p>
 				<a class="service-card__call-link" href={clinic.phoneHref}>
 					<Icon name="phone" size={22} />
@@ -122,25 +122,12 @@ const cards = featured ? rest : services;
 		grid-auto-rows: 1fr;
 	}
 
+	/* Hover: the shared frame effect (.frame in global.css), the same as every card on the site */
 	.service-card {
-		--lift: 0;
-		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		padding: clamp(1.75rem, 3vw, 2.25rem);
-		border-radius: var(--bcp-radius-large);
-		translate: 0 var(--lift);
-		transition: translate 0.5s var(--ease), box-shadow 0.5s var(--ease);
-	}
-
-	.service-card:hover {
-		--lift: -6px;
-		box-shadow: var(--shadow-lift);
-	}
-
-	.service-card:hover .icon-circle {
-		transform: scale(1.08);
 	}
 
 	.service-card .icon-circle {
@@ -209,7 +196,6 @@ const cards = featured ? rest : services;
 	/* Large feature card with a photo */
 	.service-card--feature {
 		padding: 0;
-		overflow: hidden;
 	}
 
 	.service-card__photo {
@@ -231,6 +217,7 @@ const cards = featured ? rest : services;
 	}
 
 	.service-card--feature .icon-circle {
+		position: relative;
 		margin-top: calc(-1 * clamp(3.5rem, 6vw, 4.25rem));
 		box-shadow: 0 0 0 6px var(--bcp-white);
 		background: var(--tint);
@@ -250,11 +237,10 @@ const cards = featured ? rest : services;
 
 	/* Solid blue call card that finishes the grid */
 	.service-card--call {
+		--frame-bg: var(--bcp-blue);
 		justify-content: space-between;
 		gap: var(--space-m);
-		background: var(--bcp-blue);
 		color: var(--bcp-white);
-		box-shadow: var(--shadow);
 	}
 
 	.service-card__call-text {
@@ -273,15 +259,4 @@ const cards = featured ? rest : services;
 		text-underline-offset: 0.25em;
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.service-card,
-		.service-card:hover {
-			--lift: 0;
-		}
-
-		.service-card .icon-circle,
-		.service-card:hover .icon-circle {
-			transform: none;
-		}
-	}
 </style>

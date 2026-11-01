@@ -161,7 +161,7 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 ### Design round 3 additions
 
 - Home hero card: "Visit us", with today's hours worked out in Wonthaggi time ("Open today, 8:40 am to 5:30 pm" or "Closed today").
-- Quick actions: "Call us", "Get directions", "Send a message" ("We will get back to you"), "Claims and rebates" ("Medicare, DVA, HICAPS and more").
+- Quick actions: "Call us" ("(03) 5672 2309"), "Get directions" ("182 Graham Street"), "Send a message" ("Use our contact form"), "Claims and rebates" ("How to claim").
 - About: new heading "Our clinic" over the existing clinic text. "Meet our Staff" and "Our Administration team" are now cards.
 - Contact panel and Contact page share one form. Field hint and button text unchanged.
 - "Photo to come" labels on placeholders.

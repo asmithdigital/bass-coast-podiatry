@@ -177,12 +177,14 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 <style>
 	/* Hero: the beach photo fills the screen width, with an Ocean blue glass veil deepest on the left */
 
+	/* Height is set against the screen below the header, so the quick actions overlapping the
+	   bottom edge stay above the fold on common laptop sizes. The headline sits near the top. */
 	.hero {
 		position: relative;
 		display: grid;
-		align-items: center;
-		min-height: 88svh;
-		padding-block: clamp(3rem, 8vw, 6rem) clamp(5rem, 9vw, 8rem);
+		align-items: start;
+		min-height: min(72svh, 720px);
+		padding-block: clamp(1.5rem, 4.5vh, 3rem) clamp(4.75rem, 9.5vh, 6rem);
 		overflow: clip;
 		background: var(--bcp-deep);
 		color: var(--bcp-white);
@@ -249,14 +251,15 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		max-width: 12ch;
 		margin-bottom: var(--space-m);
 		color: var(--bcp-white);
-		font-size: clamp(2.5rem, 1.4rem + 5.2vw, 6.25rem);
+		/* Large, but also limited by screen height so short laptop screens keep the cards in view */
+		font-size: clamp(2.5rem, min(1.4rem + 5.2vw, 10.5vh), 6.25rem);
 		line-height: 1.02;
 		letter-spacing: -0.035em;
 	}
 
 	.hero__lead {
-		max-width: 34rem;
-		margin-bottom: var(--space-l);
+		max-width: 38rem;
+		margin-bottom: clamp(1.25rem, 3.5vh, 2.5rem);
 		font-size: clamp(1.1875rem, 1rem + 0.5vw, 1.5rem);
 		line-height: 1.55;
 	}
@@ -265,6 +268,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	@media (max-width: 63.99rem) {
 		.hero {
 			min-height: 0;
+			padding-top: var(--space-m);
 		}
 
 		.hero__veil {

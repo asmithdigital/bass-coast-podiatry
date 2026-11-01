@@ -36,7 +36,7 @@ html {
 
 body {
 	margin: 0;
-	background: var(--bcp-white);
+	background: var(--bcp-cloud);
 	color: var(--bcp-ink);
 	font-family: var(--bcp-font);
 	font-weight: var(--bcp-weight-text);
@@ -296,8 +296,8 @@ a:hover {
 	letter-spacing: 0.02em;
 }
 
-/* Colour glows: soft, blurred shapes that drift very slowly behind content.
-   Text never sits directly on them; it sits on white, a card or the deep blue section. */
+/* Colour glows: bright, blurred shapes that drift and slowly change shape behind content.
+   Text never sits directly on them; it sits on glass, a solid card or the deep blue section. */
 
 .glows {
 	position: absolute;
@@ -314,11 +314,16 @@ a:hover {
 	position: absolute;
 	width: var(--size, 40rem);
 	aspect-ratio: 1;
-	border-radius: 50%;
-	background: radial-gradient(circle at center, var(--glow-colour) 0%, transparent 70%);
+	border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%;
+	background: radial-gradient(
+		circle at center,
+		var(--glow-colour) 0%,
+		color-mix(in srgb, var(--glow-colour) 75%, transparent) 38%,
+		transparent 70%
+	);
 	opacity: var(--glow-opacity, 1);
-	filter: blur(30px);
-	will-change: transform;
+	filter: blur(48px) saturate(130%);
+	will-change: transform, border-radius;
 }
 
 .glow--sea {
@@ -326,23 +331,37 @@ a:hover {
 }
 
 .glow--blue {
-	--glow-colour: color-mix(in srgb, var(--bcp-blue) 70%, var(--bcp-sea));
-	--glow-opacity: 0.64;
+	--glow-colour: color-mix(in srgb, var(--bcp-blue) 75%, var(--bcp-sea));
+	--glow-opacity: 0.8;
 }
 
 @media (prefers-reduced-motion: no-preference) {
 	.glow {
-		animation: drift var(--drift, 38s) ease-in-out infinite alternate;
+		animation:
+			drift 38s ease-in-out infinite alternate,
+			morph 24s ease-in-out infinite alternate;
 	}
 
 	.glow:nth-child(2) {
-		animation-duration: 46s;
-		animation-delay: -12s;
+		animation-duration: 46s, 30s;
+		animation-delay: -12s, -8s;
 	}
 
 	.glow:nth-child(3) {
-		animation-duration: 54s;
-		animation-delay: -24s;
+		animation-duration: 54s, 34s;
+		animation-delay: -24s, -16s;
+	}
+}
+
+@keyframes morph {
+	0% {
+		border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%;
+	}
+	50% {
+		border-radius: 60% 40% 35% 65% / 55% 62% 38% 45%;
+	}
+	100% {
+		border-radius: 38% 62% 52% 48% / 62% 38% 62% 38%;
 	}
 }
 
@@ -351,10 +370,10 @@ a:hover {
 		transform: translate3d(0, 0, 0) scale(1);
 	}
 	50% {
-		transform: translate3d(6%, -5%, 0) scale(1.08);
+		transform: translate3d(8%, -6%, 0) scale(1.1) rotate(12deg);
 	}
 	100% {
-		transform: translate3d(-5%, 4%, 0) scale(0.96);
+		transform: translate3d(-6%, 5%, 0) scale(0.94) rotate(-8deg);
 	}
 }
 

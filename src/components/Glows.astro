@@ -13,14 +13,15 @@ interface Glow {
 }
 
 interface Props {
-	set?: 'hero' | 'right' | 'left' | 'centre' | 'page';
+	set?: 'hero' | 'right' | 'left' | 'centre' | 'page' | 'soft';
 }
 
 const sets: Record<NonNullable<Props['set']>, Glow[]> = {
+	// Bright glows behind the right side of the home hero, so the glass cards look tinted
 	hero: [
-		{ colour: 'sea', top: '-10%', right: '0%', size: 'clamp(24rem, 55vw, 50rem)', opacity: 0.75 },
-		{ colour: 'blue', bottom: '-10%', left: '30%', size: 'clamp(22rem, 48vw, 44rem)' },
-		{ colour: 'sea', bottom: '0%', left: '0%', size: 'clamp(16rem, 34vw, 30rem)', opacity: 0.45 },
+		{ colour: 'sea', top: '-6%', right: '-6%', size: 'clamp(26rem, 42vw, 50rem)', opacity: 0.5 },
+		{ colour: 'blue', top: '34%', right: '12%', size: 'clamp(20rem, 30vw, 36rem)', opacity: 0.45 },
+		{ colour: 'sea', bottom: '-12%', left: '38%', size: 'clamp(18rem, 28vw, 32rem)', opacity: 0.3 },
 	],
 	right: [
 		{ colour: 'sea', top: '10%', right: '-10%', size: 'clamp(24rem, 50vw, 46rem)', opacity: 0.6 },
@@ -30,14 +31,20 @@ const sets: Record<NonNullable<Props['set']>, Glow[]> = {
 		{ colour: 'sea', top: '20%', left: '-12%', size: 'clamp(24rem, 50vw, 46rem)', opacity: 0.55 },
 		{ colour: 'blue', bottom: '-10%', left: '25%', size: 'clamp(20rem, 40vw, 36rem)' },
 	],
+	// Behind the Services grid, below the heading
 	centre: [
-		{ colour: 'sea', top: '15%', left: '15%', size: 'clamp(26rem, 55vw, 50rem)', opacity: 0.55 },
-		{ colour: 'blue', top: '35%', right: '5%', size: 'clamp(22rem, 45vw, 42rem)' },
-		{ colour: 'sea', bottom: '-10%', left: '-5%', size: 'clamp(18rem, 35vw, 30rem)', opacity: 0.4 },
+		{ colour: 'sea', top: '22%', left: '12%', size: 'clamp(26rem, 55vw, 52rem)', opacity: 0.55 },
+		{ colour: 'blue', top: '40%', right: '4%', size: 'clamp(22rem, 45vw, 44rem)', opacity: 0.45 },
+		{ colour: 'sea', bottom: '-6%', left: '-6%', size: 'clamp(18rem, 35vw, 32rem)', opacity: 0.4 },
 	],
 	page: [
 		{ colour: 'sea', top: '-35%', right: '-14%', size: 'clamp(20rem, 40vw, 36rem)', opacity: 0.6 },
 		{ colour: 'blue', top: '-5%', right: '8%', size: 'clamp(14rem, 24vw, 22rem)', opacity: 0.2 },
+	],
+	// Smaller, softer glows scattered behind other sections
+	soft: [
+		{ colour: 'sea', top: '15%', right: '-6%', size: 'clamp(14rem, 26vw, 26rem)', opacity: 0.3 },
+		{ colour: 'blue', bottom: '5%', left: '-6%', size: 'clamp(12rem, 20vw, 20rem)', opacity: 0.18 },
 	],
 };
 

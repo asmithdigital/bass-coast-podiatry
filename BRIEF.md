@@ -25,9 +25,9 @@ Main actions: call, find the clinic, understand the services.
 - `brand/brand.css` is copied to `src/styles/brand.css`. Every colour, the font and the corner radius come from its variables.
 - Colours:
   - Ocean blue `#0B4F7C`: logo, headings, buttons, glows
-  - Sand `#F4C97B`: logo arch, the current page marker in the menu, and warm light near the bottom of the home hero. Never text.
+  - Sand `#F4C97B`: logo arch and the current page marker in the menu. Never text.
   - Light sand `#FBEFD6`: in the brand pack, but no longer used for backgrounds (design round 2)
-  - White and Mist `#F8F9FA`: the base
+  - Cloud grey `#EEF0F2` (in `tokens.css`): the page base across the whole site. White for cards and glass, Mist `#F8F9FA` for some sections.
   - Ink `#1E2A33`: body text
   - Added in design round 2, in `src/styles/tokens.css` (brand.css stays as supplied): Sea cyan `#7FD3E6` for glows and tints, Deep Ocean blue `#073A5C` for contrast sections, the footer, the mobile menu and the contact panel.
 - Font: Lexend from Google Fonts. Medium (500) for headings, Regular (400) for text.
@@ -69,11 +69,11 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 - No em dashes or en dashes anywhere. Search all copy for dashes before finishing.
 - No hype words such as seamless, cutting edge or world class.
 
-## Design rules (current: design round 3)
+## Design rules (current: design round 3, with the hero round 4 home hero)
 
 - Wide and open: content up to 1440px with side margins of 5vw. The hero and feature images run the full width of the screen.
 - Text always sits on white, a solid or frosted card, or a deep blue surface, never directly on a busy photo or glow. Body text at least 18px.
-- Soft Ocean blue and Sea cyan glows (`Glows.astro`, CSS only) behind some sections, drifting very slowly.
+- Bright, blurred Ocean blue and Sea cyan glows (`Glows.astro`, CSS only) that drift and slowly change shape: vivid behind the hero's right side and the Services section, smaller and softer further down.
 - Large headings; section headings are Lexend Regular and reveal line by line once.
 - Frosted glass and white cards with soft shadows; images zoom gently on hover; buttons carry a small arrow that moves on hover.
 - One full width deep blue section per page at most. Deep blue footer with a large "Book an appointment" line.
@@ -85,12 +85,19 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 - The desktop menu and Call button stay visible. On phones a Call button is fixed to the bottom of the screen.
 - Previous designs are tagged `round-1-design` and `round-2-design` in git.
 
-## Homepage order (design round 3)
+## Homepage order (hero round 4)
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
-2. Full width hero: beach photo, blue glass veil, white H1 "Podiatry care in Wonthaggi since 2007", intro line, Call and Contact buttons,
-   and a frosted "Visit us" card with today's hours, address, phone and Get directions
-3. Quick actions: Call us, Get directions, Send a message, Claims and rebates
+2. Hero, about 1440px wide on a Cloud grey base with bright glows:
+   - Left, about 65%: rounded photo panel (16px corners) with the bright beach photo, zooming slightly on hover. The H1 "Podiatry care in
+     Wonthaggi since 2007" sits on a frosted plate in the bottom left corner, with "Call (03) 5672 2309" and "Our services".
+   - Right, about 35%: two stacked glass cards, each with a round outlined icon button in the corner. "Visit us": today's hours, the address,
+     Get directions and "Send us a message" (opens the contact panel). "Claims and rebates": the five names, linking to the claims page.
+   - Phones: the photo panel first, then the two cards. The fixed Call bar hides while the hero Call button is on screen.
+   - Call appears once in the hero; contact lives in the Visit us card. No other Call or Contact buttons above the fold.
+   - At 1440 x 900 the hero and the top of the cards below are visible without scrolling.
+3. Common reasons people visit: four glass cards linking to General Podiatry, Prescription Orthotic Therapy, Diabetes foot assessment and
+   Paediatric Assessment
 4. Services: feature card for General Podiatry plus seven glass cards and a call card
 5. Meet the team: large photo, names, link to About
 6. Claims and rebates: deep blue section with the five names as badges
@@ -98,6 +105,8 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 8. Hours and location with the map
 9. Three FAQs and a link to all FAQs
 10. Footer
+
+The previous home heroes are tagged `round-3-hero-dark` (full width photo with a dark veil) and `round-2-design`.
 
 ## Preview mode (remove all of this at launch)
 

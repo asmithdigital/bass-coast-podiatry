@@ -2,5 +2,7 @@
 	/* Round 2 additions to the brand palette. brand.css stays as supplied. */
 	--bcp-sea: #7FD3E6;        /* light sea cyan: glows and tints only */
 	--bcp-deep: #073A5C;       /* deep Ocean blue: contrast sections, footer, menu */
-	--bcp-radius-large: 28px;  /* hero panel, feature cards, map */
+	--bcp-radius-large: 28px;  /* feature cards, map */
+	--bcp-cloud: #EEF0F2;      /* light grey page base (hero round 4) */
+	--bcp-radius-panel: 16px;  /* home hero photo panel and its glass cards */
 }

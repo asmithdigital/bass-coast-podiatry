@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
 import Icon from '../components/Icon.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
-import QuickActions from '../components/QuickActions.astro';
+import CommonReasons from '../components/CommonReasons.astro';
 import LogoRow from '../components/LogoRow.astro';
 import { Image } from 'astro:assets';
 import heroImage from '../assets/images/footprints-beach.jpg';
@@ -17,14 +17,15 @@ const tokens = Object.fromEntries(
 );
 
 const colours = [
-	{ token: 'bcp-white', name: 'White', use: 'Base colour: page background, cards and text on blue.' },
+	{ token: 'bcp-cloud', name: 'Cloud grey', use: 'Base colour: the page background across the whole site.' },
+	{ token: 'bcp-white', name: 'White', use: 'Cards, glass and text on blue.' },
 	{ token: 'bcp-mist', name: 'Mist', use: 'Base colour: quiet section backgrounds.' },
 	{ token: 'bcp-blue', name: 'Ocean blue', use: 'Logo, headings, buttons, links and glows.' },
 	{ token: 'bcp-deep', name: 'Deep Ocean blue', use: 'Contrast sections, the footer and the mobile menu, with white text.' },
 	{ token: 'bcp-sea', name: 'Sea cyan', use: 'Glows, soft tints behind icons and focus rings. Never for text.' },
 	{ token: 'bcp-ink', name: 'Ink', use: 'Body text.' },
 	{ token: 'bcp-grey', name: 'Grey', use: 'Secondary text, such as intros and labels.' },
-	{ token: 'bcp-sand', name: 'Sand', use: 'The logo arch, the current page marker in the menu, and warm light near the bottom of the home hero.' },
+	{ token: 'bcp-sand', name: 'Sand', use: 'The logo arch and one small accent: the current page marker in the menu.' },
 	{ token: 'bcp-sand-light', name: 'Light sand', use: 'In the brand pack, but no longer used for backgrounds on the website.' },
 ];
 
@@ -50,6 +51,7 @@ const iconNames = [
 	'pin',
 	'clock',
 	'directions',
+	'arrowUpRight',
 	'message',
 	'claims',
 	'person',
@@ -196,15 +198,19 @@ const typeScale = [
 		<div class="container container--wide above-glow">
 			<h2 id="glow-title">Glows and glass cards</h2>
 			<p class="sg-intro sg-solid">
-				Two or three large, soft glows in Ocean blue and Sea cyan sit behind the hero and some sections and drift very slowly. They are
-				CSS only (<code>Glows.astro</code>) and stand still when reduce motion is on. Text never sits directly on a glow: it sits on
-				white, a card or the deep blue section. Large corners: <code>var(--bcp-radius-large)</code> ({tokens['bcp-radius-large']}).
+				The page base is Cloud grey. Bright, blurred Ocean blue and Sea cyan glows sit behind the hero and the Services section, with
+				smaller, softer ones further down. They drift and slowly change shape, are CSS only (<code>Glows.astro</code>, sets
+				<code>hero</code>, <code>centre</code> and <code>soft</code>) and stand still when reduce motion is on. Text never sits directly on a
+				glow: it sits on glass, a solid card or the deep blue section. Glass cards are semi-transparent white with a backdrop blur, a soft
+				white border and a soft shadow, so the glow behind tints them. Large corners: <code>var(--bcp-radius-large)</code>
+				({tokens['bcp-radius-large']}), hero panel and its cards: <code>var(--bcp-radius-panel)</code> ({tokens['bcp-radius-panel']}).
 			</p>
 			<div class="grid grid--4 sg-block">
-				<div class="card glass sg-card">
+				<div class="card glass sg-card sg-card--tint">
+					<span class="sg-corner" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
 					<span class="icon-circle"><Icon name="general" size={34} /></span>
 					<h3>Glass card</h3>
-					<p>Frosted white over a glow. Class <code>glass</code>.</p>
+					<p>Frosted white, tinted by the glow behind. Class <code>glass</code>, with a round outlined icon button in the corner.</p>
 				</div>
 				<div class="card sg-card">
 					<span class="icon-circle"><Icon name="clock" size={34} /></span>
@@ -277,26 +283,39 @@ const typeScale = [
 		</div>
 	</section>
 
-	<section class="section section--mist" aria-labelledby="hero-title">
-		<div class="container container--wide">
-			<h2 id="hero-title">Home hero and quick actions</h2>
-			<p class="sg-intro">
-				The photo fills the hero. An Ocean blue glass veil is deepest on the left, where the white text sits, with warm sand light near the
-				bottom. The frosted Visit us card shows today's hours. Four quick actions sit just below.
+	<section class="section sg-hero-section" aria-labelledby="hero-title">
+		<Glows set="hero" />
+		<div class="container container--wide above-glow">
+			<h2 id="hero-title">Home hero</h2>
+			<p class="sg-intro sg-solid">
+				Left, about 65%: a rounded photo panel, bright and clear, that zooms very slightly on hover. The H1 and two buttons (Call and Our
+				services) sit on a frosted plate in its bottom left corner. Right, about 35%: two stacked glass cards over bright glows, Visit us
+				(today's hours, address, Get directions, Send us a message) and Claims and rebates. On phones the photo panel comes first and the
+				cards stack below. Below the hero, four common reasons people visit link to their service pages.
 			</p>
-		</div>
-		<div class="sg-hero on-blue">
-			<Image class="sg-hero__bg" src={heroImage} alt="" widths={[800, 1400]} sizes="100vw" />
-			<div class="sg-hero__veil" aria-hidden="true"></div>
-			<div class="container container--wide sg-hero__inner">
-				<p class="sg-hero__title">Large white headline</p>
-				<div class="sg-hero__card glass">
-					<p class="sg-hero__card-title">Visit us</p>
-					<p>Open today, {clinic.openTime} to {clinic.closeTime}</p>
+			<div class="sg-hero">
+				<div class="sg-hero__panel zoom-frame">
+					<Image class="sg-hero__photo" src={heroImage} alt="Footprints in the sand along the water's edge at a beach." widths={[800, 1200]} sizes="(min-width: 64rem) 60vw, 100vw" />
+					<div class="sg-hero__plate glass">
+						<p class="sg-hero__title">Large headline on a frosted plate</p>
+						<span class="btn btn--icon"><Icon name="phone" /> Call {clinic.phone}</span>
+					</div>
+				</div>
+				<div class="sg-hero__side">
+					<div class="sg-hero__card glass">
+						<span class="sg-corner" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
+						<p class="sg-hero__card-title">Visit us</p>
+						<p>Open today, {clinic.openTime} to {clinic.closeTime}</p>
+					</div>
+					<div class="sg-hero__card glass">
+						<span class="sg-corner" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
+						<p class="sg-hero__card-title">Claims and rebates</p>
+						<p>Medicare, DVA, HICAPS, TAC and WorkSafe</p>
+					</div>
 				</div>
 			</div>
 		</div>
-		<QuickActions />
+		<CommonReasons />
 	</section>
 
 	<section class="section" aria-labelledby="panel-title">
@@ -434,15 +453,24 @@ const typeScale = [
 	}
 
 	.sg-hero {
-		position: relative;
-		overflow: clip;
-		margin-bottom: var(--space-m);
-		padding-block: var(--space-xl) calc(var(--space-xl) + 2rem);
-		background: var(--bcp-deep);
-		color: var(--bcp-white);
+		display: grid;
+		gap: var(--space-m);
 	}
 
-	.sg-hero__bg {
+	@media (min-width: 64rem) {
+		.sg-hero {
+			grid-template-columns: 65fr 35fr;
+		}
+	}
+
+	.sg-hero__panel {
+		position: relative;
+		min-height: 26rem;
+		border-radius: var(--bcp-radius-panel);
+		box-shadow: var(--shadow-lift);
+	}
+
+	.sg-hero__photo {
 		position: absolute;
 		inset: 0;
 		width: 100%;
@@ -450,39 +478,43 @@ const typeScale = [
 		object-fit: cover;
 	}
 
-	.sg-hero__veil {
+	.sg-hero__plate {
 		position: absolute;
-		inset: 0;
-		background: linear-gradient(
-			90deg,
-			color-mix(in srgb, var(--bcp-deep) 92%, transparent) 0%,
-			color-mix(in srgb, var(--bcp-deep) 80%, transparent) 40%,
-			color-mix(in srgb, var(--bcp-blue) 25%, transparent) 100%
-		);
+		left: 1rem;
+		right: 1rem;
+		bottom: 1rem;
+		max-width: 28rem;
+		padding: var(--space-m);
+		border-radius: calc(var(--bcp-radius-panel) - 4px);
 	}
 
-	.sg-hero__inner {
-		position: relative;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		align-items: center;
-		gap: var(--space-l);
+	.sg-hero__plate.glass {
+		background: color-mix(in srgb, var(--bcp-white) 80%, transparent);
 	}
 
 	.sg-hero__title {
-		margin: 0;
-		font-size: clamp(2.25rem, 1.4rem + 3.8vw, 4.25rem);
+		margin: 0 0 var(--space-s);
+		color: var(--bcp-blue);
+		font-size: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
 		font-weight: var(--bcp-weight-heading);
 		line-height: 1.05;
 		letter-spacing: -0.03em;
 	}
 
+	.sg-hero__side {
+		display: grid;
+		gap: var(--space-m);
+	}
+
 	.sg-hero__card {
+		position: relative;
 		padding: var(--space-m);
-		border-radius: var(--bcp-radius-large);
-		background: color-mix(in srgb, var(--bcp-white) 88%, transparent);
-		color: var(--bcp-ink);
+		border-radius: var(--bcp-radius-panel);
+	}
+
+	.sg-hero__card.glass,
+	.sg-card--tint.glass {
+		background: color-mix(in srgb, var(--bcp-white) 58%, transparent);
 	}
 
 	.sg-hero__card p {
@@ -491,8 +523,25 @@ const typeScale = [
 
 	.sg-hero__card-title {
 		color: var(--bcp-blue);
-		font-size: 1.375rem;
+		font-size: 1.5rem;
 		font-weight: var(--bcp-weight-heading);
+	}
+
+	.sg-corner {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border: 1px solid color-mix(in srgb, var(--bcp-blue) 40%, transparent);
+		border-radius: 50%;
+		color: var(--bcp-blue);
+	}
+
+	.sg-hero-section :global(.reasons) {
+		margin-top: var(--space-m);
 	}
 
 	.sg-display {

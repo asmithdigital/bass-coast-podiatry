@@ -88,14 +88,13 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 ## Homepage order (hero round 4)
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
-2. Hero, about 1440px wide on a Cloud grey base with bright glows:
-   - Left, about 65%: rounded photo panel (16px corners) with the bright beach photo, zooming slightly on hover. The H1 "Podiatry care in
-     Wonthaggi since 2007" sits on a frosted plate in the bottom left corner, with "Call (03) 5672 2309" and "Our services".
-   - Right, about 35%: two stacked glass cards, each with a round outlined icon button in the corner. "Visit us": today's hours, the address,
-     Get directions and "Send us a message" (opens the contact panel). "Claims and rebates": the five names, linking to the claims page.
-   - Phones: the photo panel first, then the two cards. The fixed Call bar hides while the hero Call button is on screen.
-   - Call appears once in the hero; contact lives in the Visit us card. No other Call or Contact buttons above the fold.
-   - At 1440 x 900 the hero and the top of the cards below are visible without scrolling.
+2. Hero (round 2 layout in bento style, restored after hero round 4):
+   - H1 "Podiatry care in Wonthaggi since 2007" at the top left, about 13% smaller than in round 2, with the intro line and the
+     "Call (03) 5672 2309" and "Our services" buttons to its right. Nothing sits over the photo.
+   - Below: the beach photo in its own rounded box (16px corners), and beside it a bento stack of two glass cards in the same style as
+     the four cards below: "Visit us" (today's hours, address, phone, Get directions) and "Claims and rebates".
+   - Phones: headline, intro and buttons, then the photo, then the two cards. The fixed Call bar hides while the hero Call button is on screen.
+   - At 1440 x 900 the top of the four cards below just shows without scrolling.
 3. Common reasons people visit: four glass cards linking to General Podiatry, Prescription Orthotic Therapy, Diabetes foot assessment and
    Paediatric Assessment
 4. Services: feature card for General Podiatry plus seven glass cards and a call card
@@ -106,7 +105,7 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 9. Three FAQs and a link to all FAQs
 10. Footer
 
-The previous home heroes are tagged `round-3-hero-dark` (full width photo with a dark veil) and `round-2-design`.
+The previous home heroes are tagged `round-3-hero-dark` (full width photo with a dark veil) and `round-2-design`. The hero round 4 version (headline on a frosted plate over the photo) is commit `c659857`.
 
 ## Preview mode (remove all of this at launch)
 

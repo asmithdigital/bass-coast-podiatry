@@ -161,7 +161,7 @@ Dashes used as punctuation were replaced to follow the writing rules ("8:40 am t
 ### Design round 3 additions
 
 - Home hero card: "Visit us", with today's hours worked out in Wonthaggi time ("Open today, 8:40 am to 5:30 pm" or "Closed today").
-- Home hero (hero round 4): H1 on a frosted plate with "Call (03) 5672 2309" and "Our services". Glass cards "Visit us" (today's hours, address, "Get directions", "Send us a message") and "Claims and rebates" ("Medicare, DVA, HICAPS, TAC and WorkSafe").
+- Home hero (round 2 layout in bento style): H1 with the intro line, "Call (03) 5672 2309" and "Our services". Bento cards "Visit us" (today's hours, address, phone, "Get directions") and "Claims and rebates" ("Medicare, DVA, HICAPS, TAC and WorkSafe").
 - Common reasons people visit, below the hero, replacing the quick actions: "Ingrown toenails, corns and calluses" ("Also warts and thickened or discoloured nails."), "Orthotics" ("Prescription orthoses for heel, knee and foot pain."), "Diabetes foot checks" ("Circulation, sensation and general foot health."), "Children's feet" ("Assessment, treatment and advice for parents."). Each line is drawn from its service page. **[CHECK WITH CLIENT]** Which four services are most popular? These four are a first guess.
 - About: new heading "Our clinic" over the existing clinic text. "Meet our Staff" and "Our Administration team" are now cards.
 - Contact panel and Contact page share one form. Field hint and button text unchanged.

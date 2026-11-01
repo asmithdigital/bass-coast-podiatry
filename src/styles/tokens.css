@@ -4,6 +4,8 @@
 	--bcp-deep: #073A5C;       /* deep Ocean blue: contrast sections, footer, menu */
 	--bcp-radius-large: 28px;  /* feature cards, map */
 	--bcp-cloud: #EEF0F2;      /* light grey page base (hero round 4) */
-	--bcp-mint: #8FE3C4;       /* soft green: moving background only */
+	--bcp-mint: #8FE3C4;       /* soft green (no longer used in the background) */
+	--bcp-page: #F7F8FA;       /* mostly white page base */
+	--bcp-glow-blue: #2563EB;  /* vivid blue at the core of the main background glow only, never text */
 	--bcp-radius-panel: 16px;  /* home hero photo panel and its glass cards */
 }

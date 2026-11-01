@@ -1,18 +1,98 @@
 ---
-// Moving background fixed behind the whole page, over a white to very light base (set on body), with four separate soft
-// blobs of coloured light (Ocean blue, Sea cyan, Soft green and a little Sand). Each one drifts, grows and
-// shrinks on its own path, like a lava lamp, on a 16 to 24 second loop, with white space between them.
-// CSS only, and only `transform` is animated, so it runs on the GPU without repainting.
-// Ocean blue is kept the palest, so Ink body text and Ocean blue headings keep strong contrast on top.
-// It stands still with reduce motion, and pauses while the tab is hidden (script in Layout.astro).
+// Moving background fixed behind the whole page, over a very light base (set on body).
+// - One main blob, a vivid bright blue, wanders between random points (every 4 to 8 seconds, sometimes faster)
+//   with smooth easing, growing and shrinking a little. It stays mostly behind and below the home hero cards,
+//   so the glass picks up its colour, and fades back as you scroll so text further down keeps strong contrast.
+// - A paler Sea cyan blob near the top, and an occasional faint touch of Sand.
+// Only transform and opacity are animated, so it runs on the GPU without repainting.
+// It pauses while the tab is hidden and stands still with reduce motion.
 ---
 
 <div class="ambient" aria-hidden="true" transition:persist="ambient">
 	<span class="blob blob--sea"></span>
-	<span class="blob blob--blue"></span>
-	<span class="blob blob--mint"></span>
 	<span class="blob blob--sand"></span>
+	<span class="blob blob--main"></span>
 </div>
+
+<script>
+	type Spot = { x: number; y: number; s: number };
+	const w = window as unknown as { __bcpGlow?: boolean };
+
+	if (!w.__bcpGlow) {
+		w.__bcpGlow = true;
+		const blob = document.querySelector<HTMLElement>('.blob--main');
+		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const rand = (min: number, max: number) => min + Math.random() * (max - min);
+		const toTransform = (p: Spot) => `translate3d(${p.x}vw, ${p.y}vh, 0) scale(${p.s})`;
+
+		// Start behind the hero cards (right side, a little below the middle)
+		let current: Spot = { x: 74, y: 62, s: 1 };
+		let anim: Animation | undefined;
+
+		// Pick a new spot, mostly behind and below the right hand cards, far enough away to be clearly seen moving
+		const pickTarget = (): Spot => {
+			let next: Spot;
+			do {
+				next = { x: rand(52, 94), y: rand(34, 92), s: rand(0.8, 1.25) };
+			} while (Math.hypot(next.x - current.x, next.y - current.y) < 16);
+			return next;
+		};
+
+		const wander = () => {
+			if (!blob || reduce.matches) return;
+			const target = pickTarget();
+			// Usually 4 to 8 seconds, sometimes a quicker move
+			const duration = Math.random() < 0.25 ? rand(2200, 3500) : rand(4000, 8000);
+			anim = blob.animate([{ transform: toTransform(current) }, { transform: toTransform(target) }], {
+				duration,
+				easing: 'cubic-bezier(0.45, 0, 0.25, 1)',
+				fill: 'forwards',
+			});
+			anim.onfinish = () => {
+				current = target;
+				wander();
+			};
+			if (document.hidden) anim.pause();
+		};
+
+		if (blob) {
+			blob.style.transform = toTransform(current);
+			wander();
+
+			// Pause while the tab is hidden
+			document.addEventListener('visibilitychange', () => {
+				if (document.hidden) anim?.pause();
+				else anim?.play();
+			});
+
+			reduce.addEventListener('change', () => {
+				if (reduce.matches) anim?.pause();
+				else if (!anim || anim.playState === 'finished') wander();
+				else anim.play();
+			});
+
+			// Fade the bright blob back as the page scrolls, so text in later sections keeps strong contrast
+			let ticking = false;
+			const fade = () => {
+				const amount = Math.min(1, window.scrollY / (window.innerHeight * 0.9));
+				blob.style.opacity = String(1 - amount * 0.75);
+				ticking = false;
+			};
+			window.addEventListener(
+				'scroll',
+				() => {
+					if (!ticking) {
+						ticking = true;
+						requestAnimationFrame(fade);
+					}
+				},
+				{ passive: true },
+			);
+			document.addEventListener('astro:page-load', fade);
+			fade();
+		}
+	}
+</script>
 
 <style is:global>
 	.ambient {
@@ -22,134 +102,103 @@
 		overflow: hidden;
 		pointer-events: none;
 		contain: strict;
-		/* See-through: the white base is on the page (global.css), so the home hero photo can sit underneath */
 	}
 
 	.blob {
 		position: absolute;
-		top: var(--y);
-		left: var(--x);
+		top: 0;
+		left: 0;
 		width: var(--s);
 		aspect-ratio: 1;
 		border-radius: 50%;
-		/* A soft core that fades out over most of the radius gives very fuzzy edges without a blur filter */
-		background: radial-gradient(
-			closest-side,
-			color-mix(in srgb, var(--c) calc(var(--a) * 100%), transparent) 0%,
-			color-mix(in srgb, var(--c) calc(var(--a) * 70%), transparent) 30%,
-			color-mix(in srgb, var(--c) calc(var(--a) * 25%), transparent) 65%,
-			transparent 100%
-		);
 		translate: -50% -50%;
 		will-change: transform;
 	}
 
-	/* Sizes are about 30 to 45% of the screen width, with a floor so they still read on phones */
+	/* Main blob: vivid bright blue with a soft but concentrated centre, about a third of the screen wide.
+	   Its position is set by the script; this is the still position for reduce motion. */
+	.blob--main {
+		--s: max(33vw, 15rem);
+		background: radial-gradient(
+			closest-side,
+			color-mix(in srgb, var(--bcp-glow-blue) 92%, transparent) 0%,
+			color-mix(in srgb, var(--bcp-glow-blue) 62%, transparent) 28%,
+			color-mix(in srgb, var(--bcp-glow-blue) 22%, transparent) 60%,
+			transparent 100%
+		);
+		transform: translate3d(74vw, 62vh, 0);
+		transition: opacity 0.3s linear;
+	}
+
+	/* Paler Sea cyan blob near the top */
 	.blob--sea {
-		--c: var(--bcp-sea);
-		--a: 0.8;
-		--s: max(45vw, 11rem);
-		--x: 80%;
-		--y: 22%;
+		--s: max(40vw, 16rem);
+		background: radial-gradient(
+			closest-side,
+			color-mix(in srgb, var(--bcp-sea) 70%, transparent) 0%,
+			color-mix(in srgb, var(--bcp-sea) 30%, transparent) 55%,
+			transparent 100%
+		);
+		top: 8%;
+		left: 62%;
 	}
 
-	.blob--blue {
-		--c: var(--bcp-blue);
-		--a: 0.3;
-		--s: max(40vw, 10rem);
-		--x: 14%;
-		--y: 58%;
-	}
-
-	.blob--mint {
-		--c: var(--bcp-mint);
-		--a: 0.75;
-		--s: max(38vw, 9.5rem);
-		--x: 62%;
-		--y: 88%;
-	}
-
+	/* An occasional faint touch of Sand */
 	.blob--sand {
-		--c: var(--bcp-sand);
-		--a: 0.55;
-		--s: max(30vw, 8rem);
-		--x: 34%;
-		--y: 12%;
+		--s: max(26vw, 11rem);
+		background: radial-gradient(
+			closest-side,
+			color-mix(in srgb, var(--bcp-sand) 55%, transparent) 0%,
+			color-mix(in srgb, var(--bcp-sand) 20%, transparent) 55%,
+			transparent 100%
+		);
+		top: 20%;
+		left: 40%;
+		opacity: 0;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
 		.blob--sea {
-			animation: lava-sea 20s ease-in-out infinite;
-		}
-
-		.blob--blue {
-			animation: lava-blue 24s ease-in-out infinite;
-		}
-
-		.blob--mint {
-			animation: lava-mint 17s ease-in-out infinite;
+			animation: sea-drift 22s ease-in-out infinite;
 		}
 
 		.blob--sand {
-			animation: lava-sand 22s ease-in-out infinite;
+			animation: sand-glint 30s ease-in-out infinite;
 		}
 
-		/* Paused while the tab is hidden */
+		/* Paused while the tab is hidden (the main blob is paused by its script) */
 		.ambient-paused .blob {
 			animation-play-state: paused;
 		}
 	}
 
-	/* Each blob has its own path: drift, grow and shrink */
-	@keyframes lava-sea {
-		0%,
-		100% {
-			transform: translate3d(0, 0, 0) scale(1);
-		}
-		33% {
-			transform: translate3d(-16vw, 14vh, 0) scale(1.3);
-		}
-		66% {
-			transform: translate3d(-4vw, 30vh, 0) scale(0.8);
+	@media (prefers-reduced-motion: reduce) {
+		.blob--sand {
+			opacity: 0.6;
 		}
 	}
 
-	@keyframes lava-blue {
-		0%,
-		100% {
-			transform: translate3d(0, 0, 0) scale(0.9);
-		}
-		40% {
-			transform: translate3d(18vw, -20vh, 0) scale(1.25);
-		}
-		70% {
-			transform: translate3d(8vw, 12vh, 0) scale(0.75);
-		}
-	}
-
-	@keyframes lava-mint {
-		0%,
-		100% {
-			transform: translate3d(0, 0, 0) scale(1.1);
-		}
-		30% {
-			transform: translate3d(-20vw, -18vh, 0) scale(0.8);
-		}
-		65% {
-			transform: translate3d(12vw, -30vh, 0) scale(1.3);
-		}
-	}
-
-	@keyframes lava-sand {
+	@keyframes sea-drift {
 		0%,
 		100% {
 			transform: translate3d(0, 0, 0) scale(1);
 		}
 		50% {
-			transform: translate3d(14vw, 22vh, 0) scale(1.35);
+			transform: translate3d(-8vw, 6vh, 0) scale(1.15);
 		}
-		80% {
-			transform: translate3d(-8vw, 8vh, 0) scale(0.85);
+	}
+
+	/* Mostly hidden, appearing faintly now and then */
+	@keyframes sand-glint {
+		0%,
+		55%,
+		100% {
+			opacity: 0;
+			transform: translate3d(0, 0, 0);
+		}
+		75% {
+			opacity: 0.8;
+			transform: translate3d(6vw, 4vh, 0);
 		}
 	}
 </style>

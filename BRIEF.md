@@ -27,7 +27,7 @@ Main actions: call, find the clinic, understand the services.
   - Ocean blue `#0B4F7C`: logo, headings, buttons, glows
   - Sand `#F4C97B`: logo arch and the current page marker in the menu. Never text.
   - Light sand `#FBEFD6`: in the brand pack, but no longer used for backgrounds (design round 2)
-  - White to Mist `#F8F9FA`: the page base, under the moving background. Cloud grey `#EEF0F2` stays in `tokens.css` but is no longer the base.
+  - Mostly white `#F7F8FA` (`--bcp-page`): the page base, under the moving background. Cloud grey `#EEF0F2` stays in `tokens.css` but is no longer the base.
   - Ink `#1E2A33`: body text
   - Added in design round 2, in `src/styles/tokens.css` (brand.css stays as supplied): Sea cyan `#7FD3E6` for glows and tints, Deep Ocean blue `#073A5C` for contrast sections, the footer, the mobile menu and the contact panel.
 - Font: Lexend from Google Fonts. Medium (500) for headings, Regular (400) for text.
@@ -88,26 +88,27 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 ## Homepage order (current)
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
-2. Hero, filling the screen below the header (Our services is not visible on load):
-   - Background: the beach photo covers the whole hero, faded with an 82% white veil so it reads like a watermark. It sits beneath the
-     moving blobs and scrolls away with the hero. If any text is hard to read, raise the veil rather than darkening the text.
-   - Left (about 60%): the H1 "Podiatry care in Wonthaggi since 2007" on two lines on desktop, the intro paragraph, then the
-     "Call (03) 5672 2309" button.
-   - Right (about 35%), vertically centred: the frosted glass "Visit us" card (today's hours, address, Get directions, "Send us a
-     message" which opens the contact panel) stacked above the blue "Claims and rebates" card linking to the claims page.
-   - Phones: headline, paragraph, button, then the two cards stacked, all over the faded photo, with the hero at least the screen height.
-     The fixed phone Call bar hides while the hero Call button is on screen.
+2. Hero, bento style, about the height of the screen (Our services is not visible on load):
+   - Left (about 65%): a large rounded photo card (16px corners, soft shadow) with the bright beach photo, zooming slightly on hover.
+     In its bottom left corner: the H1 "Podiatry care in Wonthaggi since 2007" (two lines on desktop), the line "Open 5 days per week.
+     Before and after hours appointments are available." and the Call button. A soft white band rises from the bottom of the photo
+     behind the text so it keeps strong contrast; the top of the photo stays clear.
+   - Right (about 35%), the same total height: "Visit us" (larger, frosted glass over a faded greyscale map of the clinic that cannot
+     be clicked; today's hours, address, phone, a round outlined Get directions button and "Send us a message") above the solid Ocean
+     blue "Claims and rebates" card with a round arrow, linking to the claims page. The glass card turns solid white on hover.
+   - Phones: the photo card with the headline, then the two cards stacked.
 3. Our services: the feature card layout, with plain patient words first and the official name smaller underneath for four services:
    "Ingrown toenails, corns and calluses" (General Podiatry), "Orthotics" (Prescription Orthotic Therapy), "Diabetes foot checks"
    (Diabetes foot assessment), "Children's feet" (Paediatric Assessment). Set with `plainName` in each service's markdown, home page only.
 4. Meet the team, 5. Claims and rebates deep blue section, 6. Logo row, 7. Hours and location with the map, 8. Three FAQs, 9. Footer
 
-Moving background (`Ambient.astro`): fixed behind every page, over a white to very light (`#F8F9FA`) base set on `body`, with four separate soft blobs of
-coloured light, Ocean blue, Sea cyan, Soft green `#8FE3C4` and a little Sand, each about 30 to 45% of the screen width with white space
-between them. Each drifts, grows and shrinks on its own path, on a 16 to 24 second loop. CSS only, animating `transform` alone. Paused
-while the tab is hidden, still with reduce motion. Ocean blue is kept the palest so Ink text and Ocean blue headings keep strong contrast.
+Moving background (`Ambient.astro`): fixed behind every page on a mostly white base (`--bcp-page` `#F7F8FA`). One main blob, a vivid
+bright blue (`--bcp-glow-blue` `#2563EB` at the core, glow only, never text), about a third of the screen wide, wanders to a random spot
+every 4 to 8 seconds (sometimes faster) with smooth easing, growing and shrinking a little. It stays mostly behind and below the home hero
+cards so the glass picks up the colour, and fades back as you scroll. Also a paler Sea cyan blob near the top and an occasional faint touch
+of Sand; the section glows provide smaller, paler blobs further down. Paused while the tab is hidden, still with reduce motion.
 
-Earlier home heroes: commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
+Earlier home heroes: tag `hero-faded-photo` (full screen faded photo), commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
 
 ## Preview mode (remove all of this at launch)
 

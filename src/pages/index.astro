@@ -15,49 +15,54 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 <Layout description="Bass Coast Podiatry in Wonthaggi has provided podiatry care since 2007. Open Monday to Friday. Call (03) 5672 2309.">
 	<section class="hero">
-		<!-- Faded beach photo behind the hero only. It sits beneath the moving blobs and scrolls away with the hero. -->
-		<div class="hero__bg" aria-hidden="true">
-			<Image src={heroImage} alt="" widths={[800, 1280, 1698]} sizes="100vw" loading="eager" fetchpriority="high" />
-		</div>
-
 		<div class="container container--wide hero__grid">
-			<div class="hero__main">
-				<h1 class="hero__title reveal-lines">Podiatry care in Wonthaggi since 2007</h1>
-				<p class="hero__lead reveal">
-					Bass Coast Podiatry is open 5 days per week and is able to meet any special requirements of those needing urgent foot care.
-				</p>
-				<a class="btn btn--icon reveal" href={clinic.phoneHref} data-hero-call>
-					<Icon name="phone" />
-					Call {clinic.phone}
-				</a>
+			<!-- Large photo card, with the headline in its bottom left corner -->
+			<div class="hero__photo zoom-frame">
+				<Image
+					src={heroImage}
+					alt="Footprints in the sand along the water's edge at a beach."
+					widths={[640, 1000, 1400, 1698]}
+					sizes="(min-width: 64rem) 62vw, 100vw"
+					loading="eager"
+					fetchpriority="high"
+				/>
+				<div class="hero__copy">
+					<h1 class="hero__title reveal-lines">Podiatry care in Wonthaggi since 2007</h1>
+					<p class="hero__line">Open 5 days per week. Before and after hours appointments are available.</p>
+					<a class="btn btn--icon" href={clinic.phoneHref} data-hero-call>
+						<Icon name="phone" />
+						Call {clinic.phone}
+					</a>
+				</div>
 			</div>
 
 			<div class="hero__cards">
-				<article class="bento bento--visit glass reveal" aria-labelledby="visit-card-title">
-						<div class="bento__top">
-							<span class="icon-circle"><Icon name="clock" size={24} /></span>
-							<h2 id="visit-card-title">Visit us</h2>
-						</div>
-						<p class="bento__strong" data-today>{clinic.hours[0].days}, {clinic.hours[0].time}</p>
-						<p class="bento__small" data-today-note>{clinic.hoursNote}</p>
-						<p class="bento__address">
-							{clinic.street}<br />
-							{clinic.suburb}
-						</p>
-						<p class="bento__links">
-							<a class="text-link" href={clinic.directions} rel="noopener">Get directions <Icon name="arrow" size={18} /></a>
-							<a class="bento__message" href={url('/contact/#message')} data-contact>Send us a message</a>
-						</p>
-					</article>
+				<!-- Visit us, over a faded map of the clinic location -->
+				<article class="hcard hcard--visit glass" aria-labelledby="visit-card-title">
+					<div class="hcard__map" aria-hidden="true">
+						<iframe src={clinic.mapEmbed} title="Map of the clinic location" tabindex="-1" loading="eager"></iframe>
+					</div>
+					<a class="hcard__corner" href={clinic.directions} rel="noopener">
+						<Icon name="directions" size={20} />
+						<span class="visually-hidden">Get directions on Google Maps</span>
+					</a>
+					<h2 id="visit-card-title">Visit us</h2>
+					<p class="hcard__today" data-today>{clinic.hours[0].days}, {clinic.hours[0].time}</p>
+					<p class="hcard__note" data-today-note>{clinic.hoursNote}</p>
+					<p class="hcard__address">
+						{clinic.street}<br />
+						{clinic.suburb}
+					</p>
+					<p class="hcard__phone"><a href={clinic.phoneHref}>{clinic.phone}</a></p>
+					<p class="hcard__message"><a href={url('/contact/#message')} data-contact>Send us a message</a></p>
+				</article>
 
-					<article class="bento bento--claims on-blue reveal" aria-labelledby="claims-card-title">
-						<span class="bento__corner" aria-hidden="true"><Icon name="arrowUpRight" size={18} /></span>
-						<h2 id="claims-card-title">Claims and rebates</h2>
-						<p>
-							<a class="bento__stretch" href={url('/claims-rebates/')}>Medicare, DVA, HICAPS, TAC and WorkSafe</a>
-						</p>
-					</article>
-
+				<!-- Claims and rebates, solid Ocean blue -->
+				<article class="hcard hcard--claims on-blue" aria-labelledby="claims-card-title">
+					<span class="hcard__corner" aria-hidden="true"><Icon name="arrowUpRight" size={20} /></span>
+					<h2 id="claims-card-title">Claims and rebates</h2>
+					<p><a class="hcard__stretch" href={url('/claims-rebates/')}>Medicare, DVA, HICAPS, TAC and WorkSafe</a></p>
+				</article>
 			</div>
 		</div>
 	</section>
@@ -168,8 +173,8 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 <style>
 	/* Hero: the beach photo fills the screen width, with an Ocean blue glass veil deepest on the left */
 
-	/* Hero: fills the screen below the header, over a faded beach photo. Left (about 60%) the headline,
-	   intro and Call button; right (about 35%) the Visit us and Claims cards stacked. Content centred. */
+	/* Hero, bento style: a large photo card on the left (about 65%) with the headline in its bottom left
+	   corner, and two cards on the right (about 35%) at the same total height. About the height of the screen. */
 
 	.hero {
 		--header-h: 4.75rem;
@@ -177,7 +182,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		display: grid;
 		align-items: center;
 		min-height: calc(100svh - var(--header-h));
-		padding-block: clamp(2rem, 5vh, 3.5rem);
+		padding-block: clamp(1.25rem, 3vh, 2.5rem);
 	}
 
 	@media (min-width: 64rem) {
@@ -186,183 +191,269 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		}
 	}
 
-	/* The photo sits under the moving blobs (z-index -2, the blobs are -1) and is faded with a white veil
-	   so it reads like a light watermark. Raise the veil, never darken the text, if anything is hard to read. */
-	.hero__bg {
-		position: absolute;
-		inset: 0;
-		z-index: -2;
-		overflow: hidden;
-	}
-
-	.hero__bg img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: 62% 50%;
-	}
-
-	.hero__bg::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: color-mix(in srgb, var(--bcp-white) 82%, transparent);
-	}
-
 	.hero__grid {
 		display: grid;
-		gap: var(--space-l) 5%;
-		align-items: center;
+		gap: clamp(1rem, 1.5vw, 1.5rem);
 	}
 
 	@media (min-width: 64rem) {
 		.hero__grid {
-			grid-template-columns: 60fr 35fr;
+			grid-template-columns: minmax(0, 65fr) minmax(0, 35fr);
 		}
 	}
 
+	/* Photo card: clear and bright. A soft white gradient in the bottom left corner only keeps the text strong. */
+	.hero__photo {
+		position: relative;
+		display: flex;
+		align-items: flex-end;
+		min-height: 34rem;
+		border-radius: var(--bcp-radius-panel);
+		box-shadow: var(--shadow-lift);
+	}
+
+	@media (min-width: 64rem) {
+		.hero__photo {
+			min-height: 0;
+			height: clamp(30rem, calc(100svh - var(--header-h) - 4rem), 46rem);
+		}
+	}
+
+	.hero__photo img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 62% 40%;
+	}
+
+	.hero__photo::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		/* Soft white rising from the bottom behind the text, strongest on the left. The upper part of the photo
+		   (the walker and the footprints) stays clear and bright. */
+		background:
+			radial-gradient(ellipse 80% 70% at 0% 100%, color-mix(in srgb, var(--bcp-white) 70%, transparent) 0%, transparent 100%),
+			linear-gradient(
+				to top,
+				color-mix(in srgb, var(--bcp-white) 95%, transparent) 0%,
+				color-mix(in srgb, var(--bcp-white) 91%, transparent) 46%,
+				color-mix(in srgb, var(--bcp-white) 45%, transparent) 60%,
+				transparent 72%
+			);
+		pointer-events: none;
+	}
+
+	/* Phones: the text takes most of the card width, so the soft white rises from the bottom instead */
+	@media (max-width: 63.99rem) {
+		.hero__photo::after {
+			background: linear-gradient(
+				to top,
+				color-mix(in srgb, var(--bcp-white) 96%, transparent) 0%,
+				color-mix(in srgb, var(--bcp-white) 92%, transparent) 55%,
+				color-mix(in srgb, var(--bcp-white) 55%, transparent) 75%,
+				transparent 92%
+			);
+		}
+	}
+
+	.hero__copy {
+		position: relative;
+		z-index: 1;
+		padding: clamp(1.5rem, 3vw, 2.75rem);
+		max-width: 100%;
+	}
+
 	.hero__title {
-		margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
-		font-size: clamp(2.25rem, 0.85rem + 4.25vw, 4.65rem);
+		width: fit-content;
+		max-width: 13em;
+		margin: 0 0 0.6rem;
+		font-size: clamp(2.25rem, 0.9rem + 3.7vw, 4.25rem);
 		line-height: 1.04;
 		letter-spacing: -0.035em;
 	}
 
-	.hero__lead {
-		max-width: 36rem;
+	.hero__line {
+		width: fit-content;
+		max-width: 30rem;
 		margin-bottom: var(--space-m);
 		font-size: 1.25rem;
-		line-height: 1.55;
+		line-height: 1.5;
 		color: var(--bcp-ink);
 	}
 
-	/* Two small cards stacked on the right */
+	/* Right hand cards: Visit us larger on top, Claims smaller below, together the height of the photo card */
 	.hero__cards {
 		display: grid;
-		gap: clamp(0.75rem, 1.2vw, 1rem);
+		gap: clamp(1rem, 1.5vw, 1.5rem);
 	}
 
-	.bento {
+	@media (min-width: 64rem) {
+		.hero__cards {
+			grid-template-rows: 1.7fr 1fr;
+		}
+	}
+
+	.hcard {
 		position: relative;
-		border-radius: var(--bcp-radius-panel);
-	}
-
-	.bento--visit,
-	.bento--claims {
 		display: flex;
 		flex-direction: column;
 		gap: 0.3rem;
-		padding: clamp(1rem, 1.4vw, 1.35rem);
+		padding: clamp(1.25rem, 1.8vw, 1.75rem);
+		padding-right: 4.5rem;
+		border-radius: var(--bcp-radius-panel);
+		overflow: hidden;
+		transition: background-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
 	}
 
-	.bento--visit.glass {
-		background: color-mix(in srgb, var(--bcp-white) 62%, transparent);
+	.hcard h2 {
+		margin: 0 0 0.35rem;
+		font-size: clamp(1.375rem, 1.1rem + 0.6vw, 1.75rem);
+		line-height: 1.25;
 	}
 
-	.bento__top {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 0.4rem;
-	}
-
-	.bento .icon-circle {
-		width: 2.75rem;
-		height: 2.75rem;
-	}
-
-	.bento h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		line-height: 1.3;
-	}
-
-	.bento p {
+	.hcard p {
 		margin: 0;
 	}
 
-	.bento__strong {
+	/* Frosted glass that the glow tints, turning solid white on hover */
+	.hcard--visit.glass {
+		background: color-mix(in srgb, var(--bcp-white) 66%, transparent);
+	}
+
+	.hcard--visit.glass:hover,
+	.hcard--visit.glass:focus-within {
+		background: var(--bcp-white);
+		box-shadow: var(--shadow-lift);
+	}
+
+	/* Faded, non-interactive map of the clinic behind the Visit us text. It is drawn larger than the card
+	   so the map's own buttons sit outside the visible area. */
+	.hcard--visit {
+		isolation: isolate;
+	}
+
+	.hcard__map {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+		opacity: 0.22;
+		filter: grayscale(1) contrast(0.85);
+	}
+
+	/* Drawn wider and taller than the card, centred on the clinic, so the map's own labels and buttons fall outside */
+	.hcard__map iframe {
+		position: absolute;
+		top: -110px;
+		left: -300px;
+		width: calc(100% + 600px);
+		max-width: none;
+		height: calc(100% + 220px);
+		border: 0;
+		pointer-events: none;
+	}
+
+	.hcard__today {
 		color: var(--bcp-blue);
+		font-size: 1.25rem;
 		font-weight: var(--bcp-weight-heading);
 	}
 
-	.bento__small,
-	.bento__address {
+	.hcard__note {
 		line-height: 1.45;
 	}
 
-	.bento__address {
-		margin-top: 0.4rem !important;
+	.hcard__address {
+		margin-top: 0.75rem !important;
+		line-height: 1.45;
 	}
 
-	.bento__links {
-		display: grid;
-		justify-items: start;
-		gap: 0.3rem;
-		margin-top: auto !important;
-		padding-top: 0.6rem;
-	}
-
-	.bento__links a {
+	.hcard__phone a {
 		font-weight: var(--bcp-weight-heading);
 	}
 
-	/* Small solid Ocean blue card, the blue card style from the style guide */
-	.bento--claims {
-		padding-right: 3.5rem;
+	.hcard__message {
+		margin-top: auto !important;
+		padding-top: 0.75rem;
+	}
+
+	.hcard__message a {
+		font-size: 1.125rem;
+	}
+
+	/* Round outlined icon button in the top right corner */
+	.hcard__corner {
+		position: absolute;
+		top: clamp(1rem, 1.5vw, 1.4rem);
+		right: clamp(1rem, 1.5vw, 1.4rem);
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		border: 1px solid color-mix(in srgb, var(--bcp-blue) 45%, transparent);
+		border-radius: 50%;
+		background: color-mix(in srgb, var(--bcp-white) 70%, transparent);
+		color: var(--bcp-blue);
+		transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+	}
+
+	a.hcard__corner:hover {
+		background: var(--bcp-blue);
+		color: var(--bcp-white);
+	}
+
+	/* Claims and rebates: solid Ocean blue */
+	.hcard--claims {
+		justify-content: center;
 		background: var(--bcp-blue);
 		color: var(--bcp-white);
 		box-shadow: var(--shadow);
 	}
 
-	.bento--claims h2 {
+	.hcard--claims h2 {
 		color: var(--bcp-white);
-		font-size: 1.125rem;
 	}
 
-	.bento__corner {
-		position: absolute;
-		top: 0.9rem;
-		right: 0.9rem;
-		display: grid;
-		place-items: center;
-		width: 2.25rem;
-		height: 2.25rem;
-		border: 1px solid color-mix(in srgb, var(--bcp-white) 55%, transparent);
-		border-radius: 50%;
+	.hcard--claims .hcard__corner {
+		border-color: color-mix(in srgb, var(--bcp-white) 60%, transparent);
+		background: transparent;
 		color: var(--bcp-white);
-		transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 	}
 
-	.bento--claims:hover .bento__corner {
+	.hcard--claims:hover .hcard__corner {
 		background: var(--bcp-white);
 		color: var(--bcp-blue);
 	}
 
 	/* The whole Claims card is clickable through its link */
-	.bento__stretch {
+	.hcard__stretch {
 		color: var(--bcp-white);
-		text-decoration: none;
+		font-size: 1.125rem;
 		line-height: 1.45;
+		text-decoration: none;
 	}
 
-	.bento__stretch::after {
+	.hcard__stretch::after {
 		content: '';
 		position: absolute;
 		inset: 0;
 		border-radius: var(--bcp-radius-panel);
 	}
 
-	.bento__stretch:focus-visible {
+	.hcard__stretch:focus-visible {
 		outline: none;
 	}
 
-	.bento__stretch:focus-visible::after {
+	.hcard__stretch:focus-visible::after {
 		outline: 3px solid var(--bcp-white);
-		outline-offset: 3px;
+		outline-offset: -4px;
 	}
 
-	.bento--claims:hover .bento__stretch {
+	.hcard--claims:hover .hcard__stretch {
 		text-decoration: underline;
 		text-underline-offset: 0.2em;
 	}

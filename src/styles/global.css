@@ -878,3 +878,9 @@ textarea.input {
 		padding-bottom: 5.5rem;
 	}
 }
+
+/* AHPRA registration line: plain text, no logo or link */
+.registration-note {
+	max-width: var(--width-text);
+	color: var(--bcp-grey);
+}

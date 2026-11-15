@@ -211,3 +211,6 @@ All done. Rollback point: git tag `before-client-feedback-1`.
    services and forms:", both bullet points (GPMP item 721 and TCAs item 723), the sentence "As of November 2017 the difference
    between our actual standard consult fee and the Medicare rebate is $9.05." and the servicesaustralia.gov.au/medicare link.
 5. **Visiting pedorthist link** is a full https:// URL that opens in a new tab with `rel="noopener"`.
+
+Follow up: the AHPRA registration line, "Our podiatrists are registered with the Podiatry Board of Australia through AHPRA.", is back
+as plain text with no logo or link on the home page (team section), About (above the booking box) and Claims and rebates (end of the page text).

@@ -3,10 +3,9 @@ import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
 import BookBox from '../components/BookBox.astro';
-import LogoRow from '../components/LogoRow.astro';
 ---
 
-<Layout title="Claims and rebates" description="Claim private health insurance through HICAPS on site. We also see patients through Medicare, DVA, TAC and WorkSafe.">
+<Layout title="Claims and rebates" description="Claim private health insurance through Tyro Health on site. We also see patients through Medicare, DVA, TAC and WorkSafe.">
 	<section class="page-hero">
 		<Glows set="page" />
 		<div class="container container--wide">
@@ -22,19 +21,13 @@ import LogoRow from '../components/LogoRow.astro';
 			<h2>Health Insurance Rebates</h2>
 			<p>
 				All patients covered by private health insurance at Bass Coast Podiatry can claim their treatment rebates through our electronic
-				HICAPS facility on site. You will need to bring your private health insurance card with you in order to use this facility.
+				Tyro Health facility on site. You will need to bring your private health insurance card with you in order to use this facility.
 			</p>
-			<p>See <a href="https://www.hicaps.com.au/" rel="noopener">www.hicaps.com.au</a></p>
 
 			<h2>Medicare claims</h2>
 			<p>
-				Patients may be eligible for Medicare rebated Podiatry care under the Enhanced Primary Care (EPC) program if their GP has provided
-				the following MBS Chronic Disease Management services and forms:
+				Patients may be eligible for Medicare rebated Podiatry care under the Enhanced Primary Care (EPC) program.
 			</p>
-			<ul>
-				<li>A GP Management Plan (GPMP), item 721 (or review item 732); AND</li>
-				<li>Team Care Arrangements (TCAs), item 723 (or review item 732)</li>
-			</ul>
 			<p>
 				A Medicare rebate is available for a maximum of five (5) allied health services per patient each calendar year (January to
 				December). The stated number of visits is a total number of visits between all allied health practitioners.
@@ -42,9 +35,8 @@ import LogoRow from '../components/LogoRow.astro';
 			<p>
 				If you have been referred by your General Practitioner through the Medicare Enhanced Primary Care (EPC) program, Bass Coast
 				Podiatry will charge its normal consult fees and then electronically claim your rebate through Medicare to be credited to your
-				account the same day. As of November 2017 the difference between our actual standard consult fee and the Medicare rebate is $9.05.
+				account the same day.
 			</p>
-			<p>See <a href="https://www.servicesaustralia.gov.au/medicare" rel="noopener">www.servicesaustralia.gov.au/medicare</a></p>
 
 			<h2>Department of Veterans Affairs</h2>
 			<p>
@@ -65,13 +57,6 @@ import LogoRow from '../components/LogoRow.astro';
 			<div class="page-grid__aside">
 				<BookBox />
 			</div>
-		</div>
-	</section>
-
-	<section class="section section--mist" aria-labelledby="logos-title">
-		<div class="container container--wide">
-			<h2 id="logos-title">Claims, rebates and memberships</h2>
-			<LogoRow />
 		</div>
 	</section>
 </Layout>

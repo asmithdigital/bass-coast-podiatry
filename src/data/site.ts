@@ -36,25 +36,7 @@ export const nav = [
 	{ label: 'Contact', href: '/contact/' },
 ];
 
-export const claims = ['Medicare', 'DVA', 'HICAPS', 'TAC', 'WorkSafe'];
-
-/**
- * Logos shown in the logo row, from the old website (content/logos/).
- * [CHECK WITH CLIENT] The client must confirm they are entitled to use each one.
- * Medicare, DVA and WorkSafe restrict use of their logos by practices, so they show as text
- * until the client has written permission. Set `showLogo: true` once permission is confirmed.
- * The AHPRA logo is never used: AHPRA asks practitioners not to use it.
- */
-export const partners = [
-	{ name: 'Medicare', file: 'medicare.jpg', showLogo: false },
-	{ name: 'DVA', file: 'gov.jpg', showLogo: false },
-	{ name: 'HICAPS', file: 'hicaps.jpg', showLogo: true },
-	{ name: 'TAC', file: 'tac.jpg', showLogo: true },
-	{ name: 'WorkSafe', file: 'worksafe.jpg', showLogo: false },
-	{ name: 'Sports Medicine Australia', file: 'sportsmed.jpg', showLogo: true },
-	{ name: 'APC', file: 'apc.jpg', showLogo: true },
-	{ name: 'AAPSM', file: 'aapsm.jpg', showLogo: true },
-] as const;
+export const claims = ['Medicare', 'DVA', 'Tyro Health', 'TAC', 'WorkSafe'];
 
 /** Shared by the home page accordion and the FAQ page. */
 export const faqs = [
@@ -69,7 +51,7 @@ export const faqs = [
 	{
 		question: 'Can I claim my private health insurance rebate at the clinic?',
 		answer: [
-			'All patients covered by private health insurance at Bass Coast Podiatry can claim their treatment rebates through our electronic HICAPS facility on site. You will need to bring your private health insurance card with you in order to use this facility.',
+			'All patients covered by private health insurance at Bass Coast Podiatry can claim their treatment rebates through our electronic Tyro Health facility on site. You will need to bring your private health insurance card with you in order to use this facility.',
 		],
 		isNew: true,
 	},

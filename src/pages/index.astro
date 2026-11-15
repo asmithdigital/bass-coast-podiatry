@@ -5,7 +5,6 @@ import Icon from '../components/Icon.astro';
 import Glows from '../components/Glows.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
-import LogoRow from '../components/LogoRow.astro';
 import VisitUs from '../components/VisitUs.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import { clinic, url } from '../data/site';
@@ -63,7 +62,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 					</div>
 				</div>
 				<a class="hero-card__claims on-blue" href={url('/claims-rebates/')}>
-					<span><strong>Claims and rebates:</strong> Medicare, DVA, HICAPS, TAC and WorkSafe</span>
+					<span><strong>Claims and rebates:</strong> Medicare, DVA, Tyro Health, TAC and WorkSafe</span>
 					<span class="hero-card__arrow" aria-hidden="true"><Icon name="arrowUpRight" size={18} /></span>
 				</a>
 			</article>
@@ -101,7 +100,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 			<div class="team__text">
 				<h2 id="team-title" class="display reveal">Meet the team</h2>
 				<p class="team__lead reveal">
-					Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Kelly, Joshua Khoury and Angie Burgess. They are supported by our
+					Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Kelly and Angie Burgess. They are supported by our
 					administration team, Kate, Brooke and Kim.
 				</p>
 				<a class="btn btn--outline reveal" href={url('/about-us/#team')}>Meet our team</a>
@@ -114,7 +113,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 			<div>
 				<h2 id="claims-title" class="display reveal">Claims and rebates</h2>
 				<p class="claims__text reveal">
-					Private health insurance rebates can be claimed on site through our electronic HICAPS facility. We also see patients through
+					Private health insurance rebates can be claimed on site through our electronic Tyro Health facility. We also see patients through
 					Medicare, the Department of Veterans Affairs, TAC and WorkSafe.
 				</p>
 			</div>
@@ -127,12 +126,6 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		</div>
 	</section>
 
-	<section class="section logos" aria-labelledby="logos-title">
-		<div class="container container--wide reveal">
-			<h2 id="logos-title" class="logos__title">Claims, rebates and memberships</h2>
-			<LogoRow />
-		</div>
-	</section>
 
 	<section class="section visit-section" aria-labelledby="visit-title">
 		<Glows set="left" />
@@ -530,16 +523,6 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		margin: 0;
 		font-size: 1.25rem;
 		color: color-mix(in srgb, var(--bcp-white) 88%, transparent);
-	}
-
-	.logos {
-		padding-block: clamp(3rem, 6vw, 5rem);
-	}
-
-	.logos__title {
-		font-size: 1.25rem;
-		color: var(--bcp-grey);
-		margin-bottom: var(--space-m);
 	}
 
 	/* FAQ: heading on the left, questions on the right */

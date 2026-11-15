@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
 import Icon from '../components/Icon.astro';
 import ClaimsBadges from '../components/ClaimsBadges.astro';
-import LogoRow from '../components/LogoRow.astro';
 import { Image } from 'astro:assets';
 import heroImage from '../assets/images/footprints-beach.jpg';
 import teamImage from '../assets/images/diabetes-sensation-test.jpg';
@@ -380,17 +379,6 @@ const typeScale = [
 				JavaScript the link goes to the Contact page.
 			</p>
 			<a class="btn" href={url('/contact/#message')} data-contact>Try the contact panel</a>
-		</div>
-	</section>
-
-	<section class="section section--mist" aria-labelledby="logo-row-title">
-		<div class="container container--wide">
-			<h2 id="logo-row-title">Logo row</h2>
-			<p class="sg-intro">
-				Partner and membership logos in one muted greyscale style, turning to colour on hover. Logos not yet cleared for use show as
-				matching text tiles. The AHPRA logo is never used.
-			</p>
-			<LogoRow />
 		</div>
 	</section>
 

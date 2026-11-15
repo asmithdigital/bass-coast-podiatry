@@ -88,7 +88,7 @@ Please confirm it is accurate for every podiatrist.
 
 7. Phone number written two ways: `(03) 5672 2309` and `(03) 56722 309` (home page heading and contact page). The new site uses `(03) 5672 2309` everywhere.
 8. Scheme names written several ways: "Work Safe", "WorkCover", "Work Cover". The new site uses "WorkSafe" in headings, badges and the claims page. The About page and the FAQ keep "WorkCover" as the client wrote it. **[CHECK WITH CLIENT]** Should these say WorkSafe too?
-9. Staff list: Joshua Khoury joined in 2020, so the list was last updated around 2020 to 2023 (the About page was last edited October 2023).
+9. Staff list: the most recent staff bio on the old site mentions joining in 2020, so the list was last updated around 2020 to 2023 (the About page was last edited October 2023).
 
 ### Out of date or questionable content
 
@@ -193,3 +193,21 @@ is the only record. Nothing has been removed from it.
 12. Home: which four services are most popular, for the plain patient words on the service cards.
 13. Home hero: whether Claims and rebates is the right thing to feature beside Visit us, or something else.
 14. Not shown on the site: WorkCover or WorkSafe wording, and the stock photo licence.
+
+## Client feedback 1 (16 November 2026)
+
+All done. Rollback point: git tag `before-client-feedback-1`.
+
+1. **Logos removed.** The partner and organisation logo row is gone from the home page, About, Claims and rebates and the style
+   guide, with its headings and the AHPRA registration line that sat under it. The `LogoRow` component, the `partners` list and the
+   logo files in `src/assets/logos/` and `content/logos/` are deleted. Organisation names stay as plain text (claims badges and
+   claims content). The practice's own Bass Coast Podiatry logos are kept.
+2. **Team.** The podiatrist who has left is removed from the home page team line, the About staff cards and bio, and the raw old
+   site copy in `content/raw/about-us.md`. There were no staff photo files for him.
+3. **HICAPS is now Tyro Health** everywhere on the site (hero claims band, home Claims and rebates section, Claims and rebates page
+   and its meta description, FAQ answer, claims badges). The hicaps.com.au link is removed and no Tyro link is added.
+   `content/raw/` still records the old site as it was.
+4. **Medicare (Claims and rebates).** Removed: the lead in "if their GP has provided the following MBS Chronic Disease Management
+   services and forms:", both bullet points (GPMP item 721 and TCAs item 723), the sentence "As of November 2017 the difference
+   between our actual standard consult fee and the Medicare rebate is $9.05." and the servicesaustralia.gov.au/medicare link.
+5. **Visiting pedorthist link** is a full https:// URL that opens in a new tab with `rel="noopener"`.

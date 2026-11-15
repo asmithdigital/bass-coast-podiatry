@@ -34,12 +34,6 @@ Podiatrist
 
 Alison graduated with a Bachelor of Podiatry from La Trobe University in 2009. She has since worked in both public and private Podiatry settings. Alison is highly skilled in diabetes foot care and assessment and biomechanical examination and treatment of the foot. Alison keeps very active outside of work and a highlight of this is completing the Oxfam Trailwalker in 2012, 2013 and 2014.
 
-#### Joshua Khoury
-
-Podiatrist
-
-Joshua joined Bass Coast Podiatry in 2020 with special interests in biomechanics and lower limb and foot injury treatment and prevention. Joshua enjoys the coastal lifestyle that Bass Coast offers.
-
 #### Angie Burgess
 
 Podiatrist

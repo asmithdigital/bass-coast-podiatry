@@ -4,7 +4,6 @@ import Glows from '../components/Glows.astro';
 import { Image } from 'astro:assets';
 import BookBox from '../components/BookBox.astro';
 import Icon from '../components/Icon.astro';
-import LogoRow from '../components/LogoRow.astro';
 import aboutImage from '../assets/images/podiatrist-treatment.jpg';
 
 const staff = [
@@ -22,11 +21,6 @@ const staff = [
 		name: 'Alison Kelly',
 		role: 'Podiatrist',
 		bio: 'Alison graduated with a Bachelor of Podiatry from La Trobe University in 2009. She has since worked in both public and private Podiatry settings. Alison is highly skilled in diabetes foot care and assessment and biomechanical examination and treatment of the foot. Alison keeps very active outside of work and a highlight of this is completing the Oxfam Trailwalker in 2012, 2013 and 2014.',
-	},
-	{
-		name: 'Joshua Khoury',
-		role: 'Podiatrist',
-		bio: 'Joshua joined Bass Coast Podiatry in 2020 with special interests in biomechanics and lower limb and foot injury treatment and prevention. Joshua enjoys the coastal lifestyle that Bass Coast offers.',
 	},
 	{
 		name: 'Angie Burgess',
@@ -104,12 +98,8 @@ const staff = [
 		</div>
 	</section>
 
-	<section class="section" aria-labelledby="memberships-title">
+	<section class="section">
 		<div class="container container--wide">
-			<h2 id="memberships-title" class="display reveal">Claims, rebates and memberships</h2>
-			<div class="reveal">
-				<LogoRow />
-			</div>
 			<div class="about__book reveal">
 				<BookBox />
 			</div>
@@ -206,6 +196,5 @@ const staff = [
 
 	.about__book {
 		max-width: var(--width-text);
-		margin-top: var(--space-xl);
 	}
 </style>

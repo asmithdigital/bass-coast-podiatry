@@ -94,15 +94,19 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 
 1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
 2. Hero, filling the screen below the header (Our services is never visible on load), over the beach photo:
-   - Background: the beach photo (a person walking on the sand) covers the whole hero under a 55% white veil. It sits beneath the
-     moving glow, so the blobs drift over the photo.
+   - Background: the beach photo (a person walking on the sand) covers the whole hero under a 55% white veil. No glow blobs
+     over the photo: the moving background is hidden on the home page.
    - Left, straight on the background with a soft white glow behind the words only: the H1 "Expert foot care in Wonthaggi", the small
      caps line "No referral needed. Open five days a week.", "Caring for feet on the Bass Coast since 2007." and an Our services button,
      all in dark Ocean blue (`--bcp-deep`), vertically centred.
-   - Right (22rem to 27.5rem wide), vertically centred: one frosted glass card with 40px padding (hours and address with icons in tinted
-     circles, the Call button, "Send us a message" and "Get directions" text links). Its footer is a solid Ocean blue band across the
-     card's full width with rounded bottom corners: "Claims and rebates: Medicare, DVA, HICAPS, TAC and WorkSafe" with a small arrow,
-     linking to Claims and rebates. Hover is the shared frame effect; the band draws in with the card.
+   - Right (24rem to 31rem wide), vertically centred: one frosted glass card with up to 52px padding and roomy spacing (hours and
+     address with icons in tinted circles, the Call button and a "Send us a message" text link). Its footer is a solid Ocean blue band
+     across the card's full width with rounded bottom corners: "Claims and rebates: Medicare, DVA, Tyro Health, TAC and WorkSafe" with
+     a small arrow, linking to Claims and rebates. Hover is the shared frame effect; the band draws in with the card.
+   - Small map (the contact page's Google Maps embed, lazy loaded): from 1024px it floats over the card's top right corner (160px wide,
+     200px from 1440px), rounded with a soft shadow, and can be dragged and zoomed, with a small "Get directions" chip under it. On
+     tablets and phones it is a small tile under the card contents: the iframe ignores touch and a full overlay link opens Google Maps,
+     so it never traps scrolling. "Get directions" opens Google Maps directions in a new tab.
    - Scroll cue: a small mouse at the bottom centre that gently bobs (still with reduce motion), scrolls smoothly to Our services and
      fades out once the visitor scrolls. Hidden on phones and tablets.
    - Phones: the words and button, then the card, over the photo. The fixed phone Call bar hides while the card's Call button shows.
@@ -112,13 +116,17 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
    underneath for four services: "Ingrown toenails, corns and calluses" (General Podiatry), "Orthotics" (Prescription Orthotic Therapy),
    "Diabetes foot checks" (Diabetes foot assessment), "Children's feet" (Paediatric Assessment). Set with `plainName` in each service's
    markdown, home page only. The beach photo appears only in the home hero.
-4. Meet the team, 5. Claims and rebates deep blue section, 6. Logo row, 7. Hours and location with the map, 8. Three FAQs, 9. Footer
+4. Meet the team, 5. Claims and rebates deep blue section, 6. Hours and location with the map, 7. Three FAQs, 8. Footer.
+   Every section below the hero except the deep blue one uses the same section glows (`Glows set="section"`).
 
 Moving background (`Ambient.astro`): fixed behind every page on a mostly white base (`--bcp-page` `#F7F8FA`). One main blob, a vivid
 bright blue (`--bcp-glow-blue` `#2563EB` at the core, glow only, never text), about a third of the screen wide, wanders to a random spot
-every 4 to 8 seconds (sometimes faster) with smooth easing, growing and shrinking a little. It stays mostly behind and below the home hero
-cards so the glass picks up the colour, and fades back as you scroll. Also a paler Sea cyan blob near the top and an occasional faint touch
-of Sand; the section glows provide smaller, paler blobs further down. Paused while the tab is hidden, still with reduce motion.
+every 4 to 8 seconds (sometimes faster) with smooth easing, growing and shrinking a little. It fades back as you scroll. Also a paler Sea cyan
+blob near the top and an occasional faint touch of Sand. Paused while the tab is hidden. Not shown on the home page, where only the
+section glows below the hero appear.
+
+All glow blobs (moving background and section glows) are off with reduce motion, on phones (under 640px) and on slow connections
+(effective type 3G or slower, or Data Saver on, set as the `low-data` class in Layout.astro).
 
 Earlier home heroes: tag `hero-bento-v2` (full screen bento: photo card, white card and blue Claims card), commit `3ea549a` (bento hero below the header, whole card zoom hover), tag `hero-before-bento-v2` (full screen faded beach photo with the Visit us and Claims cards), commit `8bb1897` (bento photo card with a map card), tag `hero-faded-photo` (full screen faded photo, 82% veil), commit `ab57f96` (45/55 bento with a large photo), and the tags `hero-bento-v1` (round 2 layout in bento style), `round-3-hero-dark` and `round-2-design`.
 

@@ -378,6 +378,25 @@ a:hover {
 	}
 }
 
+/* Glow blobs (section glows and the moving background) are off:
+   - over the home hero: the moving background is hidden on the home page, so only the section glows below show
+   - with reduce motion, on phones, and on slow connections or Data Saver (class set in Layout.astro) */
+body:has(.hero) .ambient {
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce), (max-width: 40rem) {
+	.glows,
+	.ambient {
+		display: none;
+	}
+}
+
+.low-data .glows,
+.low-data .ambient {
+	display: none;
+}
+
 /* Content sits above the glows */
 .above-glow {
 	position: relative;

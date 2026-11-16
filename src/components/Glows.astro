@@ -13,7 +13,7 @@ interface Glow {
 }
 
 interface Props {
-	set?: 'hero' | 'right' | 'left' | 'centre' | 'page' | 'soft';
+	set?: 'hero' | 'right' | 'left' | 'centre' | 'page' | 'soft' | 'section';
 }
 
 const sets: Record<NonNullable<Props['set']>, Glow[]> = {
@@ -40,6 +40,11 @@ const sets: Record<NonNullable<Props['set']>, Glow[]> = {
 	page: [
 		{ colour: 'sea', top: '-35%', right: '-14%', size: 'clamp(20rem, 40vw, 36rem)', opacity: 0.6 },
 		{ colour: 'blue', top: '-5%', right: '8%', size: 'clamp(14rem, 24vw, 22rem)', opacity: 0.2 },
+	],
+	// The same glows behind every home page section below the hero, so each section looks alike
+	section: [
+		{ colour: 'sea', top: '18%', left: '-8%', size: 'clamp(20rem, 40vw, 38rem)', opacity: 0.45 },
+		{ colour: 'blue', bottom: '8%', right: '-6%', size: 'clamp(18rem, 34vw, 32rem)', opacity: 0.35 },
 	],
 	// Smaller, softer glows scattered behind other sections
 	soft: [

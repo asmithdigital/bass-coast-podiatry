@@ -14,7 +14,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 <Layout description="Podiatry in Wonthaggi since 2007. Bass Coast Podiatry is open Monday to Friday and no referral is needed. Call (03) 5672 2309.">
 	<section class="hero">
-		<!-- Faded beach photo behind the whole hero. It sits under the moving glow, so the blobs drift over it. -->
+		<!-- Faded beach photo behind the whole hero. No glow blobs here: they only sit in the sections below. -->
 		<div class="hero__bg" aria-hidden="true">
 			<Image src={heroImage} alt="" widths={[800, 1280, 1698]} sizes="100vw" loading="eager" fetchpriority="high" />
 		</div>
@@ -55,9 +55,25 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 							<Icon name="message" size={20} />
 							Send us a message
 						</a>
-						<a href={clinic.directions} rel="noopener">
-							<Icon name="pin" size={20} />
-							Get directions
+					</div>
+
+					<!-- Small map. Desktop: floats over the card's top right corner and can be dragged and zoomed.
+					     Tablet and phone: a small tile under the card contents. The iframe ignores touch there and a full
+					     overlay link opens Google Maps, so the map never traps scrolling. -->
+					<div class="hero-map">
+						<div class="hero-map__frame">
+							<iframe
+								src={clinic.mapEmbed}
+								title="Map showing Bass Coast Podiatry, 182 Graham Street, Wonthaggi"
+								loading="lazy"
+								referrerpolicy="no-referrer-when-downgrade"></iframe>
+							<a class="hero-map__overlay" href={clinic.mapLink} target="_blank" rel="noopener">
+								<span class="visually-hidden">Open the map in Google Maps (opens in a new tab)</span>
+							</a>
+						</div>
+						<a class="hero-map__directions" href={clinic.directions} target="_blank" rel="noopener">
+							<Icon name="directions" size={18} />
+							Get directions<span class="visually-hidden"> (opens in a new tab)</span>
 						</a>
 					</div>
 				</div>
@@ -76,7 +92,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	</section>
 
 	<section class="section services" id="services" aria-labelledby="services-title">
-		<Glows set="centre" />
+		<Glows set="section" />
 		<div class="container container--wide above-glow">
 			<div class="section-head">
 				<h2 id="services-title" class="display reveal">Our services</h2>
@@ -87,7 +103,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	</section>
 
 	<section class="section team" aria-labelledby="team-title">
-		<Glows set="soft" />
+		<Glows set="section" />
 		<div class="container container--wide team__inner above-glow">
 			<div class="frame team__image reveal">
 				<Image
@@ -129,7 +145,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 
 	<section class="section visit-section" aria-labelledby="visit-title">
-		<Glows set="left" />
+		<Glows set="section" />
 		<div class="container container--wide above-glow">
 			<div class="section-head">
 				<h2 id="visit-title" class="display reveal">Hours and location</h2>
@@ -139,7 +155,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	</section>
 
 	<section class="section faq" aria-labelledby="faq-title">
-		<Glows set="soft" />
+		<Glows set="section" />
 		<div class="container container--wide faq__inner above-glow">
 			<div class="faq__head">
 				<h2 id="faq-title" class="display reveal">Frequently asked questions</h2>
@@ -175,8 +191,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 </script>
 
 <style>
-	/* Hero: fills the screen below the header over the faded beach photo, with the moving glow drifting on top of
-	   the photo. Left: the heading, a small caps line, a sentence and the Our services button, straight on the
+	/* Hero: fills the screen below the header over the faded beach photo. No glow blobs over the photo. Left: the heading, a small caps line, a sentence and the Our services button, straight on the
 	   background with a soft white glow behind the words. Right: one frosted glass card whose footer is a solid
 	   Ocean blue Claims and rebates band. Hover is the shared frame effect; the band draws in with the frame. */
 
@@ -197,8 +212,8 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		}
 	}
 
-	/* The photo sits under the moving glow (z-index -2; the glow is -1) with a 55% white veil, so the beach and
-	   footprints show clearly and the blobs drift over it */
+	/* The photo with a 55% white veil, so the beach and footprints show clearly. The moving background is
+	   hidden on the home page (see global.css), so no blobs drift over it. */
 	.hero__bg {
 		position: absolute;
 		inset: 0;
@@ -228,7 +243,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 	@media (min-width: 64rem) {
 		.hero__grid {
-			grid-template-columns: minmax(0, 1fr) clamp(22rem, 31%, 27.5rem);
+			grid-template-columns: minmax(0, 1fr) clamp(24rem, 34%, 31rem);
 		}
 	}
 
@@ -302,14 +317,14 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 1.25rem;
-		padding: clamp(1.5rem, 2.8vw, 2.5rem);
+		gap: 1.75rem;
+		padding: clamp(1.75rem, 3.4vw, 3.25rem);
 		font-size: 1.0625rem;
 	}
 
 	.hero-card__list {
 		display: grid;
-		gap: 1rem;
+		gap: 1.4rem;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -344,7 +359,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	.hero-card__links {
 		display: flex;
 		flex-direction: column;
-		gap: 0.6rem;
+		gap: 0.9rem;
 	}
 
 	.hero-card__links a {
@@ -364,7 +379,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		justify-content: space-between;
 		gap: 1rem;
 		margin-top: auto;
-		padding: 1.15rem clamp(1.5rem, 2.8vw, 2.5rem);
+		padding: 1.25rem clamp(1.75rem, 3.4vw, 3.25rem);
 		color: var(--bcp-white);
 		line-height: 1.4;
 		text-decoration: none;
@@ -409,6 +424,109 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	.hero-card__claims:focus-visible .hero-card__arrow {
 		background: var(--bcp-white);
 		color: var(--bcp-blue);
+	}
+
+	/* Small map. Phones and tablets: a small tile under the card contents that never catches touch; the overlay
+	   link opens Google Maps instead. */
+	.hero-map {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		width: 100%;
+	}
+
+	.hero-map__frame {
+		position: relative;
+		height: 9rem;
+		overflow: hidden;
+		border-radius: var(--bcp-radius);
+		box-shadow: var(--shadow);
+		background: var(--bcp-mist);
+	}
+
+	.hero-map__frame iframe {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border: 0;
+		pointer-events: none;
+	}
+
+	.hero-map__overlay {
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+	}
+
+	.hero-map__overlay:focus-visible {
+		outline: 3px solid var(--bcp-blue);
+		outline-offset: -3px;
+	}
+
+	.hero-map__directions {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		align-self: flex-start;
+		font-size: 0.9375rem;
+		font-weight: var(--bcp-weight-heading);
+	}
+
+	/* Desktop: floats over the card's top right corner, overlapping the edge, and can be dragged and zoomed.
+	   The card gets room above it so the map clears the header. */
+	@media (min-width: 64rem) {
+		.hero-card {
+			margin-top: 3.5rem;
+		}
+
+		.hero-map {
+			position: absolute;
+			top: -3.5rem;
+			right: -2.5rem;
+			z-index: 2;
+			width: 10rem;
+			gap: 0.4rem;
+		}
+
+		.hero-map__frame {
+			height: 7.5rem;
+			box-shadow: var(--shadow-lift);
+		}
+
+		.hero-map__frame iframe {
+			pointer-events: auto;
+		}
+
+		.hero-map__overlay {
+			display: none;
+		}
+
+		/* A small white chip under the map, so the link reads clearly over the glass */
+		.hero-map__directions {
+			align-self: flex-end;
+			padding: 0.3rem 0.75rem;
+			border-radius: var(--bcp-radius-button);
+			background: var(--bcp-white);
+			box-shadow: var(--shadow);
+			font-size: 0.875rem;
+		}
+	}
+
+	/* Wide screens: a little larger, still clear of the hours text */
+	@media (min-width: 90rem) {
+		.hero-card {
+			margin-top: 4rem;
+		}
+
+		.hero-map {
+			top: -4rem;
+			right: -2.5rem;
+			width: 12.5rem;
+		}
+
+		.hero-map__frame {
+			height: 9rem;
+		}
 	}
 
 	/* Scroll cue: a small mouse that gently bobs, centred near the bottom of the hero. Desktop only. */

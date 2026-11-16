@@ -13,23 +13,13 @@ interface Glow {
 }
 
 interface Props {
-	set?: 'hero' | 'right' | 'left' | 'centre' | 'page' | 'soft' | 'section';
+	set?: 'right' | 'centre' | 'page' | 'section';
 }
 
 const sets: Record<NonNullable<Props['set']>, Glow[]> = {
-	// Bright glows behind the right side of the home hero, so the glass cards look tinted
-	hero: [
-		{ colour: 'sea', top: '-6%', right: '-6%', size: 'clamp(26rem, 42vw, 50rem)', opacity: 0.5 },
-		{ colour: 'blue', top: '34%', right: '12%', size: 'clamp(20rem, 30vw, 36rem)', opacity: 0.45 },
-		{ colour: 'sea', bottom: '-12%', left: '38%', size: 'clamp(18rem, 28vw, 32rem)', opacity: 0.3 },
-	],
 	right: [
 		{ colour: 'sea', top: '10%', right: '-10%', size: 'clamp(24rem, 50vw, 46rem)', opacity: 0.6 },
 		{ colour: 'blue', bottom: '-15%', right: '20%', size: 'clamp(20rem, 40vw, 38rem)' },
-	],
-	left: [
-		{ colour: 'sea', top: '20%', left: '-12%', size: 'clamp(24rem, 50vw, 46rem)', opacity: 0.55 },
-		{ colour: 'blue', bottom: '-10%', left: '25%', size: 'clamp(20rem, 40vw, 36rem)' },
 	],
 	// Behind the Services grid, below the heading
 	centre: [
@@ -45,11 +35,6 @@ const sets: Record<NonNullable<Props['set']>, Glow[]> = {
 	section: [
 		{ colour: 'sea', top: '18%', left: '-8%', size: 'clamp(20rem, 40vw, 38rem)', opacity: 0.45 },
 		{ colour: 'blue', bottom: '8%', right: '-6%', size: 'clamp(18rem, 34vw, 32rem)', opacity: 0.35 },
-	],
-	// Smaller, softer glows scattered behind other sections
-	soft: [
-		{ colour: 'sea', top: '15%', right: '-6%', size: 'clamp(14rem, 26vw, 26rem)', opacity: 0.3 },
-		{ colour: 'blue', bottom: '5%', left: '-6%', size: 'clamp(12rem, 20vw, 20rem)', opacity: 0.18 },
 	],
 };
 

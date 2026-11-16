@@ -100,16 +100,16 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
    - Left, straight on the background with a soft white glow behind the words only: the H1 "Expert foot care in Wonthaggi", the small
      caps line "No referral needed. Open five days a week.", "Caring for feet on the Bass Coast since 2007." and an Our services button,
      all in dark Ocean blue (`--bcp-deep`), vertically centred.
-   - Right (24rem to 31rem wide), vertically centred: one frosted glass card with up to 52px padding and roomy spacing (hours and
-     address with icons in tinted circles, the Call button and a "Send us a message" text link). Its footer is a solid Ocean blue band
-     across the card's full width with rounded bottom corners: "Claims and rebates: Medicare, DVA, Tyro Health, TAC and WorkSafe" with
-     a small arrow, linking to Claims and rebates. Hover is the shared frame effect; the band draws in with the card.
-   - Static map (`public/images/hero-map@2x.webp`, 900 x 720 CSS pixels saved at 2x, made from OpenStreetMap zoom 17 tiles with a
-     brand blue pin on 182 Graham Street, credited "© OpenStreetMap contributors"). From 768px it is a second card tucked behind the
-     glass card, same radius and a soft shadow, a little lower than the card's top with about a third peeking out to the right. On
-     phones it is a 120px strip inside the card just above the Claims band. A white "Get directions" pill sits on the visible part.
-     The visible map and the pill are one link to Google Maps directions (new tab), labelled "Get directions to Bass Coast Podiatry
-     on Google Maps". No live map in the hero; the contact page keeps the Google Maps embed.
+   - Right (34rem to 42rem wide), vertically centred: one solid white card (no see-through glass). Left column: hours and address
+     with icons in tinted circles, the Call button and a "Send us a message" link. Right column: a static map panel as tall as the
+     details, with the card's top right corner. A solid Ocean blue band runs the full width underneath: "Claims and rebates:
+     Medicare, DVA, Tyro Health, TAC and WorkSafe" with a small arrow, linking to Claims and rebates. Hover is the shared frame
+     effect; the band and the map draw in with the card. Phones: the map is a 120px strip above the band.
+   - Map (`public/images/hero-map@2x.webp`, 900 x 720 CSS pixels saved at 2x, made from OpenStreetMap zoom 17 tiles with a brand
+     blue pin on 182 Graham Street). A white "Get directions" pill is centred in the panel with the pin just above it, and
+     "© OpenStreetMap contributors" sits in the bottom right corner. The panel is one link to Google Maps directions (new tab),
+     labelled "Get directions to Bass Coast Podiatry on Google Maps". No live map in the hero; the contact page keeps the Google
+     Maps embed.
    - Scroll cue: a small mouse at the bottom centre that gently bobs (still with reduce motion), scrolls smoothly to Our services and
      fades out once the visitor scrolls. Hidden on phones and tablets.
    - Phones: the words and button, then the card, over the photo. The fixed phone Call bar hides while the card's Call button shows.

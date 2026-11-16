@@ -27,8 +27,9 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 				<a class="btn reveal" href={url('/our-services/')}>Our services</a>
 			</div>
 
-			<!-- One frosted glass card. Its footer is a solid Ocean blue band linking to Claims and rebates. -->
-			<article class="hero-card frame glass reveal" aria-label="Visit us">
+			<!-- One solid white card: contact details on the left, a static map panel on the right (a strip above the band on
+			     phones), and a solid Ocean blue band across the bottom linking to Claims and rebates. -->
+			<article class="hero-card frame reveal" aria-label="Visit us">
 				<div class="hero-card__body">
 					<ul class="hero-card__list" role="list">
 						<li>
@@ -58,8 +59,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 					</div>
 				</div>
 
-				<!-- Static OpenStreetMap image. 768px and up: tucked behind the card, a third peeking out to the right.
-				     Phones: a short strip just above the Claims band. One link to Google Maps directions. -->
+				<!-- Static OpenStreetMap image. One link to Google Maps directions. -->
 				<div class="hero-map">
 					<a
 						class="hero-map__link"
@@ -196,9 +196,11 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 </script>
 
 <style>
-	/* Hero: fills the screen below the header over the faded beach photo. No glow blobs over the photo. Left: the heading, a small caps line, a sentence and the Our services button, straight on the
-	   background with a soft white glow behind the words. Right: one frosted glass card whose footer is a solid
-	   Ocean blue Claims and rebates band. Hover is the shared frame effect; the band draws in with the frame. */
+	/* Hero: fills the screen below the header over the faded beach photo. No glow blobs over the photo.
+	   Left: the heading, a small caps line, a sentence and the Our services button, straight on the background with
+	   a soft white glow behind the words. Right: one solid white card with the contact details, a static map panel
+	   and a solid Ocean blue Claims and rebates band. Hover is the shared frame effect; the band and map draw in
+	   with the frame. */
 
 	.hero {
 		--header-h: 4.75rem;
@@ -249,7 +251,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 	@media (min-width: 64rem) {
 		.hero__grid {
-			grid-template-columns: minmax(0, 1fr) calc(clamp(24rem, 34%, 31rem) + var(--peek));
+			grid-template-columns: minmax(0, 1fr) clamp(34rem, 46%, 42rem);
 		}
 	}
 
@@ -311,13 +313,32 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		}
 	}
 
-	/* Frosted glass card. Stronger white than the standard glass, so text keeps strong contrast over the photo. */
+	/* Solid white card. Phones: details, then the map strip, then the band. 768px and up: details and map side by
+	   side at the same height, with the band across the full width underneath. */
 	.hero-card {
 		--hero-card-pad: clamp(1.75rem, 3.4vw, 3.25rem);
 		--frame-radius: var(--bcp-radius-large);
-		--frame-bg: color-mix(in srgb, var(--bcp-white) 80%, transparent);
-		display: flex;
-		flex-direction: column;
+		--frame-bg: var(--bcp-white);
+		--frame-border: var(--glass-border);
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas: 'body' 'map' 'claims';
+	}
+
+	.hero-card__body {
+		grid-area: body;
+	}
+
+	.hero-card__claims {
+		grid-area: claims;
+	}
+
+	@media (min-width: 48rem) {
+		.hero-card {
+			max-width: 42rem;
+			grid-template-columns: minmax(0, 1fr) clamp(11.5rem, 36%, 15rem);
+			grid-template-areas: 'body map' 'claims claims';
+		}
 	}
 
 	.hero-card__body {
@@ -433,32 +454,45 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		color: var(--bcp-blue);
 	}
 
-	/* Static map. The image is 900 x 720 CSS pixels (saved at 2x) with the clinic pin's tip at its centre.
-	   --fx and --fy place the pin's tip inside the map box; the pill sits just below the pin. */
+	/* Static map panel. The image is 900 x 720 CSS pixels (saved at 2x) with the clinic pin's tip at its centre.
+	   --fx and --fy place the pin's tip inside the panel, just above the centred pill. Phones: a 120px strip above
+	   the band. 768px and up: the card's right column, as tall as the details, with the card's top right corner.
+	   The clip follows the card's frame inset, so the panel draws in with the card on hover. */
 	.hero-map {
 		--fx: 50%;
-		--fy: 2.9rem;
+		--fy: calc(50% - 1.1rem);
+		grid-area: map;
 		position: relative;
 		height: 7.5rem;
-		margin: calc(var(--hero-card-pad) * -0.5) var(--hero-card-pad) var(--hero-card-pad);
 		overflow: hidden;
-		border-radius: var(--bcp-radius);
 		background: #f2efe9;
-		box-shadow: var(--shadow);
+		clip-path: inset(0 var(--frame-inset));
+	}
+
+	@media (min-width: 48rem) {
+		.hero-map {
+			height: auto;
+			min-height: 15rem;
+			clip-path: inset(var(--frame-inset) var(--frame-inset) 0 0 round 0 var(--frame-radius) 0 0);
+		}
+
+		/* Two short lines in the narrow panel */
+		.hero-map__credit span {
+			display: block;
+		}
 	}
 
 	.hero-map__link {
 		position: absolute;
 		inset: 0;
 		display: block;
-		border-radius: inherit;
 		color: var(--bcp-blue);
 		text-decoration: none;
 	}
 
 	.hero-map__link:focus-visible {
 		outline: 3px solid var(--bcp-blue);
-		outline-offset: -3px;
+		outline-offset: -6px;
 	}
 
 	.hero-map__img {
@@ -470,14 +504,16 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		height: 720px;
 	}
 
+	/* Centred in the panel both ways */
 	.hero-map__pill {
 		position: absolute;
-		left: var(--fx);
-		top: calc(var(--fy) + 0.45rem);
-		translate: -50% 0;
+		left: 50%;
+		top: 50%;
+		translate: -50% -50%;
 		display: inline-flex;
 		align-items: center;
 		gap: 0.35rem;
+		width: max-content;
 		padding: 0.35rem 0.85rem;
 		border-radius: var(--bcp-radius-button);
 		background: var(--bcp-white);
@@ -486,7 +522,6 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		font-weight: var(--bcp-weight-heading);
 		line-height: 1.3;
 		white-space: nowrap;
-		width: max-content;
 		transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 	}
 
@@ -500,58 +535,19 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		color: var(--bcp-white);
 	}
 
-	/* Required OpenStreetMap credit, bottom right of the visible map */
+	/* Required OpenStreetMap credit, bottom right corner of the panel */
 	.hero-map__credit {
 		position: absolute;
-		right: 0.35rem;
-		bottom: 0.3rem;
+		right: 0.4rem;
+		bottom: 0.35rem;
 		padding: 0.05rem 0.35rem;
 		border-radius: 4px;
-		background: color-mix(in srgb, var(--bcp-white) 85%, transparent);
+		background: color-mix(in srgb, var(--bcp-white) 88%, transparent);
 		color: var(--bcp-ink);
 		font-size: 0.6875rem;
 		line-height: 1.35;
 		text-align: right;
 		pointer-events: none;
-	}
-
-	/* 768px and up: the map is a second card tucked behind the glass card, lower than its top, with about a third
-	   peeking out past the card's right edge. The card makes room for it with a right margin. */
-	@media (min-width: 48rem) {
-		.hero {
-			--peek: clamp(10.5rem, 13vw, 11.5rem);
-		}
-
-		.hero-card {
-			width: min(32rem, 100% - var(--peek));
-			margin-right: var(--peek);
-		}
-
-		.hero-map {
-			--fx: calc(100% - var(--peek) / 2);
-			--fy: 40%;
-			position: absolute;
-			top: 3rem;
-			bottom: -2rem;
-			left: 30%;
-			right: calc(var(--peek) * -1);
-			z-index: -2;
-			height: auto;
-			margin: 0;
-			border-radius: var(--frame-radius);
-			box-shadow: var(--shadow-lift);
-		}
-
-		/* Two lines in the narrow visible strip, with the box fitting the text */
-		.hero-map__credit span {
-			display: block;
-		}
-	}
-
-	@media (min-width: 64rem) {
-		.hero-card {
-			width: auto;
-		}
 	}
 
 	/* Scroll cue: a small mouse that gently bobs, centred near the bottom of the hero. Desktop only. */

@@ -56,26 +56,31 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 							Send us a message
 						</a>
 					</div>
+				</div>
 
-					<!-- Small map. Desktop: floats over the card's top right corner and can be dragged and zoomed.
-					     Tablet and phone: a small tile under the card contents. The iframe ignores touch there and a full
-					     overlay link opens Google Maps, so the map never traps scrolling. -->
-					<div class="hero-map">
-						<div class="hero-map__frame">
-							<iframe
-								src={clinic.mapEmbed}
-								title="Map showing Bass Coast Podiatry, 182 Graham Street, Wonthaggi"
-								loading="lazy"
-								referrerpolicy="no-referrer-when-downgrade"></iframe>
-							<a class="hero-map__overlay" href={clinic.mapLink} target="_blank" rel="noopener">
-								<span class="visually-hidden">Open the map in Google Maps (opens in a new tab)</span>
-							</a>
-						</div>
-						<a class="hero-map__directions" href={clinic.directions} target="_blank" rel="noopener">
-							<Icon name="directions" size={18} />
-							Get directions<span class="visually-hidden"> (opens in a new tab)</span>
-						</a>
-					</div>
+				<!-- Static OpenStreetMap image. 768px and up: tucked behind the card, a third peeking out to the right.
+				     Phones: a short strip just above the Claims band. One link to Google Maps directions. -->
+				<div class="hero-map">
+					<a
+						class="hero-map__link"
+						href={clinic.directions}
+						target="_blank"
+						rel="noopener"
+						aria-label="Get directions to Bass Coast Podiatry on Google Maps">
+						<img
+							class="hero-map__img"
+							src={url('/images/hero-map@2x.webp')}
+							alt=""
+							width="900"
+							height="720"
+							decoding="async"
+						/>
+						<span class="hero-map__pill" aria-hidden="true">
+							<Icon name="pin" size={16} />
+							Get directions
+						</span>
+					</a>
+					<span class="hero-map__credit">© OpenStreetMap <span>contributors</span></span>
 				</div>
 				<a class="hero-card__claims on-blue" href={url('/claims-rebates/')}>
 					<span><strong>Claims and rebates:</strong> Medicare, DVA, Tyro Health, TAC and WorkSafe</span>
@@ -206,7 +211,8 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		padding-block: clamp(2rem, 6vh, 4rem) clamp(4rem, 12vh, 7rem);
 	}
 
-	@media (min-width: 64rem) {
+	/* Matches the header: full menu (taller header) from 1100px */
+	@media (min-width: 68.75rem) {
 		.hero {
 			--header-h: 6rem;
 		}
@@ -243,7 +249,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 	@media (min-width: 64rem) {
 		.hero__grid {
-			grid-template-columns: minmax(0, 1fr) clamp(24rem, 34%, 31rem);
+			grid-template-columns: minmax(0, 1fr) calc(clamp(24rem, 34%, 31rem) + var(--peek));
 		}
 	}
 
@@ -307,6 +313,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 
 	/* Frosted glass card. Stronger white than the standard glass, so text keeps strong contrast over the photo. */
 	.hero-card {
+		--hero-card-pad: clamp(1.75rem, 3.4vw, 3.25rem);
 		--frame-radius: var(--bcp-radius-large);
 		--frame-bg: color-mix(in srgb, var(--bcp-white) 80%, transparent);
 		display: flex;
@@ -318,7 +325,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 1.75rem;
-		padding: clamp(1.75rem, 3.4vw, 3.25rem);
+		padding: var(--hero-card-pad);
 		font-size: 1.0625rem;
 	}
 
@@ -379,7 +386,7 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		justify-content: space-between;
 		gap: 1rem;
 		margin-top: auto;
-		padding: 1.25rem clamp(1.75rem, 3.4vw, 3.25rem);
+		padding: 1.25rem var(--hero-card-pad);
 		color: var(--bcp-white);
 		line-height: 1.4;
 		text-decoration: none;
@@ -426,106 +433,124 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 		color: var(--bcp-blue);
 	}
 
-	/* Small map. Phones and tablets: a small tile under the card contents that never catches touch; the overlay
-	   link opens Google Maps instead. */
+	/* Static map. The image is 900 x 720 CSS pixels (saved at 2x) with the clinic pin's tip at its centre.
+	   --fx and --fy place the pin's tip inside the map box; the pill sits just below the pin. */
 	.hero-map {
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-		width: 100%;
-	}
-
-	.hero-map__frame {
+		--fx: 50%;
+		--fy: 2.9rem;
 		position: relative;
-		height: 9rem;
+		height: 7.5rem;
+		margin: calc(var(--hero-card-pad) * -0.5) var(--hero-card-pad) var(--hero-card-pad);
 		overflow: hidden;
 		border-radius: var(--bcp-radius);
+		background: #f2efe9;
 		box-shadow: var(--shadow);
-		background: var(--bcp-mist);
 	}
 
-	.hero-map__frame iframe {
-		display: block;
-		width: 100%;
-		height: 100%;
-		border: 0;
-		pointer-events: none;
-	}
-
-	.hero-map__overlay {
+	.hero-map__link {
 		position: absolute;
 		inset: 0;
+		display: block;
 		border-radius: inherit;
+		color: var(--bcp-blue);
+		text-decoration: none;
 	}
 
-	.hero-map__overlay:focus-visible {
+	.hero-map__link:focus-visible {
 		outline: 3px solid var(--bcp-blue);
 		outline-offset: -3px;
 	}
 
-	.hero-map__directions {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4rem;
-		align-self: flex-start;
-		font-size: 0.9375rem;
-		font-weight: var(--bcp-weight-heading);
+	.hero-map__img {
+		position: absolute;
+		left: calc(var(--fx) - 450px);
+		top: calc(var(--fy) - 360px);
+		width: 900px;
+		max-width: none;
+		height: 720px;
 	}
 
-	/* Desktop: floats over the card's top right corner, overlapping the edge, and can be dragged and zoomed.
-	   The card gets room above it so the map clears the header. */
-	@media (min-width: 64rem) {
+	.hero-map__pill {
+		position: absolute;
+		left: var(--fx);
+		top: calc(var(--fy) + 0.45rem);
+		translate: -50% 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.35rem 0.85rem;
+		border-radius: var(--bcp-radius-button);
+		background: var(--bcp-white);
+		box-shadow: var(--shadow-lift);
+		font-size: 0.875rem;
+		font-weight: var(--bcp-weight-heading);
+		line-height: 1.3;
+		white-space: nowrap;
+		width: max-content;
+		transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+	}
+
+	.hero-map__pill :global(svg) {
+		flex: none;
+	}
+
+	.hero-map__link:hover .hero-map__pill,
+	.hero-map__link:focus-visible .hero-map__pill {
+		background: var(--bcp-blue);
+		color: var(--bcp-white);
+	}
+
+	/* Required OpenStreetMap credit, bottom right of the visible map */
+	.hero-map__credit {
+		position: absolute;
+		right: 0.35rem;
+		bottom: 0.3rem;
+		padding: 0.05rem 0.35rem;
+		border-radius: 4px;
+		background: color-mix(in srgb, var(--bcp-white) 85%, transparent);
+		color: var(--bcp-ink);
+		font-size: 0.6875rem;
+		line-height: 1.35;
+		text-align: right;
+		pointer-events: none;
+	}
+
+	/* 768px and up: the map is a second card tucked behind the glass card, lower than its top, with about a third
+	   peeking out past the card's right edge. The card makes room for it with a right margin. */
+	@media (min-width: 48rem) {
+		.hero {
+			--peek: clamp(10.5rem, 13vw, 11.5rem);
+		}
+
 		.hero-card {
-			margin-top: 3.5rem;
+			width: min(32rem, 100% - var(--peek));
+			margin-right: var(--peek);
 		}
 
 		.hero-map {
+			--fx: calc(100% - var(--peek) / 2);
+			--fy: 40%;
 			position: absolute;
-			top: -3.5rem;
-			right: -2.5rem;
-			z-index: 2;
-			width: 10rem;
-			gap: 0.4rem;
-		}
-
-		.hero-map__frame {
-			height: 7.5rem;
+			top: 3rem;
+			bottom: -2rem;
+			left: 30%;
+			right: calc(var(--peek) * -1);
+			z-index: -2;
+			height: auto;
+			margin: 0;
+			border-radius: var(--frame-radius);
 			box-shadow: var(--shadow-lift);
 		}
 
-		.hero-map__frame iframe {
-			pointer-events: auto;
-		}
-
-		.hero-map__overlay {
-			display: none;
-		}
-
-		/* A small white chip under the map, so the link reads clearly over the glass */
-		.hero-map__directions {
-			align-self: flex-end;
-			padding: 0.3rem 0.75rem;
-			border-radius: var(--bcp-radius-button);
-			background: var(--bcp-white);
-			box-shadow: var(--shadow);
-			font-size: 0.875rem;
+		/* Two lines in the narrow visible strip, with the box fitting the text */
+		.hero-map__credit span {
+			display: block;
 		}
 	}
 
-	/* Wide screens: a little larger, still clear of the hours text */
-	@media (min-width: 90rem) {
+	@media (min-width: 64rem) {
 		.hero-card {
-			margin-top: 4rem;
-		}
-
-		.hero-map {
-			top: -4rem;
-			right: -2.5rem;
-			width: 12.5rem;
-		}
-
-		.hero-map__frame {
-			height: 9rem;
+			width: auto;
 		}
 	}
 

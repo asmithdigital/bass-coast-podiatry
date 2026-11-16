@@ -92,7 +92,8 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
 
 ## Homepage order (current)
 
-1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button
+1. Header: logo, menu (Services, About, Claims and rebates, FAQs, Contact), Call button. The full menu shows from 1100px; below that the Menu button
+   opens the full screen menu (at 1024px the full menu and Call button do not fit on one line).
 2. Hero, filling the screen below the header (Our services is never visible on load), over the beach photo:
    - Background: the beach photo (a person walking on the sand) covers the whole hero under a 55% white veil. No glow blobs
      over the photo: the moving background is hidden on the home page.
@@ -103,10 +104,12 @@ Old `/appointments/` redirects to `/contact/` and old `/news/` redirects to the 
      address with icons in tinted circles, the Call button and a "Send us a message" text link). Its footer is a solid Ocean blue band
      across the card's full width with rounded bottom corners: "Claims and rebates: Medicare, DVA, Tyro Health, TAC and WorkSafe" with
      a small arrow, linking to Claims and rebates. Hover is the shared frame effect; the band draws in with the card.
-   - Small map (the contact page's Google Maps embed, lazy loaded): from 1024px it floats over the card's top right corner (160px wide,
-     200px from 1440px), rounded with a soft shadow, and can be dragged and zoomed, with a small "Get directions" chip under it. On
-     tablets and phones it is a small tile under the card contents: the iframe ignores touch and a full overlay link opens Google Maps,
-     so it never traps scrolling. "Get directions" opens Google Maps directions in a new tab.
+   - Static map (`public/images/hero-map@2x.webp`, 900 x 720 CSS pixels saved at 2x, made from OpenStreetMap zoom 17 tiles with a
+     brand blue pin on 182 Graham Street, credited "© OpenStreetMap contributors"). From 768px it is a second card tucked behind the
+     glass card, same radius and a soft shadow, a little lower than the card's top with about a third peeking out to the right. On
+     phones it is a 120px strip inside the card just above the Claims band. A white "Get directions" pill sits on the visible part.
+     The visible map and the pill are one link to Google Maps directions (new tab), labelled "Get directions to Bass Coast Podiatry
+     on Google Maps". No live map in the hero; the contact page keeps the Google Maps embed.
    - Scroll cue: a small mouse at the bottom centre that gently bobs (still with reduce motion), scrolls smoothly to Our services and
      fades out once the visitor scrolls. Hidden on phones and tablets.
    - Phones: the words and button, then the card, over the photo. The fixed phone Call bar hides while the card's Call button shows.

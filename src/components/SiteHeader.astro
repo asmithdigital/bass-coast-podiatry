@@ -212,8 +212,25 @@ const isCurrent = (href: string) => {
 		transform: scaleX(1);
 	}
 
-	/* Phones and small tablets: full screen deep blue menu. Without JS the list just shows. */
-	@media (max-width: 63.99rem) {
+	/* Medium desktops: slightly tighter menu so every label stays on one line */
+	@media (min-width: 68.75rem) and (max-width: 79.99rem) {
+		.site-nav {
+			gap: var(--space-m);
+		}
+
+		.site-nav ul {
+			column-gap: 1.5rem;
+		}
+	}
+
+	.site-nav ul a,
+	.site-header__call {
+		white-space: nowrap;
+	}
+
+	/* Phones, tablets and small laptops (under 1100px): full screen deep blue menu. At 1024px the full menu
+	   and Call button do not fit on one line. Without JS the list just shows. */
+	@media (max-width: 68.74rem) {
 		.site-header__inner {
 			min-height: 4.75rem;
 		}

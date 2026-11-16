@@ -29,14 +29,22 @@ const colours = [
 	{ token: 'bcp-sand-light', name: 'Light sand', use: 'In the brand pack, but no longer used for backgrounds on the website.' },
 ];
 
-const logos = [
-	{ file: 'bcp-logo-horizontal-blue', label: 'Horizontal logo, blue', dark: false },
-	{ file: 'bcp-logo-horizontal-white', label: 'Horizontal logo, white', dark: true },
-	{ file: 'bcp-logo-stacked-blue', label: 'Stacked logo, blue', dark: false },
-	{ file: 'bcp-logo-stacked-white', label: 'Stacked logo, white', dark: true },
-	{ file: 'bcp-icon-blue', label: 'Icon, blue', dark: false },
-	{ file: 'bcp-icon-white', label: 'Icon, white', dark: true },
-];
+// kind sets the tile's aspect ratio; white logos sit on an Ocean blue tile, blue and black on a light one.
+const logoKinds = [
+	{ kind: 'horizontal', file: 'bcp-logo-horizontal', label: 'Horizontal logo' },
+	{ kind: 'stacked', file: 'bcp-logo-stacked', label: 'Stacked logo' },
+	{ kind: 'icon', file: 'bcp-icon', label: 'Icon' },
+] as const;
+const tones = ['blue', 'white', 'black'] as const;
+const logos = logoKinds.flatMap(({ kind, file, label }) =>
+	tones.map((tone) => ({
+		kind,
+		file: `${file}-${tone}`,
+		label: `${label}, ${tone}`,
+		dark: tone === 'white',
+		jpg: kind === 'horizontal' && tone === 'blue',
+	})),
+);
 
 const iconNames = [
 	'general',
@@ -79,12 +87,15 @@ const typeScale = [
 	<section class="section" aria-labelledby="logos-title">
 		<div class="container">
 			<h2 id="logos-title">Logos</h2>
-			<p class="sg-intro">Use the blue logo on white or light backgrounds and the white logo on Ocean blue.</p>
-			<ul class="grid grid--2 sg-logos" role="list">
+			<p class="sg-intro">
+				Use the blue logo on white or light backgrounds and the white logo on Ocean blue. Use the black logo only where colour isn't
+				possible, such as one-colour printing or engraving.
+			</p>
+			<ul class="grid grid--3 sg-logos" role="list">
 				{
 					logos.map((logo) => (
 						<li class="card">
-							<div class:list={['sg-logo', { 'sg-logo--dark': logo.dark }]}>
+							<div class:list={['sg-logo', `sg-logo--${logo.kind}`, { 'sg-logo--dark': logo.dark }]}>
 								<img src={url(`/${logo.file}.svg`)} alt={logo.label} loading="lazy" />
 							</div>
 							<h3>{logo.label}</h3>
@@ -95,13 +106,18 @@ const typeScale = [
 								<a href={url(`/downloads/${logo.file}.png`)} download>
 									Download PNG<span class="visually-hidden">: {logo.label}</span>
 								</a>
+								{logo.jpg && (
+									<a href={url(`/downloads/${logo.file}.jpg`)} download>
+										Download JPG<span class="visually-hidden">: {logo.label}, on white</span>
+									</a>
+								)}
 							</p>
 						</li>
 					))
 				}
 				<li class="card">
-					<div class="sg-logo">
-						<img src={url('/bcp-favicon.svg')} alt="Favicon" width="96" height="96" loading="lazy" />
+					<div class="sg-logo sg-logo--favicon">
+						<img src={url('/bcp-favicon.svg')} alt="Favicon" width="64" height="64" loading="lazy" />
 					</div>
 					<h3>Favicon</h3>
 					<p class="sg-downloads">
@@ -110,8 +126,8 @@ const typeScale = [
 					</p>
 				</li>
 				<li class="card">
-					<div class="sg-logo">
-						<Icon name="general" size={72} />
+					<div class="sg-logo sg-logo--favicon">
+						<Icon name="general" size={64} />
 					</div>
 					<h3>Brand sheet</h3>
 					<p class="sg-downloads">
@@ -438,24 +454,49 @@ const typeScale = [
 		list-style: none;
 	}
 
+	/* Logo tiles: a fixed aspect ratio per logo type, even padding (a % of the width on all four sides),
+	   and a single definite grid cell so the image can never be taller or wider than the tile. */
 	.sg-logo {
 		display: grid;
+		grid-template: minmax(0, 1fr) / minmax(0, 1fr);
 		place-items: center;
-		height: 10rem;
+		aspect-ratio: 5 / 4;
 		margin-bottom: var(--space-s);
-		padding: var(--space-m);
+		padding: 10%;
+		overflow: hidden;
+		border: var(--border);
 		border-radius: calc(var(--bcp-radius) / 1.5);
 		background: var(--bcp-mist);
 		color: var(--bcp-blue);
 	}
 
+	.sg-logo--horizontal {
+		aspect-ratio: 2 / 1;
+	}
+
+	.sg-logo--stacked,
+	.sg-logo--icon {
+		aspect-ratio: 5 / 4;
+	}
+
 	.sg-logo--dark {
+		border-color: var(--bcp-blue);
 		background: var(--bcp-blue);
 	}
 
+	/* Contained, centred, never cropped or stretched */
 	.sg-logo img {
-		max-height: 100%;
-		width: auto;
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	/* The favicon shows at a real small size, not scaled up to fill the tile */
+	.sg-logo--favicon img {
+		width: 64px;
+		height: 64px;
 	}
 
 	.sg-downloads {

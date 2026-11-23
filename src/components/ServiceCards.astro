@@ -55,9 +55,20 @@ const cards = featured ? rest : services;
 	{
 		cards.map((s) => (
 			<li class="service-card frame glass reveal">
-				<span class="icon-circle">
-					<Icon name={s.data.icon} size={34} />
-				</span>
+				{s.data.cardImage ? (
+					<span class="service-card__thumb">
+						<Image
+							src={s.data.cardImage}
+							alt={s.data.imageAlt ?? ''}
+							widths={[400, 640, 800]}
+							sizes="(min-width: 64rem) 18rem, (min-width: 40rem) 45vw, 90vw"
+						/>
+					</span>
+				) : (
+					<span class="icon-circle">
+						<Icon name={s.data.icon} size={34} />
+					</span>
+				)}
 				<Heading class="service-card__title">
 					<a href={url(`/${s.id}/`)}>{(plainNames && s.data.plainName) || s.data.title}</a>
 				</Heading>
@@ -129,6 +140,18 @@ const cards = featured ? rest : services;
 
 	.service-card .icon-circle {
 		margin-bottom: var(--space-m);
+	}
+
+	/* A photo in place of the icon (cardImage in the service's front matter) */
+	.service-card__thumb {
+		width: 100%;
+		margin-bottom: var(--space-m);
+	}
+
+	.service-card__thumb img {
+		display: block;
+		width: 100%;
+		height: auto;
 	}
 
 	.service-card__title {

@@ -28,7 +28,7 @@ Principal Podiatrist
 
 Jennifer has worked and lived in the Bass Coast region for the last 15 years. She is passionately committed to the Podiatry profession and enjoys all facets of Podiatry. Jennifer has developed a special interest in high risk and diabetes foot care and assessment. Jennifer enjoys dancing, walking her dog and is also an avid snow skier during the winter months.
 
-#### Alison Kelly
+#### Alison Baker
 
 Podiatrist
 

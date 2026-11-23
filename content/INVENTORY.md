@@ -32,7 +32,7 @@ Text in `content/raw/` is the old wording, kept exactly as it was, typos and das
 | Biomechanical Assessment | `biomechanical-assessment` | `iStock_000019373439_Medium.jpg` | `running-shoes.jpg` |
 | Paediatric Assessment | `paediatric-assessment` | `iStock_000009030369_Medium.jpg` | `baby-feet.jpg` |
 | Nail Surgery | `nail-surgery` | `iStock-450152867.jpg` | `ingrown-toenail.jpg` |
-| Prescription Orthotic Therapy | `prescription-orthotic-therapy` | `iStock_000009030369_Medium.jpg` (same baby feet photo as Paediatric) | Not used on the new page |
+| Prescription Orthotic Therapy | `prescription-orthotic-therapy` | `iStock_000009030369_Medium.jpg` (same baby feet photo as Paediatric) | Old photo not used. New photo supplied by the client (client feedback 2): `prescription-foot-orthoses.webp` |
 | Diabetes foot assessment | `diabetes-foot-assessment` | `iStock-1129812327-1.jpg` | `diabetes-sensation-test.jpg` |
 | Visiting Pedorthist | `visiting-pedorthist` | `iStock-1075950936.jpg` | `shoe-last.jpg` |
 
@@ -188,7 +188,8 @@ is the only record. Nothing has been removed from it.
 9. Contact: Formspree form ID and destination email (Contact page and the contact panel). Until the ID is set, submitting either form
    shows "Thanks. This is a preview, so messages aren't sent yet. Please call us on (03) 5672 2309." and nothing is sent.
 10. Logos: entitlement to use each one, and the AHPRA registration sentence.
-11. About: staff photos for the five plain photo placeholders. Prescription Orthotic Therapy: a photo for its placeholder.
+11. About: staff photos for the five plain photo placeholders.
+    (Prescription Orthotic Therapy now has its photo, see client feedback 2.)
     Also: are the FAQ answers and the two new FAQ questions right, and is the staff and team list (home and About) still current?
 12. Home: which four services are most popular, for the plain patient words on the service cards.
 13. Home hero: whether Claims and rebates is the right thing to feature beside Visit us, or something else.
@@ -214,3 +215,15 @@ All done. Rollback point: git tag `before-client-feedback-1`.
 
 Follow up: the AHPRA registration line, "Our podiatrists are registered with the Podiatry Board of Australia through AHPRA.", is back
 as plain text with no logo or link on the home page (team section), About (above the booking box) and Claims and rebates (end of the page text).
+
+## Client feedback 2 (23 November 2026)
+
+All done. Rollback point: git tag `before-client-feedback-2`.
+
+1. **Alison's surname** is now Baker: the About page staff card, the home page team line, `content/raw/about-us.md` and
+   `content/CLIENT-CHANGES-1.md`. The old surname appears nowhere in the project.
+2. **Prescription Orthotic Therapy photo.** The client's cut-out of a pair of foot orthoses ("No cover multiples samples.png"),
+   cropped and placed on plain white, saved as `src/assets/images/prescription-foot-orthoses.webp` (1600 x 800). It is the main image
+   on the service page, where there was a placeholder. Its service card shows the same photo in place of the icon, as
+   `prescription-foot-orthoses-card.webp` with a transparent background so no white box shows (`cardImage`).
+   Alt text: "A pair of custom prescription foot orthoses".

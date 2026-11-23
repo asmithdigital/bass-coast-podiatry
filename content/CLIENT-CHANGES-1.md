@@ -29,7 +29,7 @@ The registration line stays as plain text, with no logo and no link, on the home
 ## 2. Team
 
 The podiatrist who has left is removed from the home page team list and from the About page (staff card and bio). The home page now reads:
-"Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Kelly and Angie Burgess."
+"Our podiatrists are Luke Zoanetti, Jennifer Lewis, Alison Baker and Angie Burgess."
 
 ## 3. HICAPS is now Tyro Health
 

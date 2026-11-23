@@ -224,6 +224,6 @@ All done. Rollback point: git tag `before-client-feedback-2`.
    `content/CLIENT-CHANGES-1.md`. The old surname appears nowhere in the project.
 2. **Prescription Orthotic Therapy photo.** The client's cut-out of a pair of foot orthoses ("No cover multiples samples.png"),
    cropped and placed on plain white, saved as `src/assets/images/prescription-foot-orthoses.webp` (1600 x 800). It is the main image
-   on the service page, where there was a placeholder. Its service card shows the same photo in place of the icon, as
-   `prescription-foot-orthoses-card.webp` with a transparent background so no white box shows (`cardImage`).
+   on the service page, where there was a placeholder. It is not used on any service card: the card
+   keeps its icon.
    Alt text: "A pair of custom prescription foot orthoses".

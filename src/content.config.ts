@@ -16,8 +16,6 @@ const services = defineCollection({
 			icon: z.enum(['general', 'laser', 'biomechanics', 'children', 'surgery', 'orthotics', 'diabetes', 'footwear']),
 			image: image().optional(),
 			imageAlt: z.string().optional(),
-			// Cut-out photo with a transparent background, shown on the service card in place of the icon.
-			cardImage: image().optional(),
 		}),
 });
 

@@ -6,7 +6,6 @@ summary: Prescription orthoses to treat a variety of conditions in the feet and 
 icon: orthotics
 image: ../../assets/images/prescription-foot-orthoses.webp
 imageAlt: A pair of custom prescription foot orthoses
-cardImage: ../../assets/images/prescription-foot-orthoses-card.webp
 ---
 
 Prescription orthoses are used to treat a variety of conditions in the feet and lower limb. Some of these conditions include:

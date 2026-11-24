@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Glows from '../components/Glows.astro';
 import { Image } from 'astro:assets';
 import BookBox from '../components/BookBox.astro';
-import Icon from '../components/Icon.astro';
+import { podiatristPhotos, adminPhoto } from '../data/team-photos';
 import aboutImage from '../assets/images/podiatrist-treatment.jpg';
 
 const staff = [
@@ -27,7 +27,7 @@ const staff = [
 		role: 'Podiatrist',
 		bio: 'Angie graduated with a Bachelor of Podiatry from Charles Sturt University in 2016. She enjoys all aspects of the Podiatry profession and has a keen interest in diabetic foot care and sports Podiatry. Angie loves all outdoor activities and regularly spends time freediving, camping and kayaking.',
 	},
-];
+].map((person) => ({ ...person, photo: podiatristPhotos.find((p) => p.name === person.name)!.photo }));
 ---
 
 <Layout title="About us" description="Bass Coast Podiatry opened in Wonthaggi in July 2007. Meet our podiatrists and administration team.">
@@ -77,9 +77,13 @@ const staff = [
 				{
 					staff.map((person) => (
 						<li class="staff__card glass reveal">
-							<div class="placeholder staff__photo" aria-hidden="true">
-								<Icon name="person" size={40} />
-							</div>
+							<Image
+								class="staff__photo"
+								src={person.photo}
+								alt={person.name}
+								widths={[400, 600, 800]}
+								sizes="(min-width: 80rem) 22rem, (min-width: 40rem) 50vw, 100vw"
+							/>
 							<div class="staff__body">
 								<h3>{person.name}</h3>
 								<p class="staff__role">{person.role}</p>
@@ -89,9 +93,16 @@ const staff = [
 					))
 				}
 				<li class="staff__card staff__card--admin reveal">
+					<Image
+						class="staff__photo staff__photo--pair"
+						src={adminPhoto.photo}
+						alt={adminPhoto.alt}
+						widths={[600, 900, 1200]}
+						sizes="(min-width: 64rem) 36rem, (min-width: 40rem) 50vw, 100vw"
+					/>
 					<div class="staff__body">
 						<h3>Our Administration team</h3>
-						<p>Brooke and Kim.</p>
+						<p>{adminPhoto.caption}</p>
 					</div>
 				</li>
 			</ul>
@@ -153,7 +164,7 @@ const staff = [
 
 	@media (min-width: 80rem) {
 		.staff {
-			grid-template-columns: repeat(3, 1fr);
+			grid-template-columns: repeat(4, 1fr);
 		}
 	}
 
@@ -166,8 +177,14 @@ const staff = [
 	}
 
 	.staff__photo {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+	}
+
+	.staff__photo--pair {
 		aspect-ratio: 4 / 3;
-		border-radius: 0;
 	}
 
 	.staff__body {
@@ -189,6 +206,22 @@ const staff = [
 		justify-content: center;
 		background: var(--bcp-blue);
 		color: var(--bcp-white);
+	}
+
+	/* The admin team spans the row: photo on the left, names on the right */
+	@media (min-width: 40rem) {
+		.staff__card--admin {
+			display: grid;
+			grid-column: 1 / -1;
+			grid-template-columns: 1fr 1fr;
+			align-items: center;
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.staff__card--admin {
+			grid-template-columns: 2fr 3fr;
+		}
 	}
 
 	.staff__card--admin h3 {

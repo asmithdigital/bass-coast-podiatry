@@ -188,7 +188,7 @@ is the only record. Nothing has been removed from it.
 9. Contact: Formspree form ID and destination email (Contact page and the contact panel). Until the ID is set, submitting either form
    shows "Thanks. This is a preview, so messages aren't sent yet. Please call us on (03) 5672 2309." and nothing is sent.
 10. Logos: entitlement to use each one, and the AHPRA registration sentence.
-11. About: staff photos for the five plain photo placeholders.
+11. About: staff photos: done, see Team photos (24 November 2026).
     (Prescription Orthotic Therapy now has its photo, see client feedback 2.)
     Also: are the FAQ answers and the two new FAQ questions right, and is the staff and team list (home and About) still current?
 12. Home: which four services are most popular, for the plain patient words on the service cards.
@@ -227,3 +227,18 @@ All done. Rollback point: git tag `before-client-feedback-2`.
    on the service page, where there was a placeholder. It is not used on any service card: the card
    keeps its icon.
    Alt text: "A pair of custom prescription foot orthoses".
+
+## Team photos (24 November 2026)
+
+Rollback point: git tag `before-team-photos`.
+
+1. **Photos supplied by the client** for Luke Zoanetti, Jennifer Lewis, Alison Baker and Angie Burgess, plus one photo of Brooke and Kim
+   together. Saved in `src/assets/images/` as `team-*.webp`. The originals are not in the project.
+2. **Individual photos** are 800 x 1000 (4:5), cropped so heads are the same size, eyes are at the same height and there is a little
+   space above the head. Alt text is each person's full name.
+3. **Brooke and Kim** is 1200 x 900 (4:3), one photo, captioned "Brooke and Kim". Alt text: "Brooke and Kim, admin team".
+4. **Home, "Meet the team"**: a row of photos with names is added under the existing photo and text. The existing photo stays.
+5. **About, "Meet our Staff"**: the photos replace the person icon placeholders. On wide screens the four podiatrists share one row,
+   with the administration team card across the full width underneath.
+
+The home and About photos and names come from `src/data/team-photos.ts`.

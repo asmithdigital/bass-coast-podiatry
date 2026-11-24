@@ -234,11 +234,11 @@ Rollback point: git tag `before-team-photos`.
 
 1. **Photos supplied by the client** for Luke Zoanetti, Jennifer Lewis, Alison Baker and Angie Burgess, plus one photo of Brooke and Kim
    together. Saved in `src/assets/images/` as `team-*.webp`. The originals are not in the project.
-2. **Individual photos** are 800 x 1000 (4:5), cropped so heads are the same size, eyes are at the same height and there is a little
-   space above the head. Alt text is each person's full name.
+2. **Individual photos** are 1000 x 750 (4:3, the shape of the original placeholder), cropped so heads are the same size, eyes are at
+   close to the same height and there is a little space above the head. Alt text is each person's full name.
+   Jennifer's photo was taken too close to fit this shape, so the timber wall and shirt edge are extended about 8% at each side by
+   copying the neighbouring part of the same photo. The face is not changed.
 3. **Brooke and Kim** is 1200 x 900 (4:3), one photo, captioned "Brooke and Kim". Alt text: "Brooke and Kim, admin team".
-4. **Home, "Meet the team"**: a row of photos with names is added under the existing photo and text. The existing photo stays.
-5. **About, "Meet our Staff"**: the photos replace the person icon placeholders. On wide screens the four podiatrists share one row,
-   with the administration team card across the full width underneath.
-
-The home and About photos and names come from `src/data/team-photos.ts`.
+4. **Home:** no team photos (a photo row was added, then removed the same day).
+5. **About, "Meet our Staff"**: the original card layout, with the photos in place of the person icon placeholders. The administration
+   team card keeps its place, with the photo at the top above the blue box.

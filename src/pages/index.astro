@@ -8,7 +8,6 @@ import ClaimsBadges from '../components/ClaimsBadges.astro';
 import VisitUs from '../components/VisitUs.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import { clinic, url } from '../data/site';
-import { podiatristPhotos, adminPhoto } from '../data/team-photos';
 import heroImage from '../assets/images/footprints-beach.jpg';
 import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 ---
@@ -128,34 +127,6 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 				<p class="registration-note reveal">Our podiatrists are registered with the Podiatry Board of Australia through AHPRA.</p>
 				<a class="btn btn--outline reveal" href={url('/about-us/#team')}>Meet our team</a>
 			</div>
-			<ul class="team__photos" role="list">
-				{
-					podiatristPhotos.map((person) => (
-						<li class="reveal">
-							<figure>
-								<Image
-									src={person.photo}
-									alt={person.name}
-									widths={[300, 500, 800]}
-									sizes="(min-width: 56rem) 16rem, 50vw"
-								/>
-								<figcaption>{person.name}</figcaption>
-							</figure>
-						</li>
-					))
-				}
-				<li class="team__pair reveal">
-					<figure>
-						<Image
-							src={adminPhoto.photo}
-							alt={adminPhoto.alt}
-							widths={[600, 900, 1200]}
-							sizes="(min-width: 56rem) 27rem, 100vw"
-						/>
-						<figcaption>{adminPhoto.caption}</figcaption>
-					</figure>
-				</li>
-			</ul>
 		</div>
 	</section>
 
@@ -662,53 +633,6 @@ import teamImage from '../assets/images/diabetes-sensation-test.jpg';
 	/* Hover and shadow come from the shared frame effect (.frame in global.css) */
 	.team__image {
 		aspect-ratio: 4 / 3;
-	}
-
-	/* Team photos: 4:5 portraits and the 4:3 admin photo share one height on wide screens, because the columns
-	   are in proportion to the photo shapes. Two columns on phones, with the admin photo across both. */
-	.team__photos {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: clamp(1rem, 2vw, 1.5rem);
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.team__photos figure {
-		margin: 0;
-	}
-
-	.team__photos img {
-		display: block;
-		width: 100%;
-		aspect-ratio: 4 / 5;
-		object-fit: cover;
-		border-radius: var(--bcp-radius);
-	}
-
-	.team__photos figcaption {
-		margin-top: var(--space-xs);
-		font-weight: var(--bcp-weight-heading);
-	}
-
-	.team__pair {
-		grid-column: 1 / -1;
-	}
-
-	.team__pair img {
-		aspect-ratio: 4 / 3;
-	}
-
-	@media (min-width: 56rem) {
-		.team__photos {
-			grid-column: 1 / -1;
-			grid-template-columns: repeat(4, 12fr) 20fr;
-		}
-
-		.team__pair {
-			grid-column: auto;
-		}
 	}
 
 	.team__lead {

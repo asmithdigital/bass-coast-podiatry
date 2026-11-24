@@ -238,7 +238,8 @@ Rollback point: git tag `before-team-photos`.
    close to the same height and there is a little space above the head. Alt text is each person's full name.
    Jennifer's photo was taken too close to fit this shape, so the timber wall and shirt edge are extended about 8% at each side by
    copying the neighbouring part of the same photo. The face is not changed.
-3. **Brooke and Kim** is 1200 x 900 (4:3), one photo, captioned "Brooke and Kim". Alt text: "Brooke and Kim, admin team".
+3. **Brooke and Kim** is 1200 x 900 (4:3), one photo, captioned "Brooke and Kim". Alt text: "Brooke and Kim, admin team". Cropped tighter the same day, so the space
+   above their heads matches the other photos. Their heads stay smaller, as both people have to fit.
 4. **Home:** no team photos (a photo row was added, then removed the same day).
 5. **About, "Meet our Staff"**: the original card layout, with the photos in place of the person icon placeholders. The administration
    team card keeps its place, with the photo at the top above the blue box.

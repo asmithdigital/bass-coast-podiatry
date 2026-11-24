@@ -197,8 +197,10 @@ const staff = [
 		color: var(--bcp-grey);
 	}
 
+	/* Same 1px edge as the glass cards, so the photos line up exactly */
 	.staff__card--admin {
-		background: var(--bcp-blue);
+		border: 1px solid transparent;
+		background: var(--bcp-blue) padding-box;
 		color: var(--bcp-white);
 	}
 
